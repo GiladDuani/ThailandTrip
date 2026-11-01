@@ -20,8 +20,9 @@
     border-color: var(--border-warm);
   }
 
-  html {
+  html, body, #root {
     direction: rtl;
+    text-align: right;
     scroll-behavior: smooth;
     font-family: 'Assistant', -apple-system, BlinkMacSystemFont, sans-serif;
     background-color: var(--ground);
@@ -31,15 +32,19 @@
 
   body {
     margin: 0;
-    background-color: var(--ground);
-    color: var(--ink);
     overflow-x: hidden;
     line-height: 1.6;
+  }
+
+  /* Enforce RTL on all containers, Radix primitives, grids, flex, inputs, and cards */
+  div, section, article, header, main, nav, aside, ul, ol, li, p, h1, h2, h3, h4, h5, h6, label, input, textarea, button, [role="tablist"], [role="tabpanel"], [data-radix-collection-item] {
+    direction: rtl;
   }
 
   h1, h2, h3, h4, .font-display {
     font-family: 'Rubik', 'Heebo', sans-serif;
     letter-spacing: -0.02em;
+    text-align: right;
   }
 
   .tabular-nums {
@@ -47,7 +52,7 @@
   }
 }
 
-/* Custom themed browser surfaces per craft-floor */
+/* Custom themed browser surfaces */
 ::selection {
   background-color: #0B4F4A;
   color: #FAF7F2;
@@ -71,7 +76,6 @@
   background: #0B4F4A;
 }
 
-/* Hide scrollbar on horizontal chip carousels while keeping scroll */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }

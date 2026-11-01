@@ -2,7 +2,13 @@ import * as React from "react";
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 import { cn } from "@/lib/utils";
 
-const Tabs = TabsPrimitive.Root;
+const Tabs = React.forwardRef<
+  React.ElementRef<typeof TabsPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Root>
+>(({ dir = "rtl", ...props }, ref) => (
+  <TabsPrimitive.Root ref={ref} dir={dir} {...props} />
+));
+Tabs.displayName = TabsPrimitive.Root.displayName;
 
 const TabsList = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.List>,
@@ -10,8 +16,9 @@ const TabsList = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <TabsPrimitive.List
     ref={ref}
+    dir="rtl"
     className={cn(
-      "inline-flex min-h-12 items-center justify-start rounded-xl bg-[#EFE9DC] p-1 text-[#4A5D5A] border border-[#E2D9C8]",
+      "inline-flex min-h-12 items-center justify-start rounded-xl bg-[#EFE9DC] p-1 text-[#4A5D5A] border border-[#E2D9C8] text-right",
       className
     )}
     {...props}
@@ -25,6 +32,7 @@ const TabsTrigger = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <TabsPrimitive.Trigger
     ref={ref}
+    dir="rtl"
     className={cn(
       "inline-flex items-center justify-center whitespace-nowrap rounded-lg px-3.5 py-2 text-sm font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B4F4A] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-[#0B4F4A] data-[state=active]:text-[#FAF7F2] data-[state=active]:shadow-sm cursor-pointer min-h-[40px]",
       className
@@ -40,8 +48,9 @@ const TabsContent = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <TabsPrimitive.Content
     ref={ref}
+    dir="rtl"
     className={cn(
-      "mt-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B4F4A] focus-visible:ring-offset-2",
+      "mt-4 text-right focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B4F4A] focus-visible:ring-offset-2",
       className
     )}
     {...props}
