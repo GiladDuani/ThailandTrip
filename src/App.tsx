@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
 import {
   REGIONS,
@@ -12,6 +12,13 @@ import { Card, CardContent } from "./components/ui/card";
 import { Badge } from "./components/ui/badge";
 import { Button } from "./components/ui/button";
 import { Input } from "./components/ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "./components/ui/dialog";
 import { HotelsLedgerSection } from "./components/HotelsLedgerSection";
 import { DomesticFlightsSection } from "./components/DomesticFlightsSection";
 import { CalendarSection } from "./components/CalendarSection";
@@ -24,8 +31,13 @@ import {
   AlertTriangle,
   BedDouble,
   Calendar as CalendarIcon,
+  Check,
   CheckSquare,
+  ChevronLeft,
+  ChevronRight,
   Clock,
+  Copy,
+  Download,
   Edit3,
   ExternalLink,
   Flame,
@@ -34,11 +46,28 @@ import {
   Plane,
   Search,
   Save,
+  Share,
+  Smartphone,
 } from "lucide-react";
 
 const STORAGE_CHECKED = "thailand_2026_ts_checked_v1";
 const STORAGE_CUSTOM_TASKS = "thailand_2026_ts_tasks_v1";
 const STORAGE_DAY_NOTES = "thailand_2026_ts_notes_v1";
+
+interface BeforeInstallPromptEvent extends Event {
+  prompt: () => Promise<void>;
+  userChoice: Promise<{ outcome: "accepted" | "dismissed"; platform: string }>;
+}
+
+const TAB_ITEMS = [
+  { id: "itinerary", label: "לו״ז יומי", shortLabel: "לו״ז", icon: Clock },
+  { id: "hotels", label: "מלונות וביטולים", shortLabel: "מלונות", icon: BedDouble },
+  { id: "flights", label: "טיסות פנים", shortLabel: "טיסות", icon: Plane },
+  { id: "calendar", label: "לוח שנה", shortLabel: "לוח שנה", icon: CalendarIcon },
+  { id: "decisions", label: "מה נשאר לסגור", shortLabel: "לסגור", icon: CheckSquare },
+  { id: "shabbat", label: "3 שבתות וחב״ד", shortLabel: "שבתות", icon: Flame },
+  { id: "map", label: "מפת המסלול", shortLabel: "מפה", icon: MapIcon },
+] as const;
 
 export function App() {
   const [activeTab, setActiveTab] = useState<string>("itinerary");
@@ -46,6 +75,20 @@ export function App() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [editingNoteDay, setEditingNoteDay] = useState<number | null>(null);
   const [noteDraft, setNoteDraft] = useState<string>("");
+
+  // PWA Install State
+  const [deferredPrompt, setDeferredPrompt] =
+    useState<BeforeInstallPromptEvent | null>(null);
+  const [pwaDialogOpen, setPwaDialogOpen] = useState<boolean>(false);
+  const [isStandalone, setIsStandalone] = useState<boolean>(false);
+  const [copiedLink, setCopiedLink] = useState<boolean>(false);
+
+  // Touch Swipe Navigation State
+  const touchStartRef = useRef<{
+    x: number;
+    y: number;
+    ignore: boolean;
+  } | null>(null);
 
   const [checkedMap, setCheckedMap] = useState<Record<string, boolean>>(() => {
     try {
@@ -82,6 +125,107 @@ export function App() {
   useEffect(() => {
     localStorage.setItem(STORAGE_DAY_NOTES, JSON.stringify(dayNotes));
   }, [dayNotes]);
+
+  useEffect(() => {
+    const checkStandalone =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      (window.navigator as unknown as { standalone?: boolean }).standalone === true;
+    setIsStandalone(checkStandalone);
+
+    const handleBeforeInstallPrompt = (e: Event) => {
+      e.preventDefault();
+      setDeferredPrompt(e as BeforeInstallPromptEvent);
+    };
+
+    const handleAppInstalled = () => {
+      setIsStandalone(true);
+      setDeferredPrompt(null);
+      setPwaDialogOpen(false);
+    };
+
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+    window.addEventListener("appinstalled", handleAppInstalled);
+    return () => {
+      window.removeEventListener(
+        "beforeinstallprompt",
+        handleBeforeInstallPrompt
+      );
+      window.removeEventListener("appinstalled", handleAppInstalled);
+    };
+  }, []);
+
+  const handlePwaButtonClick = async () => {
+    if (deferredPrompt) {
+      try {
+        await deferredPrompt.prompt();
+        const choice = await deferredPrompt.userChoice;
+        if (choice.outcome === "accepted") {
+          setDeferredPrompt(null);
+          return;
+        }
+      } catch {
+        // Fallback to manual dialog
+      }
+    }
+    setPwaDialogOpen(true);
+  };
+
+  const handleCopyUrl = () => {
+    navigator.clipboard.writeText(window.location.href);
+    setCopiedLink(true);
+    setTimeout(() => setCopiedLink(false), 2500);
+  };
+
+  // Mobile Touch Swipe Handlers (RTL Tab Order)
+  const currentTabIndex = TAB_ITEMS.findIndex((t) => t.id === activeTab);
+
+  const goToTabByIndex = (nextIndex: number) => {
+    if (nextIndex < 0 || nextIndex >= TAB_ITEMS.length) return;
+    setActiveTab(TAB_ITEMS[nextIndex].id);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (e.touches.length !== 1) {
+      touchStartRef.current = null;
+      return;
+    }
+    const target = e.target as HTMLElement | null;
+    const shouldIgnore = Boolean(
+      target?.closest(
+        ".no-scrollbar, .leaflet-container, input, textarea, select, button, a, [role='dialog']"
+      )
+    );
+    touchStartRef.current = {
+      x: e.touches[0].clientX,
+      y: e.touches[0].clientY,
+      ignore: shouldIgnore,
+    };
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!touchStartRef.current || touchStartRef.current.ignore) {
+      touchStartRef.current = null;
+      return;
+    }
+    if (e.changedTouches.length !== 1) return;
+
+    const dx = e.changedTouches[0].clientX - touchStartRef.current.x;
+    const dy = e.changedTouches[0].clientY - touchStartRef.current.y;
+    touchStartRef.current = null;
+
+    // Horizontal swipe threshold: at least 65px and clearly horizontal
+    if (Math.abs(dx) > 65 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      // In RTL layout, tabs flow from Right (index 0) to Left (index 6).
+      // Swiping finger right (dx > 0) pulls the left screen into view -> next tab (index + 1)
+      // Swiping finger left (dx < 0) pulls the right screen into view -> previous tab (index - 1)
+      if (dx > 0 && currentTabIndex < TAB_ITEMS.length - 1) {
+        goToTabByIndex(currentTabIndex + 1);
+      } else if (dx < 0 && currentTabIndex > 0) {
+        goToTabByIndex(currentTabIndex - 1);
+      }
+    }
+  };
 
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
@@ -167,7 +311,12 @@ export function App() {
   ).length;
 
   return (
-    <div dir="rtl" className="min-h-screen bg-[#FAF7F2] text-[#142321] pb-24 sm:pb-16">
+    <div
+      dir="rtl"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      className="min-h-screen bg-[#FAF7F2] text-[#142321] pb-24 sm:pb-16"
+    >
       {/* Top Scroll Progress Bar */}
       <motion.div
         style={{ scaleX }}
@@ -176,12 +325,26 @@ export function App() {
 
       {/* Deep Canopy Emerald Command Header */}
       <header className="bg-[#0B4F4A] text-[#FAF7F2] border-b border-[#083B37] relative overflow-hidden">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-7 pb-6 space-y-5">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-6 pb-6 space-y-5">
           <div className="flex flex-wrap items-start justify-between gap-4">
-            <div className="space-y-1.5">
-              <h1 className="font-display text-2xl sm:text-4xl font-bold tracking-tight text-[#FAF7F2]">
-                תאילנד 2026 • מאור והדר
-              </h1>
+            <div className="space-y-2">
+              <div className="flex flex-wrap items-center gap-2.5">
+                <h1 className="font-display text-2xl sm:text-4xl font-bold tracking-tight text-[#FAF7F2]">
+                  תאילנד 2026 • גלעד והדר
+                </h1>
+                {!isStandalone && (
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="gold"
+                    onClick={handlePwaButtonClick}
+                    className="gap-1.5 shadow-sm"
+                  >
+                    <Smartphone className="h-4 w-4" />
+                    <span>הוסף למסך הבית (PWA)</span>
+                  </Button>
+                )}
+              </div>
               <p className="text-sm sm:text-base text-[#D1FAE5] max-w-2xl">
                 22 בנובמבר עד 14 בדצמבר 2026 • בנגקוק ← קוקונט איילנד ← פאטונג (שבת 1) ← ריילי ביץ' ← צ'יאנג מאי (שבת 2) ← הלופ הצפוני (פאי, מאה הונג סון, מאה סריאנג) ← בנגקוק (שבת 3)
               </p>
@@ -228,20 +391,20 @@ export function App() {
             </div>
           </div>
 
-          {/* Urgent Action Bar from Gilad Duani's Chat Update */}
+          {/* Urgent Action Bar */}
           <div className="rounded-xl bg-[#083B37]/95 border border-[#0F6E66] p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
             <div className="flex items-start sm:items-center gap-2.5 text-[#FAF7F2]">
               <AlertTriangle className="h-5 w-5 text-[#FBBF24] shrink-0 mt-0.5 sm:mt-0" />
               <div>
                 <span className="font-bold text-[#FDE68A]">
-                  פתוח לטיפול (עדכון גלעד דואני):
+                  פתוח לטיפול מיידי:
                 </span>{" "}
                 1. סגירת <strong>3 טיסות הפנים</strong> • 2.{" "}
                 <strong>אימות סוג המיטה בריילי</strong> לפני שבת 13.11 (ביטול מסתיים בשבת 14.11 ב-18:59!) • 3.{" "}
                 <strong>ביטול גיבוי Empress</strong> לפני שבת 04.12 (ביטול מסתיים בשבת 05.12 ב-18:59!).
               </div>
             </div>
-            <div className="flex gap-2 shrink-0">
+            <div className="flex flex-wrap gap-2 shrink-0">
               <Button
                 size="sm"
                 variant="gold"
@@ -262,10 +425,10 @@ export function App() {
       </header>
 
       {/* Main Content Container */}
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 pt-5 space-y-6">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 pt-4 space-y-5">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           {/* Desktop / Tablet Sticky Tabs Bar */}
-          <div className="sticky top-2 z-30 bg-[#FAF7F2]/95 backdrop-blur-xs py-1.5">
+          <div className="sticky top-2 z-30 bg-[#FAF7F2]/95 backdrop-blur-xs py-1.5 space-y-2">
             <TabsList className="w-full flex overflow-x-auto no-scrollbar justify-start sm:justify-between gap-1">
               <TabsTrigger value="itinerary" className="flex-1 gap-1.5">
                 <Clock className="h-4 w-4" />
@@ -296,6 +459,55 @@ export function App() {
                 <span>מפת המסלול</span>
               </TabsTrigger>
             </TabsList>
+
+            {/* Mobile Swipe Helper Bar */}
+            <div className="sm:hidden flex items-center justify-between bg-[#F3EDE2] border border-[#E2D9C8] rounded-xl px-2.5 py-1.5 text-xs text-[#4A5D5A]">
+              <button
+                type="button"
+                disabled={currentTabIndex <= 0}
+                onClick={() => goToTabByIndex(currentTabIndex - 1)}
+                className="flex items-center gap-1 font-bold text-[#0B4F4A] disabled:opacity-35 px-1.5 py-1 cursor-pointer"
+              >
+                <ChevronRight className="h-4 w-4" />
+                <span>
+                  {currentTabIndex > 0
+                    ? TAB_ITEMS[currentTabIndex - 1].shortLabel
+                    : "התחלה"}
+                </span>
+              </button>
+
+              <div className="flex flex-col items-center gap-1">
+                <span className="text-[11px] font-semibold text-[#142321]">
+                  החליקו ימינה/שמאלה למעבר מסך
+                </span>
+                <div className="flex items-center gap-1">
+                  {TAB_ITEMS.map((t, idx) => (
+                    <span
+                      key={t.id}
+                      className={`h-1.5 rounded-full transition-all ${
+                        idx === currentTabIndex
+                          ? "w-4 bg-[#0B4F4A]"
+                          : "w-1.5 bg-[#C5B9A5]"
+                      }`}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              <button
+                type="button"
+                disabled={currentTabIndex >= TAB_ITEMS.length - 1}
+                onClick={() => goToTabByIndex(currentTabIndex + 1)}
+                className="flex items-center gap-1 font-bold text-[#0B4F4A] disabled:opacity-35 px-1.5 py-1 cursor-pointer"
+              >
+                <span>
+                  {currentTabIndex < TAB_ITEMS.length - 1
+                    ? TAB_ITEMS[currentTabIndex + 1].shortLabel
+                    : "סוף"}
+                </span>
+                <ChevronLeft className="h-4 w-4" />
+              </button>
+            </div>
           </div>
 
           {/* TAB 1: DAILY ITINERARY */}
@@ -306,6 +518,9 @@ export function App() {
                 <div className="relative">
                   <Search className="h-4 w-4 text-[#6B7E7A] absolute right-3.5 top-3.5" />
                   <Input
+                    id="trip-search-input"
+                    name="tripSearch"
+                    aria-label="חיפוש מהיר במסלול"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="חיפוש מהיר לפי יום, תאריך, מלון (ברסלו, ריילי, פאי, מאה הונג סון...) או אטרקציה"
@@ -570,6 +785,8 @@ export function App() {
                               {editingNoteDay === day.dayNum ? (
                                 <div className="space-y-2 pt-2">
                                   <Input
+                                    id={`day-note-input-${day.dayNum}`}
+                                    name={`dayNote_${day.dayNum}`}
                                     value={noteDraft}
                                     onChange={(e) => setNoteDraft(e.target.value)}
                                     placeholder="כתבו הערה אישית ליום זה (מספר הזמנה, נהג, שעת איסוף...)"
@@ -661,19 +878,119 @@ export function App() {
         </Tabs>
       </main>
 
+      {/* PWA Quick-Install Instructions Modal */}
+      <Dialog open={pwaDialogOpen} onOpenChange={setPwaDialogOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-lg">
+              <Smartphone className="h-5 w-5 text-[#0B4F4A]" />
+              <span>הוספת האפליקציה למסך הבית בנייד (PWA)</span>
+            </DialogTitle>
+            <DialogDescription>
+              שמרו את מסלול תאילנד 2026 של גלעד והדר כאפליקציה מהירה על מסך הבית בטלפון לכניסה בלחיצה אחת גם במהלך הטיול:
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-3 pt-1 text-sm">
+            {deferredPrompt && (
+              <div className="rounded-xl bg-[#ECFDF5] border border-[#10B981] p-3.5 space-y-2">
+                <div className="font-bold text-[#065F46]">
+                  התקנה אוטומטית זמינה במכשיר זה:
+                </div>
+                <Button
+                  type="button"
+                  variant="default"
+                  className="w-full gap-2"
+                  onClick={async () => {
+                    await deferredPrompt.prompt();
+                    const choice = await deferredPrompt.userChoice;
+                    if (choice.outcome === "accepted") {
+                      setDeferredPrompt(null);
+                      setPwaDialogOpen(false);
+                    }
+                  }}
+                >
+                  <Download className="h-4 w-4" />
+                  <span>התקן כעת למסך הבית</span>
+                </Button>
+              </div>
+            )}
+
+            <div className="rounded-xl bg-[#FAF7F2] border border-[#E2D9C8] p-3.5 space-y-1.5">
+              <div className="font-bold text-[#0B4F4A] flex items-center gap-1.5">
+                <Share className="h-4 w-4" />
+                <span>באייפון (iPhone / Safari):</span>
+              </div>
+              <ol className="list-decimal list-inside space-y-1 text-xs text-[#142321] leading-relaxed">
+                <li>
+                  פתחו את הקישור בדפדפן <strong>Safari</strong> (אם נפתח מתוך וואטסאפ, לחצו על הסמל בפינה לפתיחה ב-Safari).
+                </li>
+                <li>
+                  לחצו על כפתור <strong>השיתוף (Share ⬆️)</strong> בסרגל התחתון.
+                </li>
+                <li>
+                  גללו מטה ובחרו <strong>"הוסף למסך הבית" (Add to Home Screen)</strong> ואז לחצו <strong>"הוסף"</strong>.
+                </li>
+              </ol>
+            </div>
+
+            <div className="rounded-xl bg-[#FAF7F2] border border-[#E2D9C8] p-3.5 space-y-1.5">
+              <div className="font-bold text-[#0B4F4A] flex items-center gap-1.5">
+                <Smartphone className="h-4 w-4" />
+                <span>באנדרואיד (Android / Chrome):</span>
+              </div>
+              <ol className="list-decimal list-inside space-y-1 text-xs text-[#142321] leading-relaxed">
+                <li>
+                  פתחו את הקישור בדפדפן <strong>Chrome</strong>.
+                </li>
+                <li>
+                  לחצו על תפריט <strong>3 הנקודות (⋮)</strong> בפינה העליונה.
+                </li>
+                <li>
+                  בחרו <strong>"התקן אפליקציה"</strong> או <strong>"הוסף למסך הבית"</strong>.
+                </li>
+              </ol>
+            </div>
+
+            <div className="flex items-center justify-between gap-2 pt-1">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={handleCopyUrl}
+                className="flex-1 gap-1.5"
+              >
+                {copiedLink ? (
+                  <>
+                    <Check className="h-4 w-4 text-[#059669]" />
+                    <span>הקישור הועתק!</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="h-4 w-4" />
+                    <span>העתק קישור לפתיחה בדפדפן</span>
+                  </>
+                )}
+              </Button>
+              <Button
+                type="button"
+                variant="secondary"
+                size="sm"
+                onClick={() => setPwaDialogOpen(false)}
+              >
+                סגור
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       {/* Mobile Bottom Dock Navigation */}
       <nav
         aria-label="ניווט תחתון לנייד"
-        className="sm:hidden fixed bottom-3 right-3 left-3 z-40 bg-[#142321]/95 text-[#FAF7F2] backdrop-blur-md rounded-2xl border border-[#2C423F] px-2 py-1.5 shadow-xl flex items-center justify-around"
+        className="sm:hidden fixed bottom-2.5 right-2.5 left-2.5 z-40 bg-[#142321]/95 text-[#FAF7F2] backdrop-blur-md rounded-2xl border border-[#2C423F] px-1.5 py-1.5 shadow-xl flex items-center justify-between gap-0.5"
       >
-        {[
-          { id: "itinerary", label: "לו״ז", icon: Clock },
-          { id: "hotels", label: "מלונות", icon: BedDouble },
-          { id: "flights", label: "טיסות", icon: Plane },
-          { id: "calendar", label: "לוח שנה", icon: CalendarIcon },
-          { id: "decisions", label: "לסגור", icon: CheckSquare },
-          { id: "map", label: "מפה", icon: MapIcon },
-        ].map((item) => {
+        {TAB_ITEMS.map((item) => {
           const Icon = item.icon;
           const isActive = activeTab === item.id;
           return (
@@ -684,17 +1001,28 @@ export function App() {
                 setActiveTab(item.id);
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
-              className={`flex flex-col items-center justify-center py-1.5 px-2.5 rounded-xl text-[11px] font-bold transition-all min-h-[44px] cursor-pointer ${
+              className={`flex-1 flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-[10px] font-bold transition-all min-h-[44px] cursor-pointer ${
                 isActive
                   ? "bg-[#0B4F4A] text-[#A7F3D0]"
                   : "text-[#9EB3AF] hover:text-white"
               }`}
             >
-              <Icon className="h-4 w-4 mb-0.5" />
-              <span>{item.label}</span>
+              <Icon className="h-4 w-4 mb-0.5 shrink-0" />
+              <span className="truncate max-w-full">{item.shortLabel}</span>
             </button>
           );
         })}
+        {!isStandalone && (
+          <button
+            type="button"
+            onClick={handlePwaButtonClick}
+            title="הוסף למסך הבית"
+            className="flex flex-col items-center justify-center py-1.5 px-2 rounded-xl text-[10px] font-bold bg-[#B45309] text-[#FEF3C7] min-h-[44px] cursor-pointer shrink-0"
+          >
+            <Smartphone className="h-4 w-4 mb-0.5 shrink-0" />
+            <span>אפליקציה</span>
+          </button>
+        )}
       </nav>
     </div>
   );

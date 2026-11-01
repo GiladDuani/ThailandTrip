@@ -12,11 +12,11 @@ React + TypeScript + Vite + Tailwind CSS + shadcn/ui + Framer Motion (mobile-fir
 
 ## Users
 
-Maor and Hadar, an Israeli Shabbat-observant couple traveling on their 23-day honeymoon in Thailand (November 22 to December 14, 2026), assisted in booking and logistics planning by Gilad Duani. They use this application primarily on their smartphones before departure (to finalize domestic flights, track free-cancellation deadlines, verify bed types, and manage the Mae Hong Son Loop vs. Chiang Mai backup decision) and on the ground in Thailand (to navigate day-by-day schedules, hotels, Shabbat Chabad house anchors, and interactive maps).
+Gilad and Hadar, an Israeli Shabbat-observant couple traveling on their 23-day honeymoon in Thailand (November 22 to December 14, 2026). They use this application primarily on their smartphones before departure (to finalize domestic flights, track free-cancellation deadlines, verify bed types, and manage the Mae Hong Son Loop vs. Chiang Mai backup decision) and on the ground in Thailand (to navigate day-by-day schedules, hotels, Shabbat Chabad house anchors, and interactive maps).
 
 ## Product Purpose
 
-A comprehensive, mobile-first Hebrew (RTL) honeymoon command center and itinerary companion for Thailand 2026. Success means Maor, Hadar, and Gilad can immediately see:
+A comprehensive, mobile-first Hebrew (RTL) honeymoon command center and itinerary companion for Thailand 2026. Success means Gilad and Hadar can immediately see:
 1. Every day's exact schedule, locations, and transitions across the updated route: Bangkok Airport (Nov 22–23) -> Phuket Coconut Island (Nov 23–27) -> Phuket Patong for Shabbat 1 (Nov 27–29) -> Railay Beach, Krabi (Nov 29–Dec 3) -> Chiang Mai for Shabbat 2 / Hanukkah (Dec 3–6) -> Mae Hong Son Loop: Pai (Dec 6–7), Mae Hong Son (Dec 7–9), Mae Sariang (Dec 9–10), Chiang Mai return (Dec 10–11) [with separate backup reservation at The Empress Hotel Dec 6–11] -> Bangkok for Shabbat 3 and departure (Dec 11–14).
 2. All 10 booked hotels (+ 1 backup hotel) with exact check-in/out dates, who booked (Gilad / Hadar), platform (Booking / Agoda), exact prices in THB/USD and estimated ILS, payment status (paid vs. scheduled charge dates vs. cash supplement on arrival), bed confirmations, and exact Israel-time cancellation deadlines.
 3. Open urgent action items: booking the 3 domestic flights based on Gilad's recommendations, verifying bed type at Railay Village Resort & Spa from room screenshot, and deciding on The Empress Hotel backup cancellation before Shabbat enters (since both Railay Nov 14 18:59 and Empress Dec 5 18:59 fall on Shabbat).
