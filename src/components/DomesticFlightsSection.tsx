@@ -168,8 +168,8 @@ export const DomesticFlightsSection: React.FC = () => {
                         </div>
 
                         <div className="text-xs text-[#142321] space-y-1.5">
-                          <div>
-                            <strong className="text-[#0B4F4A]">חוק כבודה (25 ק"ג + טרולים):</strong>{" "}
+                          <div className="whitespace-pre-line leading-relaxed">
+                            <strong className="text-[#0B4F4A] block mb-0.5">חוק כבודה ומשקל (25 ק"ג + טרולים + תיקי גב):</strong>
                             {opt.baggage25kgRule}
                           </div>
                           <div className="text-[#4A5D5A]">

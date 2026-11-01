@@ -31,12 +31,10 @@ import {
   AlertTriangle,
   BedDouble,
   Calendar as CalendarIcon,
-  Check,
   CheckSquare,
   ChevronLeft,
   ChevronRight,
   Clock,
-  Copy,
   Download,
   Edit3,
   ExternalLink,
@@ -46,7 +44,6 @@ import {
   Plane,
   Search,
   Save,
-  Share,
   Smartphone,
 } from "lucide-react";
 
@@ -76,17 +73,23 @@ export function App() {
   const [editingNoteDay, setEditingNoteDay] = useState<number | null>(null);
   const [noteDraft, setNoteDraft] = useState<string>("");
 
-  // PWA Install State
+  // PWA Install State (captures early global event from index.html just in case)
   const [deferredPrompt, setDeferredPrompt] =
-    useState<BeforeInstallPromptEvent | null>(null);
+    useState<BeforeInstallPromptEvent | null>(() => {
+      return (
+        ((window as unknown as { __deferredPwaPrompt?: BeforeInstallPromptEvent })
+          .__deferredPwaPrompt as BeforeInstallPromptEvent) || null
+      );
+    });
   const [pwaDialogOpen, setPwaDialogOpen] = useState<boolean>(false);
   const [isStandalone, setIsStandalone] = useState<boolean>(false);
-  const [copiedLink, setCopiedLink] = useState<boolean>(false);
 
-  // Touch Swipe Navigation State
+  // Touch Swipe Navigation State (Zmanim fluid swipe logic)
   const touchStartRef = useRef<{
     x: number;
     y: number;
+    time: number;
+    isHorizontal?: boolean;
     ignore: boolean;
   } | null>(null);
 
@@ -128,55 +131,75 @@ export function App() {
 
   useEffect(() => {
     const checkStandalone =
-      window.matchMedia("(display-mode: standalone)").matches ||
-      (window.navigator as unknown as { standalone?: boolean }).standalone === true;
+      window.matchMedia("(display-mode: standalone)").matches;
     setIsStandalone(checkStandalone);
+
+    const syncGlobalPrompt = () => {
+      const globalPrompt = (
+        window as unknown as { __deferredPwaPrompt?: BeforeInstallPromptEvent }
+      ).__deferredPwaPrompt;
+      if (globalPrompt) {
+        setDeferredPrompt(globalPrompt);
+      }
+    };
 
     const handleBeforeInstallPrompt = (e: Event) => {
       e.preventDefault();
+      (
+        window as unknown as { __deferredPwaPrompt?: BeforeInstallPromptEvent }
+      ).__deferredPwaPrompt = e as BeforeInstallPromptEvent;
       setDeferredPrompt(e as BeforeInstallPromptEvent);
     };
 
     const handleAppInstalled = () => {
       setIsStandalone(true);
       setDeferredPrompt(null);
+      (
+        window as unknown as { __deferredPwaPrompt?: BeforeInstallPromptEvent | null }
+      ).__deferredPwaPrompt = null;
       setPwaDialogOpen(false);
     };
 
+    syncGlobalPrompt();
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+    window.addEventListener("pwa-prompt-ready", syncGlobalPrompt);
     window.addEventListener("appinstalled", handleAppInstalled);
     return () => {
       window.removeEventListener(
         "beforeinstallprompt",
         handleBeforeInstallPrompt
       );
+      window.removeEventListener("pwa-prompt-ready", syncGlobalPrompt);
       window.removeEventListener("appinstalled", handleAppInstalled);
     };
   }, []);
 
   const handlePwaButtonClick = async () => {
-    if (deferredPrompt) {
+    const promptEvent =
+      deferredPrompt ||
+      (window as unknown as { __deferredPwaPrompt?: BeforeInstallPromptEvent })
+        .__deferredPwaPrompt;
+
+    if (promptEvent) {
       try {
-        await deferredPrompt.prompt();
-        const choice = await deferredPrompt.userChoice;
+        await promptEvent.prompt();
+        const choice = await promptEvent.userChoice;
         if (choice.outcome === "accepted") {
-          setDeferredPrompt(null);
-          return;
+          setIsStandalone(true);
         }
+        setDeferredPrompt(null);
+        (
+          window as unknown as { __deferredPwaPrompt?: BeforeInstallPromptEvent | null }
+        ).__deferredPwaPrompt = null;
+        return;
       } catch {
-        // Fallback to manual dialog
+        // Fallback if browser blocked prompt
       }
     }
     setPwaDialogOpen(true);
   };
 
-  const handleCopyUrl = () => {
-    navigator.clipboard.writeText(window.location.href);
-    setCopiedLink(true);
-    setTimeout(() => setCopiedLink(false), 2500);
-  };
-
-  // Mobile Touch Swipe Handlers (RTL Tab Order)
+  // Mobile Touch Swipe Handlers (RTL Tab Order - Zmanim velocity + distance detection)
   const currentTabIndex = TAB_ITEMS.findIndex((t) => t.id === activeTab);
 
   const goToTabByIndex = (nextIndex: number) => {
@@ -199,8 +222,24 @@ export function App() {
     touchStartRef.current = {
       x: e.touches[0].clientX,
       y: e.touches[0].clientY,
+      time: Date.now(),
+      isHorizontal: undefined,
       ignore: shouldIgnore,
     };
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!touchStartRef.current || touchStartRef.current.ignore) return;
+    const touch = e.touches[0];
+    const diffX = touch.clientX - touchStartRef.current.x;
+    const diffY = touch.clientY - touchStartRef.current.y;
+
+    if (touchStartRef.current.isHorizontal === undefined) {
+      if (Math.abs(diffX) > 7 || Math.abs(diffY) > 7) {
+        touchStartRef.current.isHorizontal =
+          Math.abs(diffX) > Math.abs(diffY) * 1.15;
+      }
+    }
   };
 
   const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
@@ -210,18 +249,22 @@ export function App() {
     }
     if (e.changedTouches.length !== 1) return;
 
-    const dx = e.changedTouches[0].clientX - touchStartRef.current.x;
-    const dy = e.changedTouches[0].clientY - touchStartRef.current.y;
+    const diffX = e.changedTouches[0].clientX - touchStartRef.current.x;
+    const diffY = e.changedTouches[0].clientY - touchStartRef.current.y;
+    const elapsedTime = Date.now() - touchStartRef.current.time;
+    const velocity = Math.abs(diffX) / Math.max(elapsedTime, 1);
+    const wasHorizontal =
+      touchStartRef.current.isHorizontal ??
+      Math.abs(diffX) > Math.abs(diffY) * 1.25;
     touchStartRef.current = null;
 
-    // Horizontal swipe threshold: at least 65px and clearly horizontal
-    if (Math.abs(dx) > 65 && Math.abs(dx) > Math.abs(dy) * 1.5) {
-      // In RTL layout, tabs flow from Right (index 0) to Left (index 6).
-      // Swiping finger right (dx > 0) pulls the left screen into view -> next tab (index + 1)
-      // Swiping finger left (dx < 0) pulls the right screen into view -> previous tab (index - 1)
-      if (dx > 0 && currentTabIndex < TAB_ITEMS.length - 1) {
+    const isSubstantialDrag = Math.abs(diffX) > 50;
+    const isQuickFlick = Math.abs(diffX) > 25 && velocity > 0.3;
+
+    if (wasHorizontal && (isSubstantialDrag || isQuickFlick)) {
+      if (diffX > 0 && currentTabIndex < TAB_ITEMS.length - 1) {
         goToTabByIndex(currentTabIndex + 1);
-      } else if (dx < 0 && currentTabIndex > 0) {
+      } else if (diffX < 0 && currentTabIndex > 0) {
         goToTabByIndex(currentTabIndex - 1);
       }
     }
@@ -314,6 +357,7 @@ export function App() {
     <div
       dir="rtl"
       onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
       className="min-h-screen bg-[#FAF7F2] text-[#142321] pb-24 sm:pb-16"
     >
@@ -340,8 +384,8 @@ export function App() {
                     onClick={handlePwaButtonClick}
                     className="gap-1.5 shadow-sm"
                   >
-                    <Smartphone className="h-4 w-4" />
-                    <span>הוסף למסך הבית (PWA)</span>
+                    <Download className="h-4 w-4" />
+                    <span>התקן אפליקציה בלחיצה אחת</span>
                   </Button>
                 )}
               </div>
@@ -878,109 +922,68 @@ export function App() {
         </Tabs>
       </main>
 
-      {/* PWA Quick-Install Instructions Modal */}
+      {/* Android 1-Click PWA Install Modal (Zmanim style, Android only) */}
       <Dialog open={pwaDialogOpen} onOpenChange={setPwaDialogOpen}>
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-lg">
               <Smartphone className="h-5 w-5 text-[#0B4F4A]" />
-              <span>הוספת האפליקציה למסך הבית בנייד (PWA)</span>
+              <span>התקנת האפליקציה לאנדרואיד</span>
             </DialogTitle>
             <DialogDescription>
-              שמרו את מסלול תאילנד 2026 של גלעד והדר כאפליקציה מהירה על מסך הבית בטלפון לכניסה בלחיצה אחת גם במהלך הטיול:
+              מסלול תאילנד 2026 של גלעד והדר מותקן ישירות למסך הבית באנדרואיד ועובד כאפליקציה מלאה גם ללא אינטרנט:
             </DialogDescription>
           </DialogHeader>
 
           <div className="space-y-3 pt-1 text-sm">
-            {deferredPrompt && (
-              <div className="rounded-xl bg-[#ECFDF5] border border-[#10B981] p-3.5 space-y-2">
-                <div className="font-bold text-[#065F46]">
-                  התקנה אוטומטית זמינה במכשיר זה:
+            <div className="p-3.5 bg-[#F5F0E6] border border-[#E2D9C8] rounded-2xl flex items-center gap-3">
+              <img
+                src="/icon.svg"
+                alt="תאילנד 2026"
+                className="w-12 h-12 rounded-2xl shadow-xs border border-[#E2D9C8] shrink-0"
+              />
+              <div>
+                <span className="text-sm font-bold text-[#142321] block leading-tight">
+                  תאילנד 2026 • גלעד והדר
+                </span>
+                <span className="text-xs text-[#4A5D5A] block mt-0.5 leading-tight">
+                  לו״ז יומי, מלונות, טיסות פנים ושבתות (עובד אופליין)
+                </span>
+              </div>
+            </div>
+
+            {deferredPrompt ? (
+              <Button
+                type="button"
+                variant="default"
+                className="w-full py-3 gap-2 text-sm font-bold"
+                onClick={async () => {
+                  await deferredPrompt.prompt();
+                  const choice = await deferredPrompt.userChoice;
+                  if (choice.outcome === "accepted") {
+                    setIsStandalone(true);
+                    setDeferredPrompt(null);
+                    setPwaDialogOpen(false);
+                  }
+                }}
+              >
+                <Download className="h-4 w-4" />
+                <span>התקן עכשיו למסך הבית בלחיצה אחת</span>
+              </Button>
+            ) : isStandalone ? (
+              <div className="p-3 bg-[#ECFDF5] border border-[#10B981] text-[#065F46] text-xs font-bold rounded-xl text-center">
+                ✓ האפליקציה כבר מותקנת על מכשירך
+              </div>
+            ) : (
+              <div className="rounded-xl bg-[#FAF7F2] border border-[#E2D9C8] p-3.5 space-y-1.5 text-xs text-[#142321]">
+                <div className="font-bold text-[#0B4F4A]">
+                  האפליקציה כבר מותקנת במכשיר או שהקישור נפתח מתוך וואטסאפ:
                 </div>
-                <Button
-                  type="button"
-                  variant="default"
-                  className="w-full gap-2"
-                  onClick={async () => {
-                    await deferredPrompt.prompt();
-                    const choice = await deferredPrompt.userChoice;
-                    if (choice.outcome === "accepted") {
-                      setDeferredPrompt(null);
-                      setPwaDialogOpen(false);
-                    }
-                  }}
-                >
-                  <Download className="h-4 w-4" />
-                  <span>התקן כעת למסך הבית</span>
-                </Button>
+                <p className="text-[#4A5D5A] leading-relaxed">
+                  אם פתחתם את הקישור מתוך הדפדפן הפנימי של וואטסאפ, פתחו אותו בדפדפן <strong>Chrome</strong> באנדרואיד ולחצו על כפתור <strong>"התקן אפליקציה בלחיצה אחת"</strong>.
+                </p>
               </div>
             )}
-
-            <div className="rounded-xl bg-[#FAF7F2] border border-[#E2D9C8] p-3.5 space-y-1.5">
-              <div className="font-bold text-[#0B4F4A] flex items-center gap-1.5">
-                <Share className="h-4 w-4" />
-                <span>באייפון (iPhone / Safari):</span>
-              </div>
-              <ol className="list-decimal list-inside space-y-1 text-xs text-[#142321] leading-relaxed">
-                <li>
-                  פתחו את הקישור בדפדפן <strong>Safari</strong> (אם נפתח מתוך וואטסאפ, לחצו על הסמל בפינה לפתיחה ב-Safari).
-                </li>
-                <li>
-                  לחצו על כפתור <strong>השיתוף (Share ⬆️)</strong> בסרגל התחתון.
-                </li>
-                <li>
-                  גללו מטה ובחרו <strong>"הוסף למסך הבית" (Add to Home Screen)</strong> ואז לחצו <strong>"הוסף"</strong>.
-                </li>
-              </ol>
-            </div>
-
-            <div className="rounded-xl bg-[#FAF7F2] border border-[#E2D9C8] p-3.5 space-y-1.5">
-              <div className="font-bold text-[#0B4F4A] flex items-center gap-1.5">
-                <Smartphone className="h-4 w-4" />
-                <span>באנדרואיד (Android / Chrome):</span>
-              </div>
-              <ol className="list-decimal list-inside space-y-1 text-xs text-[#142321] leading-relaxed">
-                <li>
-                  פתחו את הקישור בדפדפן <strong>Chrome</strong>.
-                </li>
-                <li>
-                  לחצו על תפריט <strong>3 הנקודות (⋮)</strong> בפינה העליונה.
-                </li>
-                <li>
-                  בחרו <strong>"התקן אפליקציה"</strong> או <strong>"הוסף למסך הבית"</strong>.
-                </li>
-              </ol>
-            </div>
-
-            <div className="flex items-center justify-between gap-2 pt-1">
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={handleCopyUrl}
-                className="flex-1 gap-1.5"
-              >
-                {copiedLink ? (
-                  <>
-                    <Check className="h-4 w-4 text-[#059669]" />
-                    <span>הקישור הועתק!</span>
-                  </>
-                ) : (
-                  <>
-                    <Copy className="h-4 w-4" />
-                    <span>העתק קישור לפתיחה בדפדפן</span>
-                  </>
-                )}
-              </Button>
-              <Button
-                type="button"
-                variant="secondary"
-                size="sm"
-                onClick={() => setPwaDialogOpen(false)}
-              >
-                סגור
-              </Button>
-            </div>
           </div>
         </DialogContent>
       </Dialog>
