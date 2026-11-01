@@ -7,7 +7,7 @@ import {
   OPEN_DECISIONS,
 } from "./data/tripData";
 import type { OpenDecisionItem } from "./types/trip";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "./components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "./components/ui/tabs";
 import { Card, CardContent } from "./components/ui/card";
 import { Badge } from "./components/ui/badge";
 import { Button } from "./components/ui/button";
@@ -84,7 +84,12 @@ export function App() {
   const [pwaDialogOpen, setPwaDialogOpen] = useState<boolean>(false);
   const [isStandalone, setIsStandalone] = useState<boolean>(false);
 
-  // Touch Swipe Navigation State (Zmanim fluid swipe logic)
+  // Touch Swipe Navigation State (Zmanim fluid real-time sliding track logic)
+  const currentTabIndex = TAB_ITEMS.findIndex((t) => t.id === activeTab);
+  const [dragOffset, setDragOffset] = useState<number>(0);
+  const [isDragging, setIsDragging] = useState<boolean>(false);
+  const [isTransitioning, setIsTransitioning] = useState<boolean>(false);
+  const prevTabRef = useRef<string>(activeTab);
   const touchStartRef = useRef<{
     x: number;
     y: number;
@@ -92,6 +97,17 @@ export function App() {
     isHorizontal?: boolean;
     ignore: boolean;
   } | null>(null);
+
+  useEffect(() => {
+    if (prevTabRef.current !== activeTab) {
+      setIsTransitioning(true);
+      const timer = setTimeout(() => {
+        setIsTransitioning(false);
+        prevTabRef.current = activeTab;
+      }, 340);
+      return () => clearTimeout(timer);
+    }
+  }, [activeTab]);
 
   const [checkedMap, setCheckedMap] = useState<Record<string, boolean>>(() => {
     try {
@@ -199,13 +215,10 @@ export function App() {
     setPwaDialogOpen(true);
   };
 
-  // Mobile Touch Swipe Handlers (RTL Tab Order - Zmanim velocity + distance detection)
-  const currentTabIndex = TAB_ITEMS.findIndex((t) => t.id === activeTab);
-
   const goToTabByIndex = (nextIndex: number) => {
     if (nextIndex < 0 || nextIndex >= TAB_ITEMS.length) return;
     setActiveTab(TAB_ITEMS[nextIndex].id);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: "instant" });
   };
 
   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
@@ -236,38 +249,54 @@ export function App() {
 
     if (touchStartRef.current.isHorizontal === undefined) {
       if (Math.abs(diffX) > 7 || Math.abs(diffY) > 7) {
-        touchStartRef.current.isHorizontal =
-          Math.abs(diffX) > Math.abs(diffY) * 1.15;
+        if (Math.abs(diffX) > Math.abs(diffY) * 1.15) {
+          touchStartRef.current.isHorizontal = true;
+          setIsDragging(true);
+        } else {
+          touchStartRef.current.isHorizontal = false;
+        }
       }
+    }
+
+    if (touchStartRef.current.isHorizontal) {
+      let boundedDiff = diffX;
+      if (currentTabIndex === 0 && diffX < 0) {
+        boundedDiff = diffX * 0.22;
+      } else if (currentTabIndex === TAB_ITEMS.length - 1 && diffX > 0) {
+        boundedDiff = diffX * 0.22;
+      }
+      setDragOffset(boundedDiff);
     }
   };
 
   const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
     if (!touchStartRef.current || touchStartRef.current.ignore) {
       touchStartRef.current = null;
+      setIsDragging(false);
+      setDragOffset(0);
       return;
     }
-    if (e.changedTouches.length !== 1) return;
 
-    const diffX = e.changedTouches[0].clientX - touchStartRef.current.x;
-    const diffY = e.changedTouches[0].clientY - touchStartRef.current.y;
-    const elapsedTime = Date.now() - touchStartRef.current.time;
-    const velocity = Math.abs(diffX) / Math.max(elapsedTime, 1);
-    const wasHorizontal =
-      touchStartRef.current.isHorizontal ??
-      Math.abs(diffX) > Math.abs(diffY) * 1.25;
-    touchStartRef.current = null;
+    if (touchStartRef.current.isHorizontal && e.changedTouches.length === 1) {
+      const diffX = e.changedTouches[0].clientX - touchStartRef.current.x;
+      const elapsedTime = Date.now() - touchStartRef.current.time;
+      const velocity = Math.abs(diffX) / Math.max(elapsedTime, 1);
 
-    const isSubstantialDrag = Math.abs(diffX) > 50;
-    const isQuickFlick = Math.abs(diffX) > 25 && velocity > 0.3;
+      const isSubstantialDrag = Math.abs(diffX) > 50;
+      const isQuickFlick = Math.abs(diffX) > 25 && velocity > 0.3;
 
-    if (wasHorizontal && (isSubstantialDrag || isQuickFlick)) {
-      if (diffX > 0 && currentTabIndex < TAB_ITEMS.length - 1) {
-        goToTabByIndex(currentTabIndex + 1);
-      } else if (diffX < 0 && currentTabIndex > 0) {
-        goToTabByIndex(currentTabIndex - 1);
+      if (isSubstantialDrag || isQuickFlick) {
+        if (diffX > 0 && currentTabIndex < TAB_ITEMS.length - 1) {
+          goToTabByIndex(currentTabIndex + 1);
+        } else if (diffX < 0 && currentTabIndex > 0) {
+          goToTabByIndex(currentTabIndex - 1);
+        }
       }
     }
+
+    touchStartRef.current = null;
+    setIsDragging(false);
+    setDragOffset(0);
   };
 
   const { scrollYProgress } = useScroll();
@@ -554,371 +583,480 @@ export function App() {
             </div>
           </div>
 
-          {/* TAB 1: DAILY ITINERARY */}
-          <TabsContent value="itinerary" className="space-y-5">
-            {/* Search & Region Filter Chips */}
-            <Card>
-              <CardContent className="p-4 space-y-3">
-                <div className="relative">
-                  <Search className="h-4 w-4 text-[#6B7E7A] absolute right-3.5 top-3.5" />
-                  <Input
-                    id="trip-search-input"
-                    name="tripSearch"
-                    aria-label="חיפוש מהיר במסלול"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="חיפוש מהיר לפי יום, תאריך, מלון (ברסלו, ריילי, פאי, מאה הונג סון...) או אטרקציה"
-                    className="pr-10"
-                  />
-                </div>
+          {/* Zmanim-style Real-Time Horizontal Sliding Track for all 7 Screens */}
+          <div className="w-full overflow-hidden relative touch-pan-y">
+            <div
+              className="flex flex-row w-full items-start"
+              style={{
+                direction: "rtl",
+                transform: `translateX(calc(${currentTabIndex * 100}% + ${dragOffset}px))`,
+                transition: isDragging
+                  ? "none"
+                  : "transform 320ms cubic-bezier(0.2, 0.85, 0.25, 1)",
+                willChange: "transform",
+              }}
+            >
+              {TAB_ITEMS.map((tabItem, idx) => {
+                const isCurrent = idx === currentTabIndex;
+                const isNear =
+                  Math.abs(idx - currentTabIndex) <= 1 ||
+                  isDragging ||
+                  isTransitioning;
+                const shouldHaveHeight =
+                  isCurrent || isDragging || isTransitioning;
 
-                <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
-                  <Button
-                    size="sm"
-                    variant={regionFilter === "all" ? "default" : "outline"}
-                    onClick={() => setRegionFilter("all")}
-                  >
-                    כל הימים (23)
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant={regionFilter === "phuket" ? "default" : "outline"}
-                    onClick={() => setRegionFilter("phuket")}
-                  >
-                    קוקונט איילנד ופוקט (23–29.11)
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant={regionFilter === "krabi" ? "default" : "outline"}
-                    onClick={() => setRegionFilter("krabi")}
-                  >
-                    ריילי וקראבי (29.11–03.12)
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant={regionFilter === "chiang_mai" ? "default" : "outline"}
-                    onClick={() => setRegionFilter("chiang_mai")}
-                  >
-                    צ'יאנג מאי (03–06.12 + 10.12)
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant={regionFilter === "loop" ? "default" : "outline"}
-                    onClick={() => setRegionFilter("loop")}
-                  >
-                    הלופ הצפוני: פאי • מאה הונג סון • מאה סריאנג (06–10.12)
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant={regionFilter === "bangkok" ? "default" : "outline"}
-                    onClick={() => setRegionFilter("bangkok")}
-                  >
-                    בנגקוק (22.11 + 11–14.12)
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant={regionFilter === "shabbat" ? "gold" : "outline"}
-                    onClick={() => setRegionFilter("shabbat")}
-                  >
-                    <Flame className="h-3.5 w-3.5" />
-                    שבתות בלבד (3)
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Days List with Scroll Reveal */}
-            {filteredDays.length === 0 ? (
-              <Card>
-                <CardContent className="p-10 text-center space-y-2">
-                  <div className="font-display font-bold text-lg text-[#142321]">
-                    לא נמצאו ימים התואמים לחיפוש "{searchQuery}"
-                  </div>
-                  <p className="text-sm text-[#4A5D5A]">
-                    נסו לאפס את מסנן האזור או לחפש מילה אחרת.
-                  </p>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => {
-                      setRegionFilter("all");
-                      setSearchQuery("");
+                return (
+                  <div
+                    key={tabItem.id}
+                    style={{
+                      direction: "rtl",
+                      visibility: isNear ? "visible" : "hidden",
+                      height: shouldHaveHeight ? "auto" : 0,
+                      overflow: shouldHaveHeight ? "visible" : "hidden",
                     }}
+                    className="min-w-full w-full shrink-0 pt-2 pb-6 flex flex-col"
                   >
-                    הצג את כל 23 ימי הטיול
-                  </Button>
-                </CardContent>
-              </Card>
-            ) : (
-              <div className="space-y-4">
-                <AnimatePresence mode="popLayout">
-                  {filteredDays.map((day, idx) => {
-                    const reg = getRegionMeta(day.region);
-                    const bookedHotel = getHotelById(day.hotelId);
-                    const savedNote = dayNotes[day.dayNum] || "";
+                    {/* SCREEN 1: DAILY ITINERARY */}
+                    {tabItem.id === "itinerary" && (
+                      <div className="space-y-5">
+                        {/* Search & Region Filter Chips */}
+                        <Card>
+                          <CardContent className="p-4 space-y-3">
+                            <div className="relative">
+                              <Search className="h-4 w-4 text-[#6B7E7A] absolute right-3.5 top-3.5" />
+                              <Input
+                                id="trip-search-input"
+                                name="tripSearch"
+                                aria-label="חיפוש מהיר במסלול"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                placeholder="חיפוש מהיר לפי יום, תאריך, מלון (ברסלו, ריילי, פאי, מאה הונג סון...) או אטרקציה"
+                                className="pr-10"
+                              />
+                            </div>
 
-                    return (
-                      <motion.div
-                        key={day.dayNum}
-                        id={`day-card-${day.dayNum}`}
-                        initial={{ opacity: 0, y: 18 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-30px" }}
-                        transition={{ duration: 0.26, delay: Math.min(idx * 0.02, 0.15) }}
-                      >
-                        <Card
-                          className={`overflow-hidden transition-all ${
-                            day.isShabbat
-                              ? "border-2 border-[#F59E0B] bg-[#FFFBEB]/40"
-                              : "hover:border-[#B8AD9B]"
-                          }`}
-                        >
-                          {/* Top Ribbon */}
-                          <div
-                            className="px-5 py-2.5 flex flex-wrap items-center justify-between gap-2 border-b"
-                            style={{
-                              backgroundColor: day.isShabbat ? "#FEF3C7" : reg.bgSoft,
-                              borderColor: day.isShabbat ? "#FDE68A" : reg.borderSoft,
-                            }}
-                          >
-                            <div className="flex items-center gap-2 flex-wrap">
-                              <span
-                                className="px-2.5 py-0.5 rounded-md text-xs font-bold text-white tabular-nums"
-                                style={{
-                                  backgroundColor: day.isShabbat
-                                    ? "#B45309"
-                                    : reg.color,
-                                }}
+                            <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+                              <Button
+                                size="sm"
+                                variant={
+                                  regionFilter === "all" ? "default" : "outline"
+                                }
+                                onClick={() => setRegionFilter("all")}
                               >
-                                יום {day.dayNum} • {reg.name}
-                              </span>
-                              {day.isShabbat && (
-                                <Badge variant="shabbat">
-                                  <Flame className="h-3 w-3 ml-1" />
-                                  {day.shabbatName}
-                                </Badge>
-                              )}
-                              {day.candleLighting && (
-                                <Badge variant="outline" className="bg-white/90">
-                                  הדלקת נרות: {day.candleLighting}
-                                </Badge>
-                              )}
-                              {day.havdalah && (
-                                <Badge variant="outline" className="bg-white/90">
-                                  צאת שבת: {day.havdalah}
-                                </Badge>
-                              )}
-                            </div>
-                            <span className="font-display font-bold text-sm text-[#142321] tabular-nums">
-                              {day.dayOfWeek}, {day.date}
-                            </span>
-                          </div>
-
-                          <CardContent className="p-5 space-y-4">
-                            <div>
-                              <h3 className="font-display text-xl font-bold text-[#142321]">
-                                {day.title}
-                              </h3>
-                              <p className="text-sm text-[#4A5D5A]">{day.subtitle}</p>
-                            </div>
-
-                            {/* Transit Strip */}
-                            <div className="rounded-lg bg-[#F5F0E6] border border-[#E2D9C8] px-3.5 py-2 text-xs font-semibold text-[#1D3532] flex items-center gap-2">
-                              <Clock className="h-4 w-4 text-[#0B4F4A] shrink-0" />
-                              <span>מעברים ונסיעות ביום זה: {day.transitSummary}</span>
-                            </div>
-
-                            {/* Activities List */}
-                            <ul className="space-y-2.5">
-                              {day.activities.map((act, i) => (
-                                <li
-                                  key={i}
-                                  className={`rounded-xl p-3 text-sm flex flex-col sm:flex-row sm:items-start justify-between gap-2 border ${
-                                    act.highlight
-                                      ? "bg-[#ECFDF5]/60 border-[#A7F3D0]"
-                                      : "bg-[#FAF7F2]/60 border-[#EFE9DC]"
-                                  }`}
-                                >
-                                  <div className="space-y-1">
-                                    <div className="flex items-center gap-2 flex-wrap">
-                                      {act.time && (
-                                        <span className="inline-block rounded bg-[#0B4F4A] text-[#FAF7F2] px-2 py-0.5 text-xs font-bold tabular-nums">
-                                          {act.time}
-                                        </span>
-                                      )}
-                                      {act.costDisplay && (
-                                        <Badge variant="secondary" className="tabular-nums">
-                                          עלות: {act.costDisplay}
-                                        </Badge>
-                                      )}
-                                    </div>
-                                    <p className="text-[#142321] leading-relaxed">
-                                      {act.text}
-                                    </p>
-                                  </div>
-
-                                  {act.mapUrl && (
-                                    <Button
-                                      variant="outline"
-                                      size="sm"
-                                      className="shrink-0 self-start"
-                                      asChild
-                                    >
-                                      <a
-                                        href={act.mapUrl}
-                                        target="_blank"
-                                        rel="noreferrer"
-                                      >
-                                        <MapPin className="h-3.5 w-3.5" />
-                                        מפה
-                                        <ExternalLink className="h-3 w-3" />
-                                      </a>
-                                    </Button>
-                                  )}
-                                </li>
-                              ))}
-                            </ul>
-
-                            {/* Booked Hotel Footer Box */}
-                            <div className="rounded-xl border border-[#E6DFD3] bg-[#FAF7F2] p-3.5 flex flex-wrap items-center justify-between gap-3 text-xs">
-                              <div className="space-y-1">
-                                <div className="flex items-center gap-1.5 text-sm font-bold text-[#0B4F4A]">
-                                  <BedDouble className="h-4 w-4 shrink-0" />
-                                  <span>לינה מוזמנת: {day.hotelName}</span>
-                                </div>
-                                {bookedHotel && (
-                                  <div className="text-[#4A5D5A]">
-                                    הוזמן ע"י <strong>{bookedHotel.bookedBy}</strong> דרך{" "}
-                                    <strong>{bookedHotel.platform}</strong> • סה"כ לשהות:{" "}
-                                    <strong>{bookedHotel.ilsPriceDisplay}</strong> ({bookedHotel.originalPriceDisplay}) •{" "}
-                                    {bookedHotel.mealPlan}
-                                  </div>
-                                )}
-                                {day.backupHotelNote && (
-                                  <div className="text-[#92400E] font-semibold">
-                                    • {day.backupHotelNote}
-                                  </div>
-                                )}
-                              </div>
-
-                              {bookedHotel && (
-                                <div className="flex gap-2">
-                                  <Button variant="outline" size="sm" asChild>
-                                    <a
-                                      href={bookedHotel.mapUrl}
-                                      target="_blank"
-                                      rel="noreferrer"
-                                    >
-                                      <MapPin className="h-3.5 w-3.5" />
-                                      מיקום המלון
-                                    </a>
-                                  </Button>
-                                </div>
-                              )}
-                            </div>
-
-                            {day.importantNote && (
-                              <div className="rounded-xl border border-[#F59E0B] bg-[#FFFBEB] p-3 text-xs font-semibold text-[#92400E] flex items-center gap-2">
-                                <AlertTriangle className="h-4 w-4 shrink-0 text-[#D97706]" />
-                                <span>{day.importantNote}</span>
-                              </div>
-                            )}
-
-                            {/* Personal Day Note Editor */}
-                            <div className="pt-1 border-t border-[#EFE9DC]">
-                              {editingNoteDay === day.dayNum ? (
-                                <div className="space-y-2 pt-2">
-                                  <Input
-                                    id={`day-note-input-${day.dayNum}`}
-                                    name={`dayNote_${day.dayNum}`}
-                                    value={noteDraft}
-                                    onChange={(e) => setNoteDraft(e.target.value)}
-                                    placeholder="כתבו הערה אישית ליום זה (מספר הזמנה, נהג, שעת איסוף...)"
-                                  />
-                                  <div className="flex gap-2">
-                                    <Button
-                                      size="sm"
-                                      onClick={() => saveDayNote(day.dayNum)}
-                                    >
-                                      <Save className="h-3.5 w-3.5" />
-                                      שמור הערה
-                                    </Button>
-                                    <Button
-                                      size="sm"
-                                      variant="ghost"
-                                      onClick={() => setEditingNoteDay(null)}
-                                    >
-                                      ביטול
-                                    </Button>
-                                  </div>
-                                </div>
-                              ) : (
-                                <div className="flex items-center justify-between gap-2">
-                                  {savedNote ? (
-                                    <div className="text-xs bg-[#FEF3C7]/60 border border-[#FDE68A] px-3 py-2 rounded-lg text-[#78350F] flex-1">
-                                      <strong>הערה אישית:</strong> {savedNote}
-                                    </div>
-                                  ) : (
-                                    <span className="text-xs text-[#6B7E7A]">
-                                      ניתן להוסיף הערה אישית ליום זה
-                                    </span>
-                                  )}
-                                  <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    onClick={() => startEditNote(day.dayNum)}
-                                  >
-                                    <Edit3 className="h-3.5 w-3.5" />
-                                    {savedNote ? "ערוך הערה" : "הוסף הערה"}
-                                  </Button>
-                                </div>
-                              )}
+                                כל הימים (23)
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant={
+                                  regionFilter === "phuket"
+                                    ? "default"
+                                    : "outline"
+                                }
+                                onClick={() => setRegionFilter("phuket")}
+                              >
+                                קוקונט איילנד ופוקט (23–29.11)
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant={
+                                  regionFilter === "krabi"
+                                    ? "default"
+                                    : "outline"
+                                }
+                                onClick={() => setRegionFilter("krabi")}
+                              >
+                                ריילי וקראבי (29.11–03.12)
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant={
+                                  regionFilter === "chiang_mai"
+                                    ? "default"
+                                    : "outline"
+                                }
+                                onClick={() => setRegionFilter("chiang_mai")}
+                              >
+                                צ'יאנג מאי (03–06.12 + 10.12)
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant={
+                                  regionFilter === "loop"
+                                    ? "default"
+                                    : "outline"
+                                }
+                                onClick={() => setRegionFilter("loop")}
+                              >
+                                הלופ הצפוני: פאי • מאה הונג סון • מאה סריאנג (06–10.12)
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant={
+                                  regionFilter === "bangkok"
+                                    ? "default"
+                                    : "outline"
+                                }
+                                onClick={() => setRegionFilter("bangkok")}
+                              >
+                                בנגקוק (22.11 + 11–14.12)
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant={
+                                  regionFilter === "shabbat"
+                                    ? "gold"
+                                    : "outline"
+                                }
+                                onClick={() => setRegionFilter("shabbat")}
+                              >
+                                <Flame className="h-3.5 w-3.5" />
+                                שבתות בלבד (3)
+                              </Button>
                             </div>
                           </CardContent>
                         </Card>
-                      </motion.div>
-                    );
-                  })}
-                </AnimatePresence>
-              </div>
-            )}
-          </TabsContent>
 
-          {/* TAB 2: HOTELS LEDGER */}
-          <TabsContent value="hotels">
-            <HotelsLedgerSection />
-          </TabsContent>
+                        {/* Days List with Scroll Reveal */}
+                        {filteredDays.length === 0 ? (
+                          <Card>
+                            <CardContent className="p-10 text-center space-y-2">
+                              <div className="font-display font-bold text-lg text-[#142321]">
+                                לא נמצאו ימים התואמים לחיפוש "{searchQuery}"
+                              </div>
+                              <p className="text-sm text-[#4A5D5A]">
+                                נסו לאפס את מסנן האזור או לחפש מילה אחרת.
+                              </p>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => {
+                                  setRegionFilter("all");
+                                  setSearchQuery("");
+                                }}
+                              >
+                                הצג את כל 23 ימי הטיול
+                              </Button>
+                            </CardContent>
+                          </Card>
+                        ) : (
+                          <div className="space-y-4">
+                            <AnimatePresence mode="popLayout">
+                              {filteredDays.map((day, dayIdx) => {
+                                const reg = getRegionMeta(day.region);
+                                const bookedHotel = getHotelById(day.hotelId);
+                                const savedNote = dayNotes[day.dayNum] || "";
 
-          {/* TAB 3: DOMESTIC FLIGHTS */}
-          <TabsContent value="flights">
-            <DomesticFlightsSection />
-          </TabsContent>
+                                return (
+                                  <motion.div
+                                    key={day.dayNum}
+                                    id={`day-card-${day.dayNum}`}
+                                    initial={{ opacity: 0, y: 18 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true, margin: "-30px" }}
+                                    transition={{
+                                      duration: 0.26,
+                                      delay: Math.min(dayIdx * 0.02, 0.15),
+                                    }}
+                                  >
+                                    <Card
+                                      className={`overflow-hidden transition-all ${
+                                        day.isShabbat
+                                          ? "border-2 border-[#F59E0B] bg-[#FFFBEB]/40"
+                                          : "hover:border-[#B8AD9B]"
+                                      }`}
+                                    >
+                                      {/* Top Ribbon */}
+                                      <div
+                                        className="px-5 py-2.5 flex flex-wrap items-center justify-between gap-2 border-b"
+                                        style={{
+                                          backgroundColor: day.isShabbat
+                                            ? "#FEF3C7"
+                                            : reg.bgSoft,
+                                          borderColor: day.isShabbat
+                                            ? "#FDE68A"
+                                            : reg.borderSoft,
+                                        }}
+                                      >
+                                        <div className="flex items-center gap-2 flex-wrap">
+                                          <span
+                                            className="px-2.5 py-0.5 rounded-md text-xs font-bold text-white tabular-nums"
+                                            style={{
+                                              backgroundColor: day.isShabbat
+                                                ? "#B45309"
+                                                : reg.color,
+                                            }}
+                                          >
+                                            יום {day.dayNum} • {reg.name}
+                                          </span>
+                                          {day.isShabbat && (
+                                            <Badge variant="shabbat">
+                                              <Flame className="h-3 w-3 ml-1" />
+                                              {day.shabbatName}
+                                            </Badge>
+                                          )}
+                                          {day.candleLighting && (
+                                            <Badge
+                                              variant="outline"
+                                              className="bg-white/90"
+                                            >
+                                              הדלקת נרות: {day.candleLighting}
+                                            </Badge>
+                                          )}
+                                          {day.havdalah && (
+                                            <Badge
+                                              variant="outline"
+                                              className="bg-white/90"
+                                            >
+                                              צאת שבת: {day.havdalah}
+                                            </Badge>
+                                          )}
+                                        </div>
+                                        <span className="font-display font-bold text-sm text-[#142321] tabular-nums">
+                                          {day.dayOfWeek}, {day.date}
+                                        </span>
+                                      </div>
 
-          {/* TAB 4: CALENDAR */}
-          <TabsContent value="calendar">
-            <CalendarSection onSelectDay={jumpToDay} />
-          </TabsContent>
+                                      <CardContent className="p-5 space-y-4">
+                                        <div>
+                                          <h3 className="font-display text-xl font-bold text-[#142321]">
+                                            {day.title}
+                                          </h3>
+                                          <p className="text-sm text-[#4A5D5A]">
+                                            {day.subtitle}
+                                          </p>
+                                        </div>
 
-          {/* TAB 5: OPEN DECISIONS */}
-          <TabsContent value="decisions">
-            <OpenDecisionsSection
-              checkedMap={checkedMap}
-              onToggleChecked={toggleTaskChecked}
-              customTasks={customTasks}
-              onAddCustomTask={addCustomTask}
-              onDeleteCustomTask={deleteCustomTask}
-            />
-          </TabsContent>
+                                        {/* Transit Strip */}
+                                        <div className="rounded-lg bg-[#F5F0E6] border border-[#E2D9C8] px-3.5 py-2 text-xs font-semibold text-[#1D3532] flex items-center gap-2">
+                                          <Clock className="h-4 w-4 text-[#0B4F4A] shrink-0" />
+                                          <span>
+                                            מעברים ונסיעות ביום זה:{" "}
+                                            {day.transitSummary}
+                                          </span>
+                                        </div>
 
-          {/* TAB 6: SHABBAT ANCHORS */}
-          <TabsContent value="shabbat">
-            <ShabbatAnchorsSection />
-          </TabsContent>
+                                        {/* Activities List */}
+                                        <ul className="space-y-2.5">
+                                          {day.activities.map((act, i) => (
+                                            <li
+                                              key={i}
+                                              className={`rounded-xl p-3 text-sm flex flex-col sm:flex-row sm:items-start justify-between gap-2 border ${
+                                                act.highlight
+                                                  ? "bg-[#ECFDF5]/60 border-[#A7F3D0]"
+                                                  : "bg-[#FAF7F2]/60 border-[#EFE9DC]"
+                                              }`}
+                                            >
+                                              <div className="space-y-1">
+                                                <div className="flex items-center gap-2 flex-wrap">
+                                                  {act.time && (
+                                                    <span className="inline-block rounded bg-[#0B4F4A] text-[#FAF7F2] px-2 py-0.5 text-xs font-bold tabular-nums">
+                                                      {act.time}
+                                                    </span>
+                                                  )}
+                                                  {act.costDisplay && (
+                                                    <Badge
+                                                      variant="secondary"
+                                                      className="tabular-nums"
+                                                    >
+                                                      עלות: {act.costDisplay}
+                                                    </Badge>
+                                                  )}
+                                                </div>
+                                                <p className="text-[#142321] leading-relaxed">
+                                                  {act.text}
+                                                </p>
+                                              </div>
 
-          {/* TAB 7: INTERACTIVE MAP */}
-          <TabsContent value="map">
-            <RouteMapSection />
-          </TabsContent>
+                                              {act.mapUrl && (
+                                                <Button
+                                                  variant="outline"
+                                                  size="sm"
+                                                  className="shrink-0 self-start"
+                                                  asChild
+                                                >
+                                                  <a
+                                                    href={act.mapUrl}
+                                                    target="_blank"
+                                                    rel="noreferrer"
+                                                  >
+                                                    <MapPin className="h-3.5 w-3.5" />
+                                                    מפה
+                                                    <ExternalLink className="h-3 w-3" />
+                                                  </a>
+                                                </Button>
+                                              )}
+                                            </li>
+                                          ))}
+                                        </ul>
+
+                                        {/* Booked Hotel Footer Box */}
+                                        <div className="rounded-xl border border-[#E6DFD3] bg-[#FAF7F2] p-3.5 flex flex-wrap items-center justify-between gap-3 text-xs">
+                                          <div className="space-y-1">
+                                            <div className="flex items-center gap-1.5 text-sm font-bold text-[#0B4F4A]">
+                                              <BedDouble className="h-4 w-4 shrink-0" />
+                                              <span>
+                                                לינה מוזמנת: {day.hotelName}
+                                              </span>
+                                            </div>
+                                            {bookedHotel && (
+                                              <div className="text-[#4A5D5A]">
+                                                הוזמן ע"י{" "}
+                                                <strong>
+                                                  {bookedHotel.bookedBy}
+                                                </strong>{" "}
+                                                דרך{" "}
+                                                <strong>
+                                                  {bookedHotel.platform}
+                                                </strong>{" "}
+                                                • סה"כ לשהות:{" "}
+                                                <strong>
+                                                  {bookedHotel.ilsPriceDisplay}
+                                                </strong>{" "}
+                                                (
+                                                {
+                                                  bookedHotel.originalPriceDisplay
+                                                }
+                                                ) • {bookedHotel.mealPlan}
+                                              </div>
+                                            )}
+                                            {day.backupHotelNote && (
+                                              <div className="text-[#92400E] font-semibold">
+                                                • {day.backupHotelNote}
+                                              </div>
+                                            )}
+                                          </div>
+
+                                          {bookedHotel && (
+                                            <div className="flex gap-2">
+                                              <Button
+                                                variant="outline"
+                                                size="sm"
+                                                asChild
+                                              >
+                                                <a
+                                                  href={bookedHotel.mapUrl}
+                                                  target="_blank"
+                                                  rel="noreferrer"
+                                                >
+                                                  <MapPin className="h-3.5 w-3.5" />
+                                                  מיקום המלון
+                                                </a>
+                                              </Button>
+                                            </div>
+                                          )}
+                                        </div>
+
+                                        {day.importantNote && (
+                                          <div className="rounded-xl border border-[#F59E0B] bg-[#FFFBEB] p-3 text-xs font-semibold text-[#92400E] flex items-center gap-2">
+                                            <AlertTriangle className="h-4 w-4 shrink-0 text-[#D97706]" />
+                                            <span>{day.importantNote}</span>
+                                          </div>
+                                        )}
+
+                                        {/* Personal Day Note Editor */}
+                                        <div className="pt-1 border-t border-[#EFE9DC]">
+                                          {editingNoteDay === day.dayNum ? (
+                                            <div className="space-y-2 pt-2">
+                                              <Input
+                                                id={`day-note-input-${day.dayNum}`}
+                                                name={`dayNote_${day.dayNum}`}
+                                                value={noteDraft}
+                                                onChange={(e) =>
+                                                  setNoteDraft(e.target.value)
+                                                }
+                                                placeholder="כתבו הערה אישית ליום זה (מספר הזמנה, נהג, שעת איסוף...)"
+                                              />
+                                              <div className="flex gap-2">
+                                                <Button
+                                                  size="sm"
+                                                  onClick={() =>
+                                                    saveDayNote(day.dayNum)
+                                                  }
+                                                >
+                                                  <Save className="h-3.5 w-3.5" />
+                                                  שמור הערה
+                                                </Button>
+                                                <Button
+                                                  size="sm"
+                                                  variant="ghost"
+                                                  onClick={() =>
+                                                    setEditingNoteDay(null)
+                                                  }
+                                                >
+                                                  ביטול
+                                                </Button>
+                                              </div>
+                                            </div>
+                                          ) : (
+                                            <div className="flex items-center justify-between gap-2">
+                                              {savedNote ? (
+                                                <div className="text-xs bg-[#FEF3C7]/60 border border-[#FDE68A] px-3 py-2 rounded-lg text-[#78350F] flex-1">
+                                                  <strong>הערה אישית:</strong>{" "}
+                                                  {savedNote}
+                                                </div>
+                                              ) : (
+                                                <span className="text-xs text-[#6B7E7A]">
+                                                  ניתן להוסיף הערה אישית ליום זה
+                                                </span>
+                                              )}
+                                              <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                onClick={() =>
+                                                  startEditNote(day.dayNum)
+                                                }
+                                              >
+                                                <Edit3 className="h-3.5 w-3.5" />
+                                                {savedNote
+                                                  ? "ערוך הערה"
+                                                  : "הוסף הערה"}
+                                              </Button>
+                                            </div>
+                                          )}
+                                        </div>
+                                      </CardContent>
+                                    </Card>
+                                  </motion.div>
+                                );
+                              })}
+                            </AnimatePresence>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {/* SCREEN 2: HOTELS LEDGER */}
+                    {tabItem.id === "hotels" && <HotelsLedgerSection />}
+
+                    {/* SCREEN 3: DOMESTIC FLIGHTS */}
+                    {tabItem.id === "flights" && <DomesticFlightsSection />}
+
+                    {/* SCREEN 4: CALENDAR */}
+                    {tabItem.id === "calendar" && (
+                      <CalendarSection onSelectDay={jumpToDay} />
+                    )}
+
+                    {/* SCREEN 5: OPEN DECISIONS */}
+                    {tabItem.id === "decisions" && (
+                      <OpenDecisionsSection
+                        checkedMap={checkedMap}
+                        onToggleChecked={toggleTaskChecked}
+                        customTasks={customTasks}
+                        onAddCustomTask={addCustomTask}
+                        onDeleteCustomTask={deleteCustomTask}
+                      />
+                    )}
+
+                    {/* SCREEN 6: SHABBAT ANCHORS */}
+                    {tabItem.id === "shabbat" && <ShabbatAnchorsSection />}
+
+                    {/* SCREEN 7: INTERACTIVE MAP */}
+                    {tabItem.id === "map" && <RouteMapSection />}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </Tabs>
       </main>
 
@@ -988,44 +1126,55 @@ export function App() {
         </DialogContent>
       </Dialog>
 
-      {/* Mobile Bottom Dock Navigation */}
+      {/* Zmanim-style Mobile Bottom Navigation Bar */}
       <nav
         aria-label="ניווט תחתון לנייד"
-        className="sm:hidden fixed bottom-2.5 right-2.5 left-2.5 z-40 bg-[#142321]/95 text-[#FAF7F2] backdrop-blur-md rounded-2xl border border-[#2C423F] px-1.5 py-1.5 shadow-xl flex items-center justify-between gap-0.5"
+        className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-[#E2D9C8] pb-[env(safe-area-inset-bottom,0.5rem)] shadow-lg"
       >
-        {TAB_ITEMS.map((item) => {
-          const Icon = item.icon;
-          const isActive = activeTab === item.id;
-          return (
-            <button
-              key={item.id}
-              type="button"
-              onClick={() => {
-                setActiveTab(item.id);
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-              className={`flex-1 flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-[10px] font-bold transition-all min-h-[44px] cursor-pointer ${
-                isActive
-                  ? "bg-[#0B4F4A] text-[#A7F3D0]"
-                  : "text-[#9EB3AF] hover:text-white"
-              }`}
-            >
-              <Icon className="h-4 w-4 mb-0.5 shrink-0" />
-              <span className="truncate max-w-full">{item.shortLabel}</span>
-            </button>
-          );
-        })}
-        {!isStandalone && (
-          <button
-            type="button"
-            onClick={handlePwaButtonClick}
-            title="הוסף למסך הבית"
-            className="flex flex-col items-center justify-center py-1.5 px-2 rounded-xl text-[10px] font-bold bg-[#B45309] text-[#FEF3C7] min-h-[44px] cursor-pointer shrink-0"
-          >
-            <Smartphone className="h-4 w-4 mb-0.5 shrink-0" />
-            <span>אפליקציה</span>
-          </button>
-        )}
+        <div className="max-w-md mx-auto flex items-center justify-around px-0.5 py-1">
+          {TAB_ITEMS.map((item) => {
+            const Icon = item.icon;
+            const isActive = activeTab === item.id;
+            const hasBadge = item.id === "decisions" && openDecisionsRemaining > 0;
+            return (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => {
+                  if (activeTab === item.id) {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  } else {
+                    setActiveTab(item.id);
+                    window.scrollTo({ top: 0, behavior: "instant" });
+                  }
+                }}
+                className="flex flex-col items-center justify-center min-w-[44px] min-h-[48px] py-1 px-0.5 rounded-2xl transition-all relative group cursor-pointer"
+              >
+                <div
+                  className={`flex items-center justify-center w-10 h-6.5 rounded-full transition-all ${
+                    isActive
+                      ? "bg-[#D1FAE5] text-[#0B4F4A] font-semibold"
+                      : "text-[#6B7E7A] group-hover:text-[#142321]"
+                  }`}
+                >
+                  <Icon className="h-[18px] w-[18px] stroke-[2.2]" />
+                  {hasBadge && (
+                    <span className="absolute top-1 right-2.5 w-2 h-2 rounded-full bg-[#DC2626] ring-2 ring-white animate-pulse" />
+                  )}
+                </div>
+                <span
+                  className={`text-[10px] mt-0.5 tracking-tight ${
+                    isActive
+                      ? "text-[#0B4F4A] font-bold"
+                      : "text-[#6B7E7A] font-medium"
+                  }`}
+                >
+                  {item.shortLabel}
+                </span>
+              </button>
+            );
+          })}
+        </div>
       </nav>
     </div>
   );

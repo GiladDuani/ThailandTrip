@@ -1,7 +1,28 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
-  <rect width="512" height="512" rx="112" fill="#0B4F4A"/>
-  <circle cx="256" cy="210" r="95" fill="#FDE68A" opacity="0.9"/>
-  <path d="M96 365 C176 330, 336 330, 416 365 L416 420 C336 390, 176 390, 96 420 Z" fill="#0D9488"/>
-  <text x="256" y="232" font-family="Rubik, Arial, sans-serif" font-size="78" font-weight="800" fill="#0B4F4A" text-anchor="middle">TH</text>
-  <text x="256" y="458" font-family="Rubik, Arial, sans-serif" font-size="44" font-weight="700" fill="#FAF7F2" text-anchor="middle">2026</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <!-- תאילנד 2026 - גלעד והדר (Pure Vector Squircle Icon like Zmanim) -->
+  <defs>
+    <linearGradient id="bgCanopy" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F6E66" />
+      <stop offset="100%" stop-color="#083B37" />
+    </linearGradient>
+    <linearGradient id="goldSun" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE68A" />
+      <stop offset="50%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+    <filter id="softGlow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#042421" flood-opacity="0.3" />
+    </filter>
+  </defs>
+
+  <!-- App Squircle -->
+  <rect width="512" height="512" rx="120" fill="url(#bgCanopy)" stroke="#14857B" stroke-width="5" />
+
+  <!-- Golden Tropical Sun / Crescent -->
+  <circle cx="256" cy="215" r="96" fill="url(#goldSun)" filter="url(#softGlow)" />
+
+  <!-- Andaman Sea Waves & Longtail Boat Silhouette (Pure Vector Paths, Zero Text Fonts) -->
+  <path d="M 86 348 C 156 312, 356 312, 426 348 L 426 388 C 356 352, 156 352, 86 388 Z" fill="#A7F3D0" opacity="0.9" />
+  <path d="M 116 406 C 186 376, 326 376, 396 406 L 396 436 C 326 406, 186 406, 116 436 Z" fill="#34D399" opacity="0.85" />
+  <path d="M 160 285 L 352 285 L 322 322 L 190 322 Z" fill="#FAF7F2" filter="url(#softGlow)" />
 </svg>
