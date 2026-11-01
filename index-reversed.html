@@ -1,0 +1,2222 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0d9488">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>תאילנד 2026 | מסלול חופשה ומדריך אינטראקטיבי</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700&family=Heebo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Leaflet Map CSS & JS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <style>
+    :root {
+      --bg: #f5f9f8;
+      --surface: #ffffff;
+      --surface-glass: rgba(255, 255, 255, 0.88);
+      --ink: #0f2922;
+      --ink-secondary: #4a635d;
+      --ink-tertiary: #879b95;
+      --border: #e0eae7;
+      
+      --tropical-emerald: #0d9488;
+      --tropical-dark: #0a4f47;
+      --tropical-light: #ccfbf1;
+      --tropical-accent: #0284c7;
+      
+      --sunset-gold: #d97706;
+      --sunset-bg: #fffbeb;
+      --sunset-border: #fef3c7;
+
+      --urgent: #dc2626;
+      --urgent-bg: #fef2f2;
+
+      --north-color: #0d9488;
+      --islands-color: #0284c7;
+      --andaman-color: #d97706;
+      --bangkok-color: #7c3aed;
+
+      --shadow-sm: 0 2px 8px rgba(10, 79, 71, 0.04);
+      --shadow-card: 0 8px 24px -4px rgba(10, 79, 71, 0.08), 0 2px 6px -1px rgba(10, 79, 71, 0.04);
+      --shadow-float: 0 16px 36px -8px rgba(10, 79, 71, 0.12);
+      
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Assistant', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+      font-size: 16px;
+      padding-bottom: 96px;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, .heebo-title {
+      font-family: 'Heebo', sans-serif;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    /* Tropical Vacation Hero */
+    .hero {
+      position: relative;
+      background: linear-gradient(170deg, #0a4f47 0%, #0d9488 60%, #14b8a6 100%);
+      color: #ffffff;
+      padding: 40px 20px 36px;
+      border-radius: 0 0 28px 28px;
+      box-shadow: var(--shadow-float);
+      overflow: hidden;
+    }
+
+    /* Subtle tropical water shimmer pattern overlay */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
+                  radial-gradient(circle at 20% 80%, rgba(2, 132, 199, 0.2) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(8px);
+      padding: 5px 14px;
+      border-radius: 9999px;
+      font-family: 'Heebo', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      line-height: 1.15;
+      margin-bottom: 8px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      opacity: 0.92;
+      font-weight: 400;
+      margin-bottom: 24px;
+    }
+
+    /* Summary Bar */
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.16);
+      backdrop-filter: blur(10px);
+      border-radius: var(--radius-md);
+      padding: 12px 8px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: 'Heebo', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 900;
+      color: #99f6e4;
+      line-height: 1.1;
+    }
+
+    .stat-lbl {
+      font-size: 0.75rem;
+      opacity: 0.88;
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    /* Container */
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    /* Flight Overview Card */
+    .flight-card {
+      background: var(--surface);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      margin-top: -18px;
+      margin-bottom: 22px;
+      box-shadow: var(--shadow-card);
+      border: 1px solid var(--border);
+      position: relative;
+      z-index: 10;
+    }
+
+    .flight-card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .flight-card-title {
+      font-family: 'Heebo', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--tropical-dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .flight-card-text {
+      font-size: 0.9rem;
+      color: var(--ink-secondary);
+      line-height: 1.55;
+    }
+
+    .flight-card-alert {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed var(--border);
+      font-size: 0.82rem;
+      color: var(--sunset-gold);
+      font-weight: 600;
+    }
+
+    /* Floating Navigation Tabs */
+    .nav-tabs-bar {
+      position: sticky;
+      top: 0;
+      background: var(--surface-glass);
+      backdrop-filter: blur(12px);
+      z-index: 50;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+
+    .nav-tabs-track {
+      max-width: 680px;
+      margin: 0 auto;
+      display: flex;
+      gap: 20px;
+      padding: 0 16px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .nav-tabs-track::-webkit-scrollbar { display: none; }
+
+    .nav-tab-link {
+      background: none;
+      border: none;
+      font-family: 'Heebo', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--ink-secondary);
+      padding: 14px 2px;
+      cursor: pointer;
+      white-space: nowrap;
+      position: relative;
+      transition: color 0.15s ease;
+    }
+
+    .nav-tab-link.active {
+      color: var(--tropical-emerald);
+    }
+
+    .nav-tab-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--tropical-emerald);
+      border-radius: 3px 3px 0 0;
+    }
+
+    /* Search & Region Filter Bar */
+    .filter-wrapper {
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .search-box {
+      position: relative;
+    }
+
+    .search-field {
+      width: 100%;
+      padding: 12px 42px 12px 16px;
+      border: 1px solid var(--border);
+      border-radius: 9999px;
+      background: var(--surface);
+      font-family: inherit;
+      font-size: 0.92rem;
+      color: var(--ink);
+      outline: none;
+      box-shadow: var(--shadow-sm);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .search-field:focus {
+      border-color: var(--tropical-emerald);
+      box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
+    }
+
+    .search-icon-svg {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--ink-tertiary);
+      pointer-events: none;
+    }
+
+    .chips-carousel {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 4px;
+    }
+    .chips-carousel::-webkit-scrollbar { display: none; }
+
+    .filter-chip {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--ink-secondary);
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-family: 'Heebo', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .filter-chip.active {
+      background: var(--tropical-emerald);
+      color: #ffffff;
+      border-color: var(--tropical-emerald);
+    }
+
+    /* Tab Views */
+    .tab-section {
+      display: none;
+    }
+    .tab-section.active {
+      display: block;
+    }
+
+    /* Scroll Float Animation */
+    .fade-up-card {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+
+    .fade-up-card.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ================= CALENDAR VIEW STYLES ================= */
+    .calendar-container {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .month-card {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-card);
+    }
+
+    .month-header {
+      font-family: 'Heebo', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--tropical-dark);
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .month-legend {
+      font-size: 0.78rem;
+      color: var(--ink-secondary);
+      font-weight: 500;
+    }
+
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+      text-align: center;
+    }
+
+    .cal-day-name {
+      font-family: 'Heebo', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--ink-tertiary);
+      padding-bottom: 6px;
+    }
+
+    .cal-cell {
+      aspect-ratio: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-sm);
+      font-family: 'Heebo', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--ink-secondary);
+      background: #fafaf9;
+      position: relative;
+      cursor: default;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .cal-cell.empty {
+      background: transparent;
+      cursor: default;
+    }
+
+    .cal-cell.trip-day {
+      color: #ffffff;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .cal-cell.trip-day:hover {
+      transform: scale(1.08);
+      z-index: 5;
+    }
+
+    .cal-cell.region-north { background: var(--north-color); }
+    .cal-cell.region-phuket_phiphi, .cal-cell.region-gulf_islands { background: var(--islands-color); }
+    .cal-cell.region-krabi, .cal-cell.region-andaman { background: var(--andaman-color); }
+    .cal-cell.region-bangkok { background: var(--bangkok-color); }
+
+    .cal-cell.is-shabbat-cell {
+      border: 2px solid #fbbf24;
+      box-shadow: 0 0 10px rgba(251, 191, 36, 0.4);
+    }
+
+    .cal-cell-shabbat-dot {
+      position: absolute;
+      top: 3px;
+      right: 3px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #fbbf24;
+    }
+
+    .cal-cell-daynum {
+      font-size: 0.62rem;
+      opacity: 0.88;
+      line-height: 1;
+      margin-top: 1px;
+    }
+
+    .cal-legend-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px dashed var(--border);
+      font-size: 0.78rem;
+    }
+
+    .cal-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .legend-color-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+    }
+
+    /* ================= ITINERARY CARDS ================= */
+    .day-card {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-card);
+      position: relative;
+    }
+
+    .day-card.shabbat-card {
+      border: 2px solid #f59e0b;
+      background: linear-gradient(180deg, #fffdf8 0%, #ffffff 100%);
+      box-shadow: 0 10px 28px -4px rgba(217, 119, 6, 0.15);
+    }
+
+    .day-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+
+    .day-meta-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Heebo', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      color: #ffffff;
+    }
+
+    .day-date-str {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--ink-secondary);
+    }
+
+    .day-title {
+      font-family: 'Heebo', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--ink);
+      line-height: 1.35;
+      margin-bottom: 12px;
+    }
+
+    .day-card.shabbat-card .day-title {
+      color: #b45309;
+    }
+
+    .transit-strip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #f8fafc;
+      border: 1px dashed #cbd5e1;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 0.84rem;
+      color: var(--ink-secondary);
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+
+    .transit-strip svg {
+      flex-shrink: 0;
+      color: var(--tropical-emerald);
+    }
+
+    .activity-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .activity-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 0.92rem;
+      color: #334155;
+      line-height: 1.5;
+    }
+
+    .activity-dot {
+      color: var(--tropical-emerald);
+      font-weight: 800;
+      line-height: 1.3;
+    }
+
+    .place-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--tropical-emerald);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.82rem;
+      background: var(--tropical-light);
+      padding: 2px 8px;
+      border-radius: 6px;
+      margin-right: 6px;
+      transition: background 0.15s;
+    }
+
+    .place-link:hover {
+      background: #99f6e4;
+    }
+
+    .info-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: #0369a1;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.82rem;
+      background: #e0f2fe;
+      padding: 2px 8px;
+      border-radius: 6px;
+      margin-right: 6px;
+      transition: background 0.15s;
+    }
+
+    .info-link:hover {
+      background: #bae6fd;
+    }
+
+    .day-footer {
+      padding-top: 12px;
+      border-top: 1px solid #f1f5f9;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 0.85rem;
+    }
+
+    .info-line {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--ink-secondary);
+    }
+
+    .info-line strong {
+      color: var(--ink);
+    }
+
+    .tip-box {
+      background: #fffbeb;
+      border-right: 3px solid #f59e0b;
+      padding: 8px 12px;
+      border-radius: 6px;
+      color: #92400e;
+      font-size: 0.84rem;
+      line-height: 1.45;
+    }
+
+    /* Personal Notes */
+    .user-note-wrapper {
+      margin-top: 6px;
+    }
+
+    .note-toggle-btn {
+      background: none;
+      border: none;
+      color: var(--tropical-emerald);
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 0;
+    }
+
+    .note-edit-area {
+      display: none;
+      width: 100%;
+      margin-top: 6px;
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.86rem;
+    }
+
+    .note-content-saved {
+      display: none;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: #166534;
+      padding: 6px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      margin-top: 6px;
+    }
+
+    /* ================= SHABBAT SECTION ================= */
+    .shabbat-card-item {
+      background: var(--surface);
+      border: 2px solid #f59e0b;
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      margin-bottom: 22px;
+      box-shadow: 0 10px 28px -4px rgba(217, 119, 6, 0.12);
+    }
+
+    .shabbat-item-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 12px;
+    }
+
+    .shabbat-item-title {
+      font-family: 'Heebo', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #b45309;
+    }
+
+    .shabbat-badge-date {
+      font-family: 'Heebo', sans-serif;
+      font-size: 0.84rem;
+      font-weight: 700;
+      background: #fef3c7;
+      color: #92400e;
+      padding: 4px 10px;
+      border-radius: 9999px;
+    }
+
+    .shabbat-links-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 12px 0;
+    }
+
+    .btn-chabad-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #fef3c7;
+      color: #92400e;
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 0.84rem;
+      font-weight: 700;
+      transition: background 0.15s;
+    }
+
+    .btn-chabad-link:hover {
+      background: #fde68a;
+    }
+
+    .hotels-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .hotel-row {
+      background: #fafaf9;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .hotel-row-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hotel-row-name {
+      font-family: 'Heebo', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .hotel-row-note {
+      font-size: 0.8rem;
+      color: var(--ink-secondary);
+    }
+
+    /* ================= BOOKINGS & CHECKLIST ================= */
+    .booking-task-card {
+      background: var(--surface);
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      margin-bottom: 14px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      display: grid;
+      grid-template-columns: 26px 1fr;
+      gap: 14px;
+      align-items: flex-start;
+      transition: all 0.2s ease;
+    }
+
+    .booking-task-card.is-done {
+      background: #f8fafc;
+      opacity: 0.6;
+    }
+
+    .booking-task-card.is-done .task-main-title {
+      text-decoration: line-through;
+      color: var(--ink-secondary);
+    }
+
+    .task-check-box {
+      width: 22px;
+      height: 22px;
+      border: 2px solid var(--border);
+      border-radius: 6px;
+      margin-top: 2px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: #ffffff;
+      transition: all 0.15s ease;
+    }
+
+    .booking-task-card.is-done .task-check-box {
+      background: var(--tropical-emerald);
+      border-color: var(--tropical-emerald);
+    }
+
+    .task-body {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .task-header-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .task-main-title {
+      font-family: 'Heebo', sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .deadline-badge {
+      font-family: 'Heebo', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      background: #f1f5f9;
+      color: #475569;
+      white-space: nowrap;
+    }
+
+    .deadline-badge.critical {
+      background: #fee2e2;
+      color: #dc2626;
+      border: 1px solid #fca5a5;
+    }
+
+    .deadline-badge.high {
+      background: #ffedd5;
+      color: #c2410c;
+    }
+
+    .task-description {
+      font-size: 0.88rem;
+      color: var(--ink-secondary);
+      line-height: 1.45;
+    }
+
+    .task-warning-note {
+      font-size: 0.8rem;
+      color: #b91c1c;
+      font-weight: 600;
+      background: #fef2f2;
+      padding: 4px 8px;
+      border-radius: 4px;
+      margin-top: 4px;
+    }
+
+    .task-action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 6px;
+      color: var(--tropical-emerald);
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .add-btn-block {
+      width: 100%;
+      padding: 14px;
+      background: var(--surface);
+      border: 2px dashed var(--tropical-emerald);
+      color: var(--tropical-emerald);
+      border-radius: var(--radius-md);
+      font-family: 'Heebo', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 20px;
+      transition: background 0.15s;
+    }
+
+    .add-btn-block:active {
+      background: var(--tropical-light);
+    }
+
+    /* ================= RECOMMENDATIONS ================= */
+    .rec-group {
+      margin-bottom: 24px;
+    }
+
+    .rec-group-title {
+      font-family: 'Heebo', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--tropical-dark);
+      margin-bottom: 12px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .rec-card-item {
+      background: var(--surface);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      margin-bottom: 10px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .rec-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    .rec-name {
+      font-family: 'Heebo', sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .rec-body {
+      font-size: 0.88rem;
+      color: var(--ink-secondary);
+      line-height: 1.5;
+    }
+
+    /* ================= MAP SECTION STYLES ================= */
+    .map-card-box {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-card);
+      margin-bottom: 20px;
+    }
+
+    .map-nav-pills {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+    .map-nav-pills::-webkit-scrollbar { display: none; }
+
+    .map-btn-pill {
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      border-radius: 9999px;
+      font-family: 'Heebo', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--ink-secondary);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+
+    .map-btn-pill.active, .map-btn-pill:hover {
+      background: var(--tropical-emerald);
+      color: #ffffff;
+      border-color: var(--tropical-emerald);
+    }
+
+    #interactiveMap {
+      width: 100%;
+      height: 380px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      margin-bottom: 14px;
+      z-index: 10;
+    }
+
+    .gmap-embed-wrapper {
+      width: 100%;
+      height: 320px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      margin-bottom: 14px;
+      background: #eae8e1;
+    }
+
+    .gmap-embed-wrapper iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .btn-full-gmaps {
+      width: 100%;
+      padding: 13px;
+      background: var(--tropical-emerald);
+      color: #ffffff;
+      border: none;
+      border-radius: var(--radius-md);
+      font-family: 'Heebo', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 14px rgba(13, 148, 136, 0.2);
+      transition: background 0.15s;
+      margin-bottom: 18px;
+    }
+
+    .btn-full-gmaps:hover {
+      background: var(--tropical-dark);
+    }
+
+    .places-list-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .place-item-card {
+      background: var(--surface);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .place-item-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .place-item-name {
+      font-family: 'Heebo', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .place-item-dates {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--tropical-emerald);
+    }
+
+    .place-item-desc {
+      font-size: 0.83rem;
+      color: var(--ink-secondary);
+    }
+
+    /* ================= MOBILE BOTTOM DOCK ================= */
+    .dock-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(16px);
+      border-top: 1px solid var(--border);
+      padding: 6px 8px calc(6px + env(safe-area-inset-bottom, 0px));
+      z-index: 100;
+      max-width: 680px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .dock-tab {
+      background: none;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      color: var(--ink-secondary);
+      font-family: 'Heebo', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 3px 0;
+      transition: color 0.15s ease;
+    }
+
+    .dock-tab.active {
+      color: var(--tropical-emerald);
+    }
+
+    .dock-tab svg {
+      width: 20px;
+      height: 20px;
+      stroke-width: 2;
+    }
+
+    /* Modal Form */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal-sheet {
+      background: var(--surface);
+      width: 100%;
+      max-width: 680px;
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+      padding: 24px 20px calc(24px + env(safe-area-inset-bottom, 0px));
+      box-shadow: var(--shadow-float);
+    }
+
+    .modal-title-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .modal-title-bar h3 {
+      font-size: 1.25rem;
+      color: var(--ink);
+    }
+
+    .modal-close-x {
+      background: #f1f5f9;
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 1rem;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .field-row {
+      margin-bottom: 12px;
+    }
+
+    .field-lbl {
+      display: block;
+      font-family: 'Heebo', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--ink-secondary);
+      margin-bottom: 4px;
+    }
+
+    .field-input, .field-select, .field-textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    .field-input:focus, .field-select:focus, .field-textarea:focus {
+      border-color: var(--tropical-emerald);
+    }
+
+    .btn-save-task {
+      width: 100%;
+      padding: 14px;
+      background: var(--tropical-emerald);
+      color: #ffffff;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: 'Heebo', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 2.1rem; }
+      .stat-num { font-size: 1.25rem; }
+      .day-card { padding: 18px 16px; }
+      .day-title { font-size: 1.15rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero Header -->
+  <header class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">🌴 מסלול הפוך וחכם (עוקף פסטיבל הפנסים) – מאור הוכהויזר ורעייתו</div>
+      <div style="margin-bottom:10px;"><a href="index.html" style="display:inline-block;background:rgba(255,255,255,0.2);color:#fff;padding:5px 14px;border-radius:999px;text-decoration:none;font-size:0.82rem;font-weight:700;border:1px solid rgba(255,255,255,0.4);">🔄 מעבר למסלול המקורי (צפון ← דרום) ↗</a></div>
+      <h1>תאילנד 2026</h1>
+      <div class="hero-sub">22 בנובמבר עד 14 בדצמבר 2026 • קופיפי • פוקט (שבת) • קראבי • צ'יאנג מאי • בנגקוק</div>
+
+      <div class="hero-stats">
+        <div>
+          <div class="stat-num">23</div>
+          <div class="stat-lbl">ימי טיול</div>
+        </div>
+        <div>
+          <div class="stat-num">5</div>
+          <div class="stat-lbl">יעדים</div>
+        </div>
+        <div>
+          <div class="stat-num">3</div>
+          <div class="stat-lbl">שבתות</div>
+        </div>
+        <div>
+          <div class="stat-num" id="totalBookingsCounter">12</div>
+          <div class="stat-lbl">הזמנות מראש</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Flight Information Card -->
+    <div class="flight-card fade-up-card revealed">
+      <div class="flight-card-head">
+        <div class="flight-card-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          <span>טיסות בינלאומיות (Etihad Airways)</span>
+        </div>
+        <a href="https://maps.google.com/?q=Suvarnabhumi+Airport" target="_blank" class="place-link">נמל BKK ↗</a>
+      </div>
+      <div class="flight-card-text">
+        <strong>✈️ הלוך (ראשון 22.11):</strong><br>
+        • <code>EY 610</code> מת"א (06:20) לאבו דאבי (11:15) | Airbus A321<br>
+        • <code>EY 400</code> מאבו דאבי (14:20) לבנגקוק BKK (<strong>נחיתה ב-23:40 בליל ראשון</strong>) | Boeing 787-9<br>
+        <div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--border);">
+          <strong>✈️ חזור (שני 14.12 לפנות בוקר – יציאה לשדה במוצאי ראשון 13.12 ב-23:15):</strong><br>
+          • <code>EY 401</code> מבנגקוק BKK (<strong>02:55 לפנות בוקר</strong>) לאבו דאבי (06:45) | Boeing 787-9<br>
+          • <code>EY 593</code> מאבו דאבי (08:45) לת"א (<strong>נחיתה ב-10:20 בבוקר</strong>) | Airbus A321
+        </div>
+      </div>
+      <div class="flight-card-alert">
+        💡 מסלול הפוך וחכם: בבוקר יום שני (23.11) טסים ישירות לפוקט ומפליגים לקופיפי, שבת ראשונה בפוקט (3 לילות בלבד סביב בית חב״ד), עוברים לקראבי וטסים בטיסה ישירה מקראבי לצ'יאנג מאי (03.12) אחרי פסטיבל הפנסים — חיסכון של אלפי שקלים וזמינות מלאה במלונות 4★!
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="nav-tabs-bar">
+      <div class="nav-tabs-track">
+        <button class="nav-tab-link active" data-tab="itinerary">לו״ז יומי</button>
+        <button class="nav-tab-link" data-tab="calendar">לוח שנה מלא</button>
+        <button class="nav-tab-link" data-tab="map">מפת המסלול</button>
+        <button class="nav-tab-link" data-tab="shabbat">3 עוגני השבת</button>
+        <button class="nav-tab-link" data-tab="bookings">הזמנות ודדליינים</button>
+        <button class="nav-tab-link" data-tab="recommendations">המלצות ומקומות</button>
+      </div>
+    </div>
+
+    <!-- Filter & Search Controls (for Itinerary) -->
+    <div id="controlsWrap" class="filter-wrapper">
+      <div class="search-box">
+        <input type="text" id="liveSearchInput" class="search-field" placeholder="חיפוש יום, עיר, אטרקציה, מלון...">
+        <svg class="search-icon-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </div>
+      <div class="chips-carousel">
+        <button class="filter-chip active" data-filter="all">כל הימים (23)</button>
+        <button class="filter-chip" data-filter="phuket_phiphi">קופיפי ופוקט (23–29.11)</button>
+        <button class="filter-chip" data-filter="krabi">קראבי וריילי (29.11–03.12)</button>
+        <button class="filter-chip" data-filter="north">צ'יאנג מאי (03–09.12)</button>
+        <button class="filter-chip" data-filter="bangkok">בנגקוק (09–14.12)</button>
+        <button class="filter-chip" data-filter="shabbat">שבתות בלבד (3)</button>
+      </div>
+    </div>
+
+    <!-- ================= TAB 1: ITINERARY ================= -->
+    <section id="tab-itinerary" class="tab-section active">
+      <div id="daysContainer">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+    <!-- ================= TAB 2: CALENDAR ================= -->
+    <section id="tab-calendar" class="tab-section">
+      <div class="calendar-container">
+        
+        <!-- November 2026 -->
+        <div class="month-card fade-up-card revealed">
+          <div class="month-header">
+            <span>נובמבר 2026</span>
+            <span class="month-legend">ימים 1–9 למסע</span>
+          </div>
+          <div class="cal-grid">
+            <div class="cal-day-name">א׳</div>
+            <div class="cal-day-name">ב׳</div>
+            <div class="cal-day-name">ג׳</div>
+            <div class="cal-day-name">ד׳</div>
+            <div class="cal-day-name">ה׳</div>
+            <div class="cal-day-name">ו׳</div>
+            <div class="cal-day-name">ש׳</div>
+            <!-- Nov 1 was Sunday, 30 days total -->
+            <div class="cal-cell">1</div>
+            <div class="cal-cell">2</div>
+            <div class="cal-cell">3</div>
+            <div class="cal-cell">4</div>
+            <div class="cal-cell">5</div>
+            <div class="cal-cell">6</div>
+            <div class="cal-cell">7</div>
+            <div class="cal-cell">8</div>
+            <div class="cal-cell">9</div>
+            <div class="cal-cell">10</div>
+            <div class="cal-cell">11</div>
+            <div class="cal-cell">12</div>
+            <div class="cal-cell">13</div>
+            <div class="cal-cell">14</div>
+            <div class="cal-cell">15</div>
+            <div class="cal-cell">16</div>
+            <div class="cal-cell">17</div>
+            <div class="cal-cell">18</div>
+            <div class="cal-cell">19</div>
+            <div class="cal-cell">20</div>
+            <div class="cal-cell">21</div>
+
+            <!-- TRIP STARTS -->
+            <div class="cal-cell trip-day region-phuket_phiphi" onclick="jumpToDay(1)" title="יום 1: המראה מישראל ונחיתה ב-BKK ב-23:40">
+              <span>22</span>
+              <span class="cal-cell-daynum">יום 1</span>
+            </div>
+            <div class="cal-cell trip-day region-phuket_phiphi" onclick="jumpToDay(2)" title="יום 2: טיסה לפוקט והפלגה לקופיפי">
+              <span>23</span>
+              <span class="cal-cell-daynum">לקופיפי</span>
+            </div>
+            <div class="cal-cell trip-day region-phuket_phiphi" onclick="jumpToDay(3)" title="יום 3: קופיפי – שייט מאיה ביי ולגונת פילה">
+              <span>24</span>
+              <span class="cal-cell-daynum">מאיה ביי</span>
+            </div>
+            <div class="cal-cell trip-day region-phuket_phiphi" onclick="jumpToDay(4)" title="יום 4: קופיפי – אי הבמבוק ותצפית">
+              <span>25</span>
+              <span class="cal-cell-daynum">קופיפי</span>
+            </div>
+            <div class="cal-cell trip-day region-phuket_phiphi" onclick="jumpToDay(5)" title="יום 5: מעבורת לפוקט (3 לילות ליד בית חב״ד)">
+              <span>26</span>
+              <span class="cal-cell-daynum">לפוקט</span>
+            </div>
+            <div class="cal-cell trip-day region-phuket_phiphi" onclick="jumpToDay(6)" title="יום 6: פוקט – חוף פרידום והכנות לשבת">
+              <span>27</span>
+              <span class="cal-cell-daynum">פוקט</span>
+            </div>
+            <div class="cal-cell trip-day region-phuket_phiphi is-shabbat-cell" onclick="jumpToDay(7)" title="יום 7: שבת 1 בבית חב״ד פוקט">
+              <span class="cal-cell-shabbat-dot"></span>
+              <span>28</span>
+              <span class="cal-cell-daynum">שבת 1</span>
+            </div>
+            <div class="cal-cell trip-day region-krabi" onclick="jumpToDay(8)" title="יום 8: מעבר מפוקט לקראבי (או נאנג)">
+              <span>29</span>
+              <span class="cal-cell-daynum">לקראבי</span>
+            </div>
+            <div class="cal-cell trip-day region-krabi" onclick="jumpToDay(9)" title="יום 9: קראבי – ריילי ביץ' וחוף פרא נאנג">
+              <span>30</span>
+              <span class="cal-cell-daynum">ריילי ביץ'</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- December 2026 -->
+        <div class="month-card fade-up-card revealed">
+          <div class="month-header">
+            <span>דצמבר 2026</span>
+            <span class="month-legend">ימים 10–23 למסע</span>
+          </div>
+          <div class="cal-grid">
+            <div class="cal-day-name">א׳</div>
+            <div class="cal-day-name">ב׳</div>
+            <div class="cal-day-name">ג׳</div>
+            <div class="cal-day-name">ד׳</div>
+            <div class="cal-day-name">ה׳</div>
+            <div class="cal-day-name">ו׳</div>
+            <div class="cal-day-name">ש׳</div>
+            <!-- Dec 1 is Tuesday: Sun & Mon empty -->
+            <div class="cal-cell empty"></div>
+            <div class="cal-cell empty"></div>
+
+            <div class="cal-cell trip-day region-krabi" onclick="jumpToDay(10)" title="יום 10: קראבי – שייט האי הונג או 4 האיים">
+              <span>1</span>
+              <span class="cal-cell-daynum">האי הונג</span>
+            </div>
+            <div class="cal-cell trip-day region-krabi" onclick="jumpToDay(11)" title="יום 11: קראבי – בריכת הברקת ומעיינות חמים">
+              <span>2</span>
+              <span class="cal-cell-daynum">בריכת הברקת</span>
+            </div>
+            <div class="cal-cell trip-day region-north" onclick="jumpToDay(12)" title="יום 12: טיסה ישירה מקראבי לצ'יאנג מאי">
+              <span>3</span>
+              <span class="cal-cell-daynum">לצ'יאנג מאי</span>
+            </div>
+            <div class="cal-cell trip-day region-north" onclick="jumpToDay(13)" title="יום 13: צ'יאנג מאי – דוי סותפ והכנות לשבת">
+              <span>4</span>
+              <span class="cal-cell-daynum">דוי סותפ</span>
+            </div>
+            <div class="cal-cell trip-day region-north is-shabbat-cell" onclick="jumpToDay(14)" title="יום 14: שבת 2 בבית חב״ד צ'יאנג מאי + נר א' חנוכה">
+              <span class="cal-cell-shabbat-dot"></span>
+              <span>5</span>
+              <span class="cal-cell-daynum">שבת 2</span>
+            </div>
+            <div class="cal-cell trip-day region-north" onclick="jumpToDay(15)" title="יום 15: צ'יאנג מאי – שמורת דוי אינתנון ושוק יום ראשון">
+              <span>6</span>
+              <span class="cal-cell-daynum">דוי אינתנון</span>
+            </div>
+            <div class="cal-cell trip-day region-north" onclick="jumpToDay(16)" title="יום 16: צ'יאנג מאי – חוות פילים והמפלים הדביקים">
+              <span>7</span>
+              <span class="cal-cell-daynum">פילים ומפלים</span>
+            </div>
+            <div class="cal-cell trip-day region-north" onclick="jumpToDay(17)" title="יום 17: צ'יאנג מאי – מון ג'אם ואומגות בג'ונגל">
+              <span>8</span>
+              <span class="cal-cell-daynum">מון ג'אם</span>
+            </div>
+            <div class="cal-cell trip-day region-bangkok" onclick="jumpToDay(18)" title="יום 18: טיסה מצ'יאנג מאי לבנגקוק">
+              <span>9</span>
+              <span class="cal-cell-daynum">לבנגקוק</span>
+            </div>
+            <div class="cal-cell trip-day region-bangkok" onclick="jumpToDay(19)" title="יום 19: בנגקוק – שייט בנהר וקניון ICONSIAM">
+              <span>10</span>
+              <span class="cal-cell-daynum">בנגקוק</span>
+            </div>
+            <div class="cal-cell trip-day region-bangkok" onclick="jumpToDay(20)" title="יום 20: בנגקוק – קניון פלטינום והכנות לשבת">
+              <span>11</span>
+              <span class="cal-cell-daynum">בנגקוק</span>
+            </div>
+            <div class="cal-cell trip-day region-bangkok is-shabbat-cell" onclick="jumpToDay(21)" title="יום 21: שבת 3 בבית חב״ד בנגקוק (חנוכה)">
+              <span class="cal-cell-shabbat-dot"></span>
+              <span>12</span>
+              <span class="cal-cell-daynum">שבת 3</span>
+            </div>
+            <div class="cal-cell trip-day region-bangkok" onclick="jumpToDay(22)" title="יום 22: בנגקוק – שוק צ'אטוצ'אק, MBK ויציאה לשדה ב-23:15">
+              <span>13</span>
+              <span class="cal-cell-daynum">שופינג</span>
+            </div>
+            <div class="cal-cell trip-day region-bangkok" onclick="jumpToDay(23)" title="יום 23: טיסה EY 401 ב-02:55 ונחיתה בנתב״ג ב-10:20">
+              <span>14</span>
+              <span class="cal-cell-daynum">נחיתה בארץ</span>
+            </div>
+            <div class="cal-cell">15</div>
+            <div class="cal-cell">16</div>
+            <div class="cal-cell">17</div>
+            <div class="cal-cell">18</div>
+            <div class="cal-cell">19</div>
+            <div class="cal-cell">20</div>
+            <div class="cal-cell">21</div>
+            <div class="cal-cell">22</div>
+            <div class="cal-cell">23</div>
+            <div class="cal-cell">24</div>
+            <div class="cal-cell">25</div>
+            <div class="cal-cell">26</div>
+            <div class="cal-cell">27</div>
+            <div class="cal-cell">28</div>
+            <div class="cal-cell">29</div>
+            <div class="cal-cell">30</div>
+            <div class="cal-cell">31</div>
+          </div>
+
+          <div class="cal-legend-bar">
+            <div class="cal-legend-item">
+              <span class="legend-color-dot" style="background: var(--islands-color);"></span>
+              <span>קופיפי ופוקט (23–29.11)</span>
+            </div>
+            <div class="cal-legend-item">
+              <span class="legend-color-dot" style="background: var(--andaman-color);"></span>
+              <span>קראבי וריילי (29.11–03.12)</span>
+            </div>
+            <div class="cal-legend-item">
+              <span class="legend-color-dot" style="background: var(--north-color);"></span>
+              <span>צ'יאנג מאי (03–09.12)</span>
+            </div>
+            <div class="cal-legend-item">
+              <span class="legend-color-dot" style="background: var(--bangkok-color);"></span>
+              <span>בנגקוק (09–14.12)</span>
+            </div>
+            <div class="cal-legend-item">
+              <span class="legend-color-dot" style="background: #fbbf24;"></span>
+              <span>שבתות (פוקט, צ'יאנג מאי, בנגקוק)</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= TAB 2.5: INTERACTIVE GOOGLE MAP ================= -->
+    <section id="tab-map" class="tab-section">
+      <div class="map-card-box fade-up-card revealed">
+        <div class="month-header" style="margin-bottom: 12px;">
+          <span>מפת המסלול בתאילנד</span>
+          <span class="month-legend">קופיפי • פוקט (שבת) • קראבי • צ'יאנג מאי • בנגקוק</span>
+        </div>
+
+        <!-- Quick Waypoint Filter Pills -->
+        <div class="map-nav-pills" id="mapPillsBar">
+          <button class="map-btn-pill active" onclick="focusMapPlace('all', this)">כל המסלול בתאילנד</button>
+          <button class="map-btn-pill" onclick="focusMapPlace('phi_phi', this)">1. קופיפי (23–26.11)</button>
+          <button class="map-btn-pill" onclick="focusMapPlace('phuket', this)">2. פוקט – חב״ד ושבת (26–29.11)</button>
+          <button class="map-btn-pill" onclick="focusMapPlace('krabi', this)">3. קראבי וריילי (29.11–03.12)</button>
+          <button class="map-btn-pill" onclick="focusMapPlace('chiang_mai', this)">4. צ'יאנג מאי (03–09.12)</button>
+          <button class="map-btn-pill" onclick="focusMapPlace('doi_inthanon', this)">5. דוי אינתנון</button>
+          <button class="map-btn-pill" onclick="focusMapPlace('mon_jam', this)">6. מון ג'אם והמפלים</button>
+          <button class="map-btn-pill" onclick="focusMapPlace('bangkok', this)">7. בנגקוק (09–14.12)</button>
+        </div>
+
+        <!-- Interactive Multi-Marker Map with Google Maps Hebrew Tiles -->
+        <div id="interactiveMap"></div>
+
+        <!-- Direct Full Route Button for Google Maps App -->
+        <a href="https://www.google.com/maps/dir/Ko+Phi+Phi+Don+Thailand/Patong+Beach+Phuket+Thailand/Railay+Beach+Krabi+Thailand/Chiang+Mai+Thailand/Doi+Inthanon+National+Park/Bangkok+Thailand" target="_blank" class="btn-full-gmaps">
+          <span>🗺️</span>
+          <span>פתח את כל מסלול הטיול באפליקציית Google Maps ↗</span>
+        </a>
+
+        <!-- Live Google Maps Embed View for Selected Destination -->
+        <div style="font-family: 'Heebo', sans-serif; font-size: 0.92rem; font-weight: 700; color: var(--ink); margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+          <span id="gmapEmbedTitle">תצוגת Google Maps חיה: צ'יאנג מאי והצפון</span>
+          <a id="gmapDirectLink" href="https://maps.google.com/?q=Chiang+Mai+Thailand" target="_blank" class="place-link">פתח בגוגל מפות ↗</a>
+        </div>
+        <div class="gmap-embed-wrapper">
+          <iframe id="gmapFrame" src="https://maps.google.com/maps?q=Chiang+Mai+Thailand&hl=iw&z=11&output=embed" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+
+      <!-- Waypoint Cards List -->
+      <div class="places-list-stack" id="mapPlacesList">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+    <!-- ================= TAB 3: SHABBAT ================= -->
+    <section id="tab-shabbat" class="tab-section">
+      <div id="shabbatContainer">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+    <!-- ================= TAB 4: BOOKINGS ================= -->
+    <section id="tab-bookings" class="tab-section">
+      <button class="add-btn-block" onclick="openAddTaskModal()">
+        <span>➕</span>
+        <span>הוסף הזמנה או משימה מותאמת אישית</span>
+      </button>
+      <div id="tasksContainer">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+    <!-- ================= TAB 5: RECOMMENDATIONS ================= -->
+    <section id="tab-recommendations" class="tab-section">
+      <div id="recsContainer">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Mobile Floating Thumb Dock -->
+  <nav class="dock-nav">
+    <button class="dock-tab active" data-target="itinerary">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      <span>לו״ז</span>
+    </button>
+    <button class="dock-tab" data-target="calendar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg>
+      <span>לוח שנה</span>
+    </button>
+    <button class="dock-tab" data-target="map">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+      <span>מפה</span>
+    </button>
+    <button class="dock-tab" data-target="shabbat">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2c.6 1.4 1.8 2.2 1.8 3.5a1.8 1.8 0 1 1-3.6 0C10.2 4.2 11.4 3.4 12 2z"/><rect x="8" y="9" width="8" height="13" rx="1.5"/><line x1="12" y1="5.5" x2="12" y2="9"/></svg>
+      <span>שבתות</span>
+    </button>
+    <button class="dock-tab" data-target="bookings">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      <span>הזמנות</span>
+    </button>
+    <button class="dock-tab" data-target="recommendations">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <span>המלצות</span>
+    </button>
+  </nav>
+
+  <!-- Add Task Modal -->
+  <div id="addTaskModal" class="modal-overlay">
+    <div class="modal-sheet">
+      <div class="modal-title-bar">
+        <h3>הוספת הזמנה / משימה חדשה</h3>
+        <button class="modal-close-x" onclick="closeAddTaskModal()">✕</button>
+      </div>
+      <form id="newTaskForm" onsubmit="handleSaveTask(event)">
+        <div class="field-row">
+          <label class="field-lbl">שם ההזמנה</label>
+          <input type="text" id="newTaskTitle" class="field-input" placeholder="למשל: סגירת ריזורט בריילי ביץ'..." required>
+        </div>
+        <div class="field-row">
+          <label class="field-lbl">תאריך דדליין מדויק</label>
+          <input type="date" id="newTaskDeadline" class="field-input" required>
+        </div>
+        <div class="field-row">
+          <label class="field-lbl">רמת דחיפות</label>
+          <select id="newTaskUrgency" class="field-select">
+            <option value="critical">קריטית (מיידית)</option>
+            <option value="high" selected>גבוהה</option>
+            <option value="medium">בינונית</option>
+          </select>
+        </div>
+        <div class="field-row">
+          <label class="field-lbl">פרטים / קישורים</label>
+          <textarea id="newTaskDesc" class="field-textarea" rows="3" placeholder="הערות, שמות מלונות, קישורים..."></textarea>
+        </div>
+        <button type="submit" class="btn-save-task">שמור משימה</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="data-reversed.js"></script>
+  <script>
+    // LocalStorage Keys
+    const KEY_TASKS = 'thailand_tasks_rev_v1';
+    const KEY_CHECKED = 'thailand_checked_rev_v1';
+    const KEY_NOTES = 'thailand_notes_rev_v1';
+
+    let checkedTasks = JSON.parse(localStorage.getItem(KEY_CHECKED) || '{}');
+    let customTasks = JSON.parse(localStorage.getItem(KEY_TASKS) || '[]');
+    let dayNotes = JSON.parse(localStorage.getItem(KEY_NOTES) || '{}');
+
+    let currentFilter = 'all';
+    let currentSearch = '';
+
+    const daysContainer = document.getElementById('daysContainer');
+    const tasksContainer = document.getElementById('tasksContainer');
+    const shabbatContainer = document.getElementById('shabbatContainer');
+    const recsContainer = document.getElementById('recsContainer');
+    const liveSearchInput = document.getElementById('liveSearchInput');
+    const controlsWrap = document.getElementById('controlsWrap');
+
+    // Switch Tab Logic
+    function activateTab(tabId) {
+      document.querySelectorAll('.nav-tab-link').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-tab') === tabId);
+      });
+      document.querySelectorAll('.dock-tab').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-target') === tabId);
+      });
+      document.querySelectorAll('.tab-section').forEach(sec => {
+        sec.classList.toggle('active', sec.id === `tab-${tabId}`);
+      });
+
+      // Show filter controls only on Itinerary tab
+      controlsWrap.style.display = (tabId === 'itinerary') ? 'flex' : 'none';
+
+      if (tabId === 'map') {
+        initLeafletMap();
+        setTimeout(() => {
+          if (leafletMap) leafletMap.invalidateSize();
+        }, 120);
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      initScrollAnimations();
+    }
+
+    document.querySelectorAll('.nav-tab-link').forEach(btn => {
+      btn.addEventListener('click', () => activateTab(btn.getAttribute('data-tab')));
+    });
+
+    document.querySelectorAll('.dock-tab').forEach(btn => {
+      btn.addEventListener('click', () => activateTab(btn.getAttribute('data-target')));
+    });
+
+    // Jump to Day from Calendar
+    window.jumpToDay = function(dayNum) {
+      activateTab('itinerary');
+      // Reset filters so day is visible
+      currentFilter = 'all';
+      currentSearch = '';
+      liveSearchInput.value = '';
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.toggle('active', c.getAttribute('data-filter') === 'all'));
+      renderItinerary();
+
+      setTimeout(() => {
+        const el = document.getElementById(`day-card-${dayNum}`);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          el.style.transition = 'box-shadow 0.3s, transform 0.3s';
+          el.style.transform = 'scale(1.02)';
+          el.style.boxShadow = '0 0 20px rgba(13, 148, 136, 0.4)';
+          setTimeout(() => {
+            el.style.transform = 'none';
+            el.style.boxShadow = '';
+          }, 1500);
+        }
+      }, 100);
+    };
+
+    // Filter Chips
+    document.querySelectorAll('.filter-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        currentFilter = chip.getAttribute('data-filter');
+        renderItinerary();
+      });
+    });
+
+    // Search Input
+    liveSearchInput.addEventListener('input', (e) => {
+      currentSearch = e.target.value.toLowerCase().trim();
+      renderItinerary();
+    });
+
+    function getRegionInfo(id) {
+      return TRIP_DATA.meta.regions.find(r => r.id === id) || { name: '', color: '#0d9488' };
+    }
+
+    // Render Itinerary
+    function renderItinerary() {
+      daysContainer.innerHTML = '';
+
+      const filtered = TRIP_DATA.days.filter(day => {
+        if (currentFilter === 'shabbat' && !day.isShabbat) return false;
+        if (currentFilter !== 'all' && currentFilter !== 'shabbat' && day.region !== currentFilter) return false;
+
+        if (currentSearch) {
+          const actText = day.activities.map(a => a.text).join(' ');
+          const str = `${day.dayNum} ${day.date} ${day.dayOfWeek} ${day.location} ${day.overnight} ${day.travelTime} ${actText} ${day.notes}`.toLowerCase();
+          if (!str.includes(currentSearch)) return false;
+        }
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        daysContainer.innerHTML = `<div style="text-align: center; padding: 40px 20px; color: var(--ink-tertiary);">לא נמצאו ימים מתאימים לחיפוש.</div>`;
+        return;
+      }
+
+      filtered.forEach(day => {
+        const card = document.createElement('article');
+        card.className = `day-card fade-up-card ${day.isShabbat ? 'shabbat-card' : ''}`;
+        card.id = `day-card-${day.dayNum}`;
+
+        const reg = getRegionInfo(day.region);
+        const userNote = dayNotes[day.dayNum] || '';
+
+        card.innerHTML = `
+          <div class="day-top-row">
+            <span class="day-meta-pill" style="background: ${reg.color}">
+              יום ${day.dayNum} • ${reg.name}
+            </span>
+            <span class="day-date-str">${day.dayOfWeek}, ${day.date}</span>
+          </div>
+
+          <h3 class="day-title">${day.location}</h3>
+
+          <div class="transit-strip">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span>זמן מעבר מוערך: ${day.travelTime}</span>
+          </div>
+
+          <ul class="activity-list">
+            ${day.activities.map(act => `
+              <li class="activity-item">
+                <span class="activity-dot">•</span>
+                <span>
+                  ${act.text}
+                  ${act.link ? `<a href="${act.link}" target="_blank" class="place-link">📍 מיקום ↗</a>` : ''}
+                  ${act.infoUrl ? `<a href="${act.infoUrl}" target="_blank" class="info-link">📖 מידע ותמונות ↗</a>` : ''}
+                </span>
+              </li>
+            `).join('')}
+          </ul>
+
+          <div class="day-footer">
+            <div class="info-line">
+              <span>🏨 <strong>לינה:</strong> ${day.overnight}</span>
+            </div>
+            ${day.notes ? `<div class="tip-box">💡 ${day.notes}</div>` : ''}
+
+            <div class="user-note-wrapper">
+              <button class="note-toggle-btn" onclick="toggleNoteEditor(${day.dayNum})">
+                <span>✏️</span>
+                <span>${userNote ? 'ערוך הערה אישית' : '+ הערה אישית ליום זה'}</span>
+              </button>
+              <textarea id="note-input-${day.dayNum}" class="note-edit-area" rows="2" placeholder="כתבו כאן שמות נהגים, מלון, מפתח שבת או תזכורות...">${userNote}</textarea>
+              <div id="note-display-${day.dayNum}" class="note-content-saved" style="${userNote ? 'display:block;' : ''}">
+                📝 <strong>הערה:</strong> <span id="note-text-${day.dayNum}">${userNote}</span>
+              </div>
+            </div>
+          </div>
+        `;
+
+        daysContainer.appendChild(card);
+      });
+
+      initScrollAnimations();
+    }
+
+    // Toggle Note Editor
+    window.toggleNoteEditor = function(dayNum) {
+      const input = document.getElementById(`note-input-${dayNum}`);
+      const isVisible = input.style.display === 'block';
+
+      if (isVisible) {
+        const val = input.value.trim();
+        if (val) {
+          dayNotes[dayNum] = val;
+        } else {
+          delete dayNotes[dayNum];
+        }
+        localStorage.setItem(KEY_NOTES, JSON.stringify(dayNotes));
+
+        input.style.display = 'none';
+        const display = document.getElementById(`note-display-${dayNum}`);
+        const text = document.getElementById(`note-text-${dayNum}`);
+        if (val) {
+          display.style.display = 'block';
+          text.textContent = val;
+        } else {
+          display.style.display = 'none';
+        }
+      } else {
+        input.style.display = 'block';
+        input.focus();
+      }
+    };
+
+    // Render Shabbat View
+    function renderShabbatView() {
+      shabbatContainer.innerHTML = '';
+
+      TRIP_DATA.shabbats.forEach(shb => {
+        const card = document.createElement('article');
+        card.className = 'shabbat-card-item fade-up-card';
+        card.innerHTML = `
+          <div class="shabbat-item-head">
+            <h3 class="shabbat-item-title">שבת ${shb.number}: ${shb.location}</h3>
+            <span class="shabbat-badge-date">${shb.date} • ${shb.hebrewDate}</span>
+          </div>
+
+          <div style="font-size: 0.92rem; color: var(--ink-secondary); line-height: 1.55;">
+            <strong>מוקד שבת:</strong> ${shb.chabadName}<br>
+            <strong>תוכנית הגעה בטוחה:</strong> ${shb.arrivalPlan}
+          </div>
+
+          <div class="shabbat-links-row">
+            <a href="${shb.chabadUrl}" target="_blank" class="btn-chabad-link">אתר חב"ד והרשמה לסעודות ↗</a>
+            <a href="${shb.mapUrl}" target="_blank" class="btn-chabad-link">מפת הגעה לבית חב"ד ↗</a>
+          </div>
+
+          <div style="margin-top: 14px;">
+            <div style="font-family: 'Heebo', sans-serif; font-size: 0.9rem; font-weight: 700; color: var(--ink); margin-bottom: 6px;">
+              🏨 מלונות מומלצים ליד חב"ד (במרחק הליכה ומפתח מכני):
+            </div>
+            <div class="hotels-list">
+              ${shb.recommendedHotels.map(h => `
+                <div class="hotel-row">
+                  <div class="hotel-row-info">
+                    <span class="hotel-row-name">${h.name}</span>
+                    <span class="hotel-row-note">${h.note}</span>
+                  </div>
+                  <div style="display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; flex-shrink: 0;">
+                    <a href="${h.mapUrl}" target="_blank" class="place-link">📍 מיקום ↗</a>
+                    ${h.infoUrl ? `<a href="${h.infoUrl}" target="_blank" class="info-link">🏨 אתר ותמונות ↗</a>` : ''}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+        shabbatContainer.appendChild(card);
+      });
+      initScrollAnimations();
+    }
+
+    // Render Bookings & Checklist (Sorted by Deadline Date)
+    function renderBookings() {
+      tasksContainer.innerHTML = '';
+      const allTasks = [...TRIP_DATA.advanceBookings, ...customTasks];
+      document.getElementById('totalBookingsCounter').textContent = allTasks.length;
+
+      // Sort by deadline date
+      allTasks.sort((a, b) => (a.deadlineDate || '9999').localeCompare(b.deadlineDate || '9999'));
+
+      allTasks.forEach(task => {
+        const isChecked = !!checkedTasks[task.id];
+        const card = document.createElement('div');
+        card.className = `booking-task-card fade-up-card ${isChecked ? 'is-done' : ''}`;
+
+        card.innerHTML = `
+          <div class="task-check-box" onclick="toggleTaskStatus('${task.id}')">
+            ${isChecked ? '✓' : ''}
+          </div>
+          <div class="task-body">
+            <div class="task-header-line">
+              <span class="task-main-title">${task.title}</span>
+              <span class="deadline-badge ${task.urgency}">
+                📅 ${task.deadlineDisplay || task.deadlineDate}
+              </span>
+            </div>
+            <div class="task-description">${task.description}</div>
+            ${task.criticalNote ? `<div class="task-warning-note">⚠️ ${task.criticalNote}</div>` : ''}
+            ${task.linkUrl ? `<div><a href="${task.linkUrl}" target="_blank" class="task-action-btn">קישור ישיר להזמנה ↗</a></div>` : ''}
+          </div>
+        `;
+
+        tasksContainer.appendChild(card);
+      });
+      initScrollAnimations();
+    }
+
+    window.toggleTaskStatus = function(taskId) {
+      checkedTasks[taskId] = !checkedTasks[taskId];
+      localStorage.setItem(KEY_CHECKED, JSON.stringify(checkedTasks));
+      renderBookings();
+    };
+
+    // Render Recommendations
+    function renderRecommendations() {
+      recsContainer.innerHTML = '';
+
+      TRIP_DATA.recommendations.forEach(group => {
+        const block = document.createElement('div');
+        block.className = 'rec-group fade-up-card';
+
+        block.innerHTML = `
+          <h3 class="rec-group-title">📍 ${group.place}</h3>
+          ${group.items.map(item => `
+            <div class="rec-card-item">
+              <div class="rec-head" style="flex-wrap: wrap; gap: 6px;">
+                <span class="rec-name">${item.title}</span>
+                <div style="display: flex; gap: 4px; flex-wrap: wrap;">
+                  ${item.link ? `<a href="${item.link}" target="_blank" class="place-link">📍 מפה ↗</a>` : ''}
+                  ${item.infoUrl ? `<a href="${item.infoUrl}" target="_blank" class="info-link">📖 מידע ותמונות ↗</a>` : ''}
+                </div>
+              </div>
+              <div class="rec-body">${item.desc}</div>
+            </div>
+          `).join('')}
+        `;
+
+        recsContainer.appendChild(block);
+      });
+      initScrollAnimations();
+    }
+
+    // ================= INTERACTIVE GOOGLE MAP CONTROLLER =================
+    let leafletMap = null;
+    let mapMarkersById = {};
+
+    function getRegionColorById(regionId) {
+      const reg = TRIP_DATA.meta.regions.find(r => r.id === regionId);
+      return reg ? reg.color : '#0d9488';
+    }
+
+    function initLeafletMap() {
+      if (leafletMap || typeof L === 'undefined' || !TRIP_DATA.mapPlaces) return;
+
+      leafletMap = L.map('interactiveMap', {
+        center: [13.7563, 100.5018],
+        zoom: 6,
+        scrollWheelZoom: false
+      });
+
+      // Google Maps Hebrew Road Tiles
+      L.tileLayer('https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}&hl=he', {
+        maxZoom: 19,
+        attribution: '&copy; Google Maps'
+      }).addTo(leafletMap);
+
+      const latLngs = [];
+
+      TRIP_DATA.mapPlaces.forEach((place, idx) => {
+        const color = getRegionColorById(place.region);
+        latLngs.push([place.lat, place.lng]);
+
+        const customIcon = L.divIcon({
+          className: 'custom-trip-pin',
+          html: `<div style="
+            background: ${color};
+            color: #ffffff;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 3px solid #ffffff;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Heebo', sans-serif;
+            font-weight: 800;
+            font-size: 0.85rem;
+          ">${idx + 1}</div>`,
+          iconSize: [30, 30],
+          iconAnchor: [15, 15],
+          popupAnchor: [0, -15]
+        });
+
+        const marker = L.marker([place.lat, place.lng], { icon: customIcon }).addTo(leafletMap);
+        marker.bindPopup(`
+          <div dir="rtl" style="font-family: 'Assistant', sans-serif; text-align: right; min-width: 200px; padding: 2px;">
+            <div style="font-family: 'Heebo', sans-serif; font-weight: 800; font-size: 0.95rem; color: #0f172a; margin-bottom: 2px;">${place.name}</div>
+            <div style="font-size: 0.78rem; font-weight: 700; color: ${color}; margin-bottom: 4px;">📅 ${place.dates}</div>
+            <div style="font-size: 0.82rem; color: #475569; margin-bottom: 8px; line-height: 1.35;">${place.desc}</div>
+            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+              <a href="https://maps.google.com/?q=${place.gmapQuery}&hl=iw" target="_blank" style="display: inline-block; background: #f0fdfa; color: #0d9488; border: 1px solid #99f6e4; padding: 4px 10px; border-radius: 999px; text-decoration: none; font-size: 0.76rem; font-weight: 700;">📍 מפה ↗</a>
+              ${place.infoUrl ? `<a href="${place.infoUrl}" target="_blank" style="display: inline-block; background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; padding: 4px 10px; border-radius: 999px; text-decoration: none; font-size: 0.76rem; font-weight: 700;">📖 מידע ותמונות ↗</a>` : ''}
+            </div>
+          </div>
+        `);
+
+        marker.on('click', () => {
+          updateGoogleEmbed(place);
+        });
+
+        mapMarkersById[place.id] = { marker, place };
+      });
+
+      // Connect route with dashed line
+      if (latLngs.length > 1) {
+        L.polyline(latLngs, {
+          color: '#0d9488',
+          weight: 3,
+          opacity: 0.75,
+          dashArray: '8, 8'
+        }).addTo(leafletMap);
+
+        leafletMap.fitBounds(latLngs, { padding: [32, 32] });
+      }
+    }
+
+    function updateGoogleEmbed(place) {
+      const frame = document.getElementById('gmapFrame');
+      const title = document.getElementById('gmapEmbedTitle');
+      const link = document.getElementById('gmapDirectLink');
+      if (!frame || !place) return;
+
+      frame.src = `https://maps.google.com/maps?q=${place.gmapQuery}&hl=iw&z=12&output=embed`;
+      if (title) title.textContent = `תצוגת Google Maps חיה: ${place.name}`;
+      if (link) link.href = `https://maps.google.com/?q=${place.gmapQuery}&hl=iw`;
+    }
+
+    window.focusMapPlace = function(placeId, btnEl) {
+      if (btnEl) {
+        document.querySelectorAll('#mapPillsBar .map-btn-pill').forEach(b => b.classList.remove('active'));
+        btnEl.classList.add('active');
+      }
+
+      initLeafletMap();
+
+      if (placeId === 'all') {
+        if (leafletMap && TRIP_DATA.mapPlaces) {
+          const allCoords = TRIP_DATA.mapPlaces.map(p => [p.lat, p.lng]);
+          leafletMap.fitBounds(allCoords, { padding: [32, 32] });
+          leafletMap.closePopup();
+        }
+        const frame = document.getElementById('gmapFrame');
+        const title = document.getElementById('gmapEmbedTitle');
+        const link = document.getElementById('gmapDirectLink');
+        if (frame) frame.src = `https://maps.google.com/maps?q=Thailand&hl=iw&z=6&output=embed`;
+        if (title) title.textContent = `תצוגת Google Maps חיה: כל תאילנד`;
+        if (link) link.href = `https://www.google.com/maps/dir/Ko+Phi+Phi+Don+Thailand/Patong+Beach+Phuket+Thailand/Railay+Beach+Krabi+Thailand/Chiang+Mai+Thailand/Doi+Inthanon+National+Park/Bangkok+Thailand`;
+        return;
+      }
+
+      const item = mapMarkersById[placeId];
+      if (item && leafletMap) {
+        leafletMap.setView([item.place.lat, item.place.lng], 11, { animate: true });
+        item.marker.openPopup();
+        updateGoogleEmbed(item.place);
+      }
+    };
+
+    function renderMapPlacesList() {
+      const container = document.getElementById('mapPlacesList');
+      if (!container || !TRIP_DATA.mapPlaces) return;
+      container.innerHTML = '';
+
+      TRIP_DATA.mapPlaces.forEach(place => {
+        const card = document.createElement('div');
+        card.className = 'place-item-card fade-up-card';
+        card.innerHTML = `
+          <div class="place-item-info">
+            <span class="place-item-name">${place.name}</span>
+            <span class="place-item-dates">📅 ${place.dates}</span>
+            <span class="place-item-desc">${place.desc}</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px; align-items: flex-end; flex-shrink: 0;">
+            <button type="button" onclick="focusMapPlace('${place.id}'); document.getElementById('interactiveMap').scrollIntoView({behavior:'smooth', block:'center'});" class="place-link" style="cursor: pointer; background: var(--surface-subtle);">מקד במפה 🎯</button>
+            <a href="https://maps.google.com/?q=${place.gmapQuery}&hl=iw" target="_blank" class="place-link">📍 גוגל מפות ↗</a>
+            ${place.infoUrl ? `<a href="${place.infoUrl}" target="_blank" class="info-link">📖 מידע ותמונות ↗</a>` : ''}
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // Modal Add Task
+    window.openAddTaskModal = function() {
+      document.getElementById('addTaskModal').classList.add('open');
+    };
+
+    window.closeAddTaskModal = function() {
+      document.getElementById('addTaskModal').classList.remove('open');
+    };
+
+    window.handleSaveTask = function(e) {
+      e.preventDefault();
+      const title = document.getElementById('newTaskTitle').value.trim();
+      const deadline = document.getElementById('newTaskDeadline').value;
+      const urgency = document.getElementById('newTaskUrgency').value;
+      const desc = document.getElementById('newTaskDesc').value.trim();
+
+      // Format deadline date in Hebrew
+      let displayDate = deadline;
+      if (deadline) {
+        const parts = deadline.split('-');
+        displayDate = `עד ${parts[2]}.${parts[1]}.${parts[0]}`;
+      }
+
+      const newTask = {
+        id: 'cust_' + Date.now(),
+        title: title,
+        urgency: urgency,
+        deadlineDate: deadline,
+        deadlineDisplay: displayDate,
+        description: desc,
+        criticalNote: '',
+        linkUrl: null,
+        status: 'pending'
+      };
+
+      customTasks.push(newTask);
+      localStorage.setItem(KEY_TASKS, JSON.stringify(customTasks));
+
+      document.getElementById('newTaskForm').reset();
+      closeAddTaskModal();
+      renderBookings();
+    };
+
+    // Scroll Observer for Floating Fade-up Cards
+    function initScrollAnimations() {
+      const cards = document.querySelectorAll('.fade-up-card:not(.revealed)');
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries, obs) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('revealed');
+              obs.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.1 });
+
+        cards.forEach(c => observer.observe(c));
+      } else {
+        cards.forEach(c => c.classList.add('revealed'));
+      }
+    }
+
+    // Initial Execution
+    renderItinerary();
+    renderMapPlacesList();
+    renderShabbatView();
+    renderBookings();
+    renderRecommendations();
+    initScrollAnimations();
+  </script>
+</body>
+</html>

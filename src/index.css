@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --ground: #FAF7F2;
+    --surface: #FFFFFF;
+    --surface-muted: #F3EFE6;
+    --ink: #142321;
+    --ink-secondary: #4A5D5A;
+    --ink-muted: #6B7E7A;
+    --border-warm: #E6DFD3;
+    --emerald-deep: #0B4F4A;
+    --emerald-mid: #0F6E66;
+    --shabbat-gold: #B45309;
+    --danger-crimson: #B91C1C;
+  }
+
+  * {
+    box-sizing: border-box;
+    border-color: var(--border-warm);
+  }
+
+  html {
+    direction: rtl;
+    scroll-behavior: smooth;
+    font-family: 'Assistant', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--ground);
+    color: var(--ink);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--ground);
+    color: var(--ink);
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: 'Rubik', 'Heebo', sans-serif;
+    letter-spacing: -0.02em;
+  }
+
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Custom themed browser surfaces per craft-floor */
+::selection {
+  background-color: #0B4F4A;
+  color: #FAF7F2;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F3EFE6;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C4B9A5;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #0B4F4A;
+}
+
+/* Hide scrollbar on horizontal chip carousels while keeping scroll */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
