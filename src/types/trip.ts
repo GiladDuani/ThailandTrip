@@ -65,6 +65,8 @@ export interface FlightOptionQuote {
   totalEstimatedWith25kgIls: number;
   timingFitAnalysis: string;
   bookingUrl: string;
+  bookingLabel?: string;
+  skyscannerUrl?: string;
   googleFlightsUrl: string;
 }
 

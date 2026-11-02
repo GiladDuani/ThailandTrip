@@ -178,28 +178,42 @@ export const DomesticFlightsSection: React.FC = () => {
                         </div>
                       </div>
 
-                      <div className="flex flex-wrap gap-2 pt-2">
+                      <div className="flex flex-col gap-2 pt-2">
                         <Button
                           variant={opt.isRecommendedByGilad ? "default" : "outline"}
                           size="sm"
-                          className="flex-1"
+                          className="w-full"
                           asChild
                         >
                           <a href={opt.bookingUrl} target="_blank" rel="noreferrer">
-                            אתר {opt.airline}
+                            {opt.bookingLabel || `הזמנת טיסה (${opt.airline})`}
                             <ExternalLink className="h-3.5 w-3.5" />
                           </a>
                         </Button>
-                        <Button variant="secondary" size="sm" className="flex-1" asChild>
-                          <a
-                            href={opt.googleFlightsUrl}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            Google Flights
-                            <ExternalLink className="h-3.5 w-3.5" />
-                          </a>
-                        </Button>
+                        <div className="flex gap-2">
+                          <Button variant="secondary" size="sm" className="flex-1 text-xs" asChild>
+                            <a
+                              href={opt.googleFlightsUrl}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              Google Flights (מסונן)
+                              <ExternalLink className="h-3.5 w-3.5" />
+                            </a>
+                          </Button>
+                          {opt.skyscannerUrl && (
+                            <Button variant="outline" size="sm" className="flex-1 text-xs" asChild>
+                              <a
+                                href={opt.skyscannerUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                              >
+                                Skyscanner (2 נוסעים)
+                                <ExternalLink className="h-3.5 w-3.5" />
+                              </a>
+                            </Button>
+                          )}
+                        </div>
                       </div>
                     </div>
                   ))}
