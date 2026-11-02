@@ -35,38 +35,38 @@ export const DomesticFlightsSection: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
             <div className="rounded-xl bg-[#083B37] p-3.5 border border-[#0F6E66] space-y-1">
               <div className="font-bold text-[#A7F3D0] text-sm">
-                1. Bangkok Airways (טיסה 1 מ-BKK לפוקט)
+                1. Thai VietJet (טיסה 1 מ-BKK לפוקט • ~454 ₪ לזוג)
               </div>
               <p className="text-[#E6F4F1] leading-relaxed">
-                עובדת בשיטת המשקל (<strong>Weight Concept</strong>) ומאפשרת <strong>איחוד משקלים (Pooling)</strong> לזוג באותה הזמנה: 20 ק"ג × 2 = <strong>40 ק"ג משותפים!</strong> מזוודת ה-25 ק"ג שלכם נשלחת כמות שהיא בחינם לגמרי + 2 טרולים לקבינה + טרקלין.
+                בבוקר הראשון עוד אין קניות מתאילנד — אתם כבר ארוזים בדיוק לפי מגבלת <strong>Etihad</strong> מהלילה הקודם (<strong>25 ק"ג במזוודה + 7 ק"ג טרולי ותיק גב לאדם</strong>) ושומרי כשרות (אין צורך בארוחות במטוס/טרקלין). לכן מוסיפים מזוודת 25 ק"ג לנוסע 1 בלבד (~60 ₪) וחוסכים כ-190–260 ₪!
               </p>
             </div>
 
             <div className="rounded-xl bg-[#083B37] p-3.5 border border-[#0F6E66] space-y-1">
               <div className="font-bold text-[#A7F3D0] text-sm">
-                2. Thai AirAsia (טיסה 2 מקראבי לצ'יאנג מאי)
+                2. Thai AirAsia (טיסה 2 מקראבי לצ'יאנג מאי • ~870 ₪ לזוג)
               </div>
               <p className="text-[#E6F4F1] leading-relaxed">
-                2 טרולים (7 ק"ג כ"א) + תיקי גב כלולים בחינם! עבור מזוודת ה-25 ק"ג: <strong>קונים כבודה של 25 ק"ג לנוסע מס' 1 בלבד</strong> (בעלות של <strong>845 באט = ~78–87 ₪</strong> באתר החברה) ובוחרים "ללא מזוודה" לנוסע השני!
+                2 טרולים + תיקי גב (עד 7 ק"ג משולב לאדם) כלולים בחינם! עבור מזוודת ה-25 ק"ג: <strong>קונים כבודה של 25 ק"ג לנוסע מס' 1 בלבד</strong> (בעלות של <strong>845 באט = ~78 ₪</strong> באתר החברה) ובוחרים "ללא מזוודה" לנוסע השני!
               </p>
             </div>
 
             <div className="rounded-xl bg-[#083B37] p-3.5 border border-[#0F6E66] space-y-1">
               <div className="font-bold text-[#A7F3D0] text-sm">
-                3. Thai Airways (טיסה 3 מצ'יאנג מאי לבנגקוק)
+                3. Thai Airways / AirAsia (טיסה 3 מצ'יאנג מאי לבנגקוק)
               </div>
               <p className="text-[#E6F4F1] leading-relaxed">
-                כולל 2 מזוודות לבטן המטוס בחינם, אך לפי נהלי 2026 פועלת ב-<strong>Piece Concept (עד 23 ק"ג ליחידה ללא איחוד)</strong>. לכן מעבירים 2 ק"ג מהמזוודה לטרולי (או מוסרים גם טרולי אחד לבטן המטוס בחינם) ומשלמים <strong>0 ₪ תוספת!</strong>
+                ביום שישי בבוקר לפני שבת: <strong>Thai Airways TG 101 (08:05, ~519 ₪ לזוג)</strong> כוללת 46 ק"ג לבטן המטוס (23 ק"ג × 2 יחידות, מצוין אם צברתם קניות בצפון!), או <strong>AirAsia FD 4101 (08:55, ~385 ₪ לזוג כולל מזוודת 25 ק"ג)</strong>.
               </p>
             </div>
           </div>
 
           <div className="pt-2 border-t border-[#0F6E66] flex flex-wrap items-center justify-between gap-2 text-xs text-[#D1FAE5]">
             <span>
-              <strong>סה"כ עלות 3 טיסות הפנים המומלצות של גלעד לזוג (כולל מזוודת ה-25 ק"ג):</strong> כ־<strong>₪2,033 לזוג</strong> ($649.45 סה"כ לשניכם יחד!).
+              <strong>סה"כ עלות 3 טיסות הפנים המומלצות לזוג (VietJet + AirAsia + Thai Airways, כולל מזוודת 25 ק"ג):</strong> כ־<strong>₪1,843 לזוג</strong>!
             </span>
             <span>
-              חבילת חיסכון (לואו-קוסט בכולן כולל מזוודת 25 ק"ג): כ־<strong>₪1,593 לזוג</strong>.
+              חבילת חיסכון מלאה (עם AirAsia גם בטיסה 3): כ־<strong>₪1,709 לזוג</strong>.
             </span>
           </div>
         </CardContent>
