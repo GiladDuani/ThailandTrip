@@ -446,7 +446,7 @@ export function App() {
                   3 טיסות
                 </div>
                 <div className="text-[11px] text-[#FDE68A] underline underline-offset-2">
-                  טרם נסגרו (~₪2,033)
+                  טרם נסגרו (~₪1,623–1,709)
                 </div>
               </button>
               <button
@@ -867,23 +867,44 @@ export function App() {
                                                 </p>
                                               </div>
 
-                                              {act.mapUrl && (
-                                                <Button
-                                                  variant="outline"
-                                                  size="sm"
-                                                  className="shrink-0 self-start"
-                                                  asChild
-                                                >
-                                                  <a
-                                                    href={act.mapUrl}
-                                                    target="_blank"
-                                                    rel="noreferrer"
-                                                  >
-                                                    <MapPin className="h-3.5 w-3.5" />
-                                                    מפה
-                                                    <ExternalLink className="h-3 w-3" />
-                                                  </a>
-                                                </Button>
+                                              {(act.mapUrl || act.infoUrl) && (
+                                                <div className="flex flex-wrap gap-1.5 shrink-0 self-start">
+                                                  {act.infoUrl && (
+                                                    <Button
+                                                      variant="outline"
+                                                      size="sm"
+                                                      className="border-[#0B4F4A]/30 text-[#0B4F4A] hover:bg-[#0B4F4A]/5"
+                                                      asChild
+                                                    >
+                                                      <a
+                                                        href={act.infoUrl}
+                                                        target="_blank"
+                                                        rel="noreferrer"
+                                                      >
+                                                        <Plane className="h-3.5 w-3.5" />
+                                                        אתר/הזמנה
+                                                        <ExternalLink className="h-3 w-3" />
+                                                      </a>
+                                                    </Button>
+                                                  )}
+                                                  {act.mapUrl && (
+                                                    <Button
+                                                      variant="outline"
+                                                      size="sm"
+                                                      asChild
+                                                    >
+                                                      <a
+                                                        href={act.mapUrl}
+                                                        target="_blank"
+                                                        rel="noreferrer"
+                                                      >
+                                                        <MapPin className="h-3.5 w-3.5" />
+                                                        מפה
+                                                        <ExternalLink className="h-3 w-3" />
+                                                      </a>
+                                                    </Button>
+                                                  )}
+                                                </div>
                                               )}
                                             </li>
                                           ))}

@@ -66,6 +66,7 @@ export interface FlightOptionQuote {
   timingFitAnalysis: string;
   bookingUrl: string;
   bookingLabel?: string;
+  officialAirlineUrl?: string;
   skyscannerUrl?: string;
   googleFlightsUrl: string;
 }

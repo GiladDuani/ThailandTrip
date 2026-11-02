@@ -35,40 +35,41 @@ export const DomesticFlightsSection: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
             <div className="rounded-xl bg-[#083B37] p-3.5 border border-[#0F6E66] space-y-1">
               <div className="font-bold text-[#A7F3D0] text-sm">
-                1. Thai VietJet (טיסה 1: 23.11 מ-BKK לפוקט • ~454 ₪ לזוג)
+                1. Thai VietJet (טיסה 1: 23.11 מ-BKK לפוקט • אומדן ~454 ₪ לזוג)
               </div>
               <p className="text-[#E6F4F1] leading-relaxed">
-                <strong>אומת באתר VietJet:</strong> קבינה 7 ק"ג משולב לאדם (זהה ל-Etihad שאיתה נחתתם בלילה!) + רוכשים <strong>מזוודה אחת של 25 ק"ג לנוסע 1 בלבד (~60 ₪)</strong> שנמסרת בשלמותה (תקרת יחידה: 32 ק"ג). בלי לשלם 190–260 ₪ אקסטרה על ארוחות לא כשרות!
+                קבינה 7 ק"ג משולב לאדם (זהה ל-Etihad שאיתה נחתתם בלילה!) + רוכשים באתר החברה <strong>מזוודה אחת של 25 ק"ג לנוסע 1 בלבד (אומדן ~60 ₪ בקופה)</strong>. חלופה: Bangkok Airways PG 275 ב-10:25–12:00 (8,260 באט = ~764 ₪ לזוג, כולל 20 ק"ג לנוסע).
               </p>
             </div>
 
             <div className="rounded-xl bg-[#083B37] p-3.5 border border-[#0F6E66] space-y-1">
               <div className="font-bold text-[#A7F3D0] text-sm">
-                2. Thai AirAsia (טיסה 2: 03.12 מקראבי לצ'יאנג מאי • ~870 ₪ לזוג)
+                2. Thai AirAsia (טיסה 2: 03.12 מקראבי לצ'יאנג מאי • אומדן ~870 ₪ לזוג)
               </div>
               <p className="text-[#E6F4F1] leading-relaxed">
-                <strong>אומת באתר AirAsia:</strong> החברה היחידה שטסה ישיר! קבינה 7 ק"ג משולב לאדם בחינם + רוכשים <strong>מזוודה אחת של 25 ק"ג לנוסע 1 בלבד ב-845 באט (~78 ₪)</strong> (מותרת גם חלוקת משקל/Pooling בהזמנה משותפת, תקרת יחידה 32 ק"ג).
+                החברה היחידה שטסה ישיר (FD 3077 ב-15:25)! קבינה 7 ק"ג משולב לאדם בחינם + מוסיפים באתר החברה <strong>מזוודה אחת של 25 ק"ג לנוסע 1 בלבד (~845 באט / ~78 ₪ בקופה)</strong>.
               </p>
             </div>
 
             <div className="rounded-xl bg-[#083B37] p-3.5 border border-[#0F6E66] space-y-1">
               <div className="font-bold text-[#A7F3D0] text-sm">
-                3. AirAsia / VietJet מול Thai Airways (טיסה 3: שישי 11.12 לבנגקוק)
+                3. Thai Lion Air / AirAsia (טיסה 3: שישי 11.12 לבנגקוק)
               </div>
               <p className="text-[#E6F4F1] leading-relaxed">
-                <strong>גילוי חשוב מהאתר הרשמי של Thai Airways:</strong> החל ממרץ 2026 עברו ל-<strong>Piece Concept (מקסימום 23 ק"ג למזוודה בודדת ללא איחוד משקלים!)</strong> — מה שמחייב להוציא 2 ק"ג ממזוודת ה-25 ק"ג! לעומת זאת ב-<strong>AirAsia (08:55, ~385 ₪ לזוג)</strong> מזמינים 25 ק"ג לנוסע 1, המזוודה עוברת שלמה וחוסכים 134 ₪!
+                ביום שישי בבוקר: <strong>Thai Lion Air SL 503 ב-08:00 ל-DMK (אומדן ~299 ₪ לזוג כולל הוספת 25 ק"ג ב-800 באט)</strong> או <strong>Thai AirAsia FD 4101 ב-08:55 ל-BKK (אומדן ~385 ₪ לזוג כולל 25 ק"ג)</strong>. שתיהן נוחתות 7–8 שעות לפני שבת!
               </p>
             </div>
           </div>
 
           <div className="pt-2 border-t border-[#0F6E66] flex flex-wrap items-center justify-between gap-2 text-xs text-[#D1FAE5]">
             <span>
-              <strong>סה"כ עלות 3 טיסות הפנים האידיאליות לזוג (כולל מזוודת 25 ק"ג שלמה בכל הטיסות!):</strong> כ־<strong>₪1,709 לזוג</strong> (או כ־<strong>₪1,843 לזוג</strong> עם Thai Airways בטיסה 3).
+              <strong>אומדן כולל ל-3 טיסות הפנים לזוג (כולל הוספת מזוודת 25 ק"ג בקופה):</strong> כ־<strong>₪1,623–₪1,709 לזוג</strong> (מומלץ להזמין ישירות באתרי חברות התעופה).
             </span>
             <span className="flex flex-wrap gap-2">
               <a href="https://www.vietjetair.com/en/pages/baggage-service-1608106319546" target="_blank" rel="noreferrer" className="underline hover:text-white">תקנון VietJet</a> •
               <a href="https://support.airasia.com/s/article/What-is-checked-baggage-and-how-to-pre-book-en?language=en_GB" target="_blank" rel="noreferrer" className="underline hover:text-white">תקנון AirAsia</a> •
-              <a href="https://www.thaiairways.com/en-th/content/baggage/checked-baggage/" target="_blank" rel="noreferrer" className="underline hover:text-white">תקנון Thai Airways (2026)</a> •
+              <a href="https://www.lionairthai.com/en/ThaiLionAir-Experience/Baggage-Allowance" target="_blank" rel="noreferrer" className="underline hover:text-white">תקנון Lion Air</a> •
+              <a href="https://www.thaiairways.com/en-th/content/baggage/checked-baggage/" target="_blank" rel="noreferrer" className="underline hover:text-white">תקנון Thai Airways</a> •
               <a href="https://www.bangkokair.com/baggage-allowance" target="_blank" rel="noreferrer" className="underline hover:text-white">תקנון Bangkok Airways</a>
             </span>
           </div>
@@ -129,7 +130,7 @@ export const DomesticFlightsSection: React.FC = () => {
                             {opt.optionLabel}
                           </span>
                           {opt.isRecommendedByGilad && (
-                            <Badge className="shrink-0">מומלץ גלעד</Badge>
+                            <Badge className="shrink-0">מומלץ</Badge>
                           )}
                         </div>
 
@@ -156,17 +157,19 @@ export const DomesticFlightsSection: React.FC = () => {
                         <div className="rounded-lg bg-white p-3 border border-[#E6DFD3] space-y-1">
                           <div className="flex items-baseline justify-between">
                             <span className="text-xs text-[#4A5D5A]">
-                              מחיר סופי לזוג (כולל 25 ק"ג):
+                              {opt.baggageIncludedInQuote
+                                ? "מחיר לזוג (כולל כבודה):"
+                                : "אומדן לזוג (כולל הוספת 25 ק\"ג בקופה):"}
                             </span>
                             <span className="font-display text-xl font-bold text-[#0B4F4A] tabular-nums">
                               כ־₪{opt.totalEstimatedWith25kgIls}
                             </span>
                           </div>
                           <div className="text-[11px] text-[#4A5D5A] tabular-nums">
-                            הצעת בסיס: {opt.couplePriceOriginal} (כ־₪{opt.couplePriceIls})
+                            מחיר בסיס: {opt.couplePriceOriginal} (כ־₪{opt.couplePriceIls})
                             {!opt.baggageIncludedInQuote && opt.baggageAddOnCostIls
-                              ? ` + תוספת מזוודה אחת 25 ק"ג: ~₪${opt.baggageAddOnCostIls}`
-                              : " • כבודה כלולה במחיר!"}
+                              ? ` + אומדן תוספת מזוודת 25 ק"ג בקופה: ~₪${opt.baggageAddOnCostIls}`
+                              : " • כבודה כלולה במחיר הכרטיס"}
                           </div>
                         </div>
 
@@ -188,14 +191,14 @@ export const DomesticFlightsSection: React.FC = () => {
                               ? "bg-amber-50 border-amber-300 text-amber-900"
                               : opt.airline.includes("Thai Airways")
                               ? "bg-blue-50 border-blue-200 text-blue-900"
-                              : "bg-emerald-50 border-emerald-200 text-emerald-900"
+                              : "bg-blue-50 border-blue-200 text-blue-900"
                           }`}
                         >
                           {!opt.baggageIncludedInQuote
-                            ? `⚠️ חשוב ברכישה: להוסיף כבודה של 25 ק"ג לנוסע מס' 1 בלבד (~₪${opt.baggageAddOnCostIls || 78}) ולבחור "ללא מזוודה" לנוסע 2!`
+                            ? `⚠️ חשוב ברכישה באתר החברה: להוסיף בקופה כבודה של 25 ק"ג לנוסע מס' 1 בלבד (אומדן ~₪${opt.baggageAddOnCostIls || 78}) ולבחור "ללא מזוודה" לנוסע 2!`
                             : opt.airline.includes("Thai Airways")
-                            ? `ℹ️ כבודה כלולה (2×23 ק"ג), אך מוגבלת ל-23 ק"ג ליחידה — יש להעביר 2 ק"ג מהמזוודה לטרולי.`
-                            : `✅ 40 ק"ג משותפים כלולים במחיר הכרטיס — מזוודת ה-25 ק"ג עוברת ללא תוספת!`}
+                            ? `ℹ️ כבודה כלולה (2×23 ק"ג), אך מוגבלת ל-23 ק"ג למזוודה בודדת — יש להעביר 2 ק"ג מהמזוודה לטרולי.`
+                            : `ℹ️ כולל 20 ק"ג לנוסע — איחוד מכסות ל-25 ק"ג במזוודה אחת אינו מובטח רשמית באתר (ייתכן שיידרש להעביר 5 ק"ג לטרולי).`}
                         </div>
                         <Button
                           variant={opt.isRecommendedByGilad ? "default" : "outline"}
@@ -203,31 +206,45 @@ export const DomesticFlightsSection: React.FC = () => {
                           className="w-full"
                           asChild
                         >
-                          <a href={opt.bookingUrl} target="_blank" rel="noreferrer">
-                            {opt.bookingLabel || `הזמנת טיסה (${opt.airline})`}
+                          <a
+                            href={opt.officialAirlineUrl || opt.bookingUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            {opt.bookingLabel || `הזמנה באתר הרשמי (${opt.airline})`}
                             <ExternalLink className="h-3.5 w-3.5" />
                           </a>
                         </Button>
-                        <div className="flex gap-2">
-                          <Button variant="secondary" size="sm" className="flex-1 text-xs" asChild>
+                        <div className="flex gap-1.5">
+                          <Button variant="secondary" size="sm" className="flex-1 text-[11px] px-2" asChild>
                             <a
                               href={opt.googleFlightsUrl}
                               target="_blank"
                               rel="noreferrer"
                             >
-                              Google Flights (מסונן)
-                              <ExternalLink className="h-3.5 w-3.5" />
+                              Google Flights
+                              <ExternalLink className="h-3 w-3" />
+                            </a>
+                          </Button>
+                          <Button variant="outline" size="sm" className="flex-1 text-[11px] px-2" asChild>
+                            <a
+                              href={opt.bookingUrl}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              {opt.bookingUrl.includes("airasia.com") ? "AirAsia ישיר" : "Trip.com לתאריך"}
+                              <ExternalLink className="h-3 w-3" />
                             </a>
                           </Button>
                           {opt.skyscannerUrl && (
-                            <Button variant="outline" size="sm" className="flex-1 text-xs" asChild>
+                            <Button variant="outline" size="sm" className="flex-1 text-[11px] px-2" asChild>
                               <a
                                 href={opt.skyscannerUrl}
                                 target="_blank"
                                 rel="noreferrer"
                               >
-                                Skyscanner (2 נוסעים)
-                                <ExternalLink className="h-3.5 w-3.5" />
+                                Skyscanner
+                                <ExternalLink className="h-3 w-3" />
                               </a>
                             </Button>
                           )}
