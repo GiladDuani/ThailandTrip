@@ -182,6 +182,21 @@ export const DomesticFlightsSection: React.FC = () => {
                       </div>
 
                       <div className="flex flex-col gap-2 pt-2">
+                        <div
+                          className={`rounded-lg px-3 py-2 text-[11px] font-semibold border ${
+                            !opt.baggageIncludedInQuote
+                              ? "bg-amber-50 border-amber-300 text-amber-900"
+                              : opt.airline.includes("Thai Airways")
+                              ? "bg-blue-50 border-blue-200 text-blue-900"
+                              : "bg-emerald-50 border-emerald-200 text-emerald-900"
+                          }`}
+                        >
+                          {!opt.baggageIncludedInQuote
+                            ? `⚠️ חשוב ברכישה: להוסיף כבודה של 25 ק"ג לנוסע מס' 1 בלבד (~₪${opt.baggageAddOnCostIls || 78}) ולבחור "ללא מזוודה" לנוסע 2!`
+                            : opt.airline.includes("Thai Airways")
+                            ? `ℹ️ כבודה כלולה (2×23 ק"ג), אך מוגבלת ל-23 ק"ג ליחידה — יש להעביר 2 ק"ג מהמזוודה לטרולי.`
+                            : `✅ 40 ק"ג משותפים כלולים במחיר הכרטיס — מזוודת ה-25 ק"ג עוברת ללא תוספת!`}
+                        </div>
                         <Button
                           variant={opt.isRecommendedByGilad ? "default" : "outline"}
                           size="sm"

@@ -807,7 +807,7 @@ export const SHABBAT_ANCHORS: ShabbatAnchor[] = [
     chabadMapUrl: "https://maps.google.com/?q=Chabad+House+Bangkok+Khao+San",
     hotelMapUrl: "https://maps.google.com/?q=Chillax+Heritage+Hotel+Khaosan+Bangkok",
     notes: [
-      "ביום שישי בבוקר (11.12) טסים מצ'יאנג מאי לבנגקוק (מומלץ טיסת Thai Airways 08:05–09:30) כדי להגיע למלון Chillax Heritage שעות רבות לפני כניסת שבת (17:33).",
+      "ביום שישי בבוקר (11.12) טסים מצ'יאנג מאי לבנגקוק: מומלץ Thai AirAsia FD 4101 (08:55–10:10 ל-BKK, כ-385 ₪ לזוג כולל הוספת מזוודת 25 ק\"ג לנוסע 1) או Thai Airways TG 101 (08:05–09:30, 519 ₪ לזוג – מוגבל ל-23 ק\"ג ליחידה) כדי להגיע למלון Chillax Heritage שעות רבות לפני כניסת שבת (17:33).",
       "המלון מוזמן עד יום שני 14.12 כדי שהחדר יישאר שלכם לאורך כל יום ראשון 13.12 עד היציאה לשדה התעופה ב-23:15 בלילה.",
     ],
   },
@@ -849,23 +849,25 @@ export const TRIP_DAYS: TripDay[] = [
     date: "23.11.2026",
     dateIso: "2026-11-23",
     dayOfWeek: "יום שני",
-    title: "רכישת סים מקומי ב-BKK, טיסת 10:40/11:30 לפוקט והגעה ל-Barceló Coconut Island",
+    title: "רכישת סים מקומי ב-BKK, טיסת 10:20/11:50 לפוקט והגעה ל-Barceló Coconut Island",
     subtitle: "בוקר רגוע אחרי נחיתת הלילה, קניית סים תאילנדי בשדה וטיסה לאי הפרטי בקוקונט איילנד (4 לילות)",
     region: "phuket",
     hotelName: "Barceló Coconut Island (Outdoor Jacuzzi Suite)",
     hotelId: "hotel-2-coconut-island",
-    transitSummary: "7 דק' לשדה BKK + קניית סים + טיסה BKK ← HKT (10:40 או 11:30) + מונית למזח Laem Hin (25 דק') + סירת הריזורט (5 דק')",
+    transitSummary: "7 דק' לשדה BKK + קניית סים + טיסה BKK ← HKT (10:20 או 11:50) + מונית למזח Laem Hin (25 דק') + סירת הריזורט (5 דק')",
     activities: [
       {
-        time: "08:15–09:15",
+        time: "08:00–09:00",
         text: "צ'ק-אאוט רגוע מהמלון ונסיעה של 7 דק' לשדה BKK. קנייה והפעלה של סים מקומי תאילנדי (AIS / TrueMove / DTAC) בדוכני קומה 2 (Arrivals בין שערים 3 ל-7, פתוחים 24/7). טיפ: הזמנת שובר איסוף או eSIM מראש ב-Klook עולה כ-35–45 ₪ ל-30 יום במקום כ-95–110 ₪ בדוכן!",
         costDisplay: "כ-₪40 ליחידה (ב-Klook)",
         mapUrl: "https://www.klook.com/en-US/activity/16587-dtac-happy-tourist-sim-card-suvarnabhumi-airport-pickup-bangkok/",
         highlight: true,
       },
       {
-        time: "10:40 / 11:30",
-        text: "טיסת בוקר מאוחרת מסוברנבהומי (BKK) לפוקט (HKT): מומלץ Bangkok Airways PG 275 (10:40–12:10, כ-644 ₪ לזוג כולל 40 ק\"ג משותפים וטרקלין) או Thai Airways TG 207 (11:30–13:00, כ-714 ₪ לזוג כולל כבודה) או Thai VietJet VZ 304 (10:20–11:50, כ-454 ₪ לזוג כולל מזוודת 25 ק\"ג).",
+        time: "10:20 / 11:50",
+        text: "טיסת בוקר מסוברנבהומי (BKK) לפוקט (HKT): מומלץ (#1) Thai VietJet Air VZ 304 (10:20–11:50) או VZ 314 (11:50–13:20) בכ-454 ₪ לזוג (חשוב: להוסיף בהזמנה מזוודת 25 ק\"ג אחת לנוסע מס' 1 ב-~60 ₪; טרולים ותיקי גב עד 7 ק\"ג לאדם כלולים בחינם ותואמים ל-Etihad!). חלופה: Bangkok Airways PG 275 ב-10:40 בכ-644 ₪ לזוג (40 ק\"ג כלולים).",
+        costDisplay: "כ-₪454 לזוג (כולל 25 ק\"ג)",
+        infoUrl: "https://www.trip.com/flights/bangkok-to-phuket/tickets-bkk-hkt?dcity=bkk&acity=hkt&ddate=2026-11-23&triptype=ow&class=y&quantity=2&nonstoponly=on",
         highlight: true,
       },
       {
@@ -1160,7 +1162,9 @@ export const TRIP_DAYS: TripDay[] = [
       },
       {
         time: "15:25",
-        text: "טיסה ישירה מומלצת מקראבי לצ'יאנג מאי – אפשרות 13 של גלעד: Thai AirAsia (המראה 15:25, נחיתה 17:25, כ-792 ₪ לזוג לפני מזוודה / או אפשרות 14 ב-19:35 ב-701 ₪).",
+        text: "טיסה ישירה מומלצת (#1) מקראבי לצ'יאנג מאי – Thai AirAsia FD 3077 (המראה 15:25, נחיתה 17:25, כ-870 ₪ לזוג כולל מזוודת 25 ק\"ג / או FD 3075 ב-19:35 בכ-779 ₪ לזוג). חשוב בהזמנה: להוסיף כבודה של 25 ק\"ג לנוסע מס' 1 בלבד (845 באט = ~78 ₪) ולבחור ללא מזוודה לנוסע 2!",
+        costDisplay: "כ-₪870 לזוג (כולל 25 ק\"ג)",
+        infoUrl: "https://www.airasia.com/flights/search/?origin=KBV&destination=CNX&departDate=03/12/2026&tripType=O&adult=2&child=0&infant=0&locale=en-gb&currency=THB",
         highlight: true,
       },
       {
@@ -1410,8 +1414,10 @@ export const TRIP_DAYS: TripDay[] = [
     transitSummary: "טיסת בוקר CNX ← BKK (1ש' 25ד') + מונית למלון בקאו סאן (40 דק')",
     activities: [
       {
-        time: "08:05",
-        text: "טיסת בוקר מומלצת מצ'יאנג מאי לבנגקוק – אפשרות 7 של גלעד: Thai Airways (המראה 08:05, נחיתה 09:30, כ-519 ₪ לזוג כולל כבודה מלאה).",
+        time: "08:55 (או 08:05)",
+        text: "טיסת בוקר מומלצת (#1) מצ'יאנג מאי לבנגקוק (BKK): Thai AirAsia FD 4101 (המראה 08:55, נחיתה 10:10, כ-385 ₪ לזוג – חשוב להוסיף בהזמנה מזוודת 25 ק\"ג אחת לנוסע מס' 1 ב-~78 ₪, נשלחת בשלמותה!). חלופה: Thai Airways TG 101 ב-08:05 (נחיתה 09:30, כ-519 ₪ לזוג – שימו לב שממרץ 2026 מוגבל ל-23 ק\"ג למזוודה בודדת!).",
+        costDisplay: "כ-₪385 לזוג (כולל 25 ק\"ג)",
+        infoUrl: "https://www.airasia.com/flights/search/?origin=CNX&destination=BKK&departDate=11/12/2026&tripType=O&adult=2&child=0&infant=0&locale=en-gb&currency=THB",
         highlight: true,
       },
       {
