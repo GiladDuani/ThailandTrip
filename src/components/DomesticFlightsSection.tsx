@@ -222,7 +222,7 @@ export const DomesticFlightsSection: React.FC = () => {
                               target="_blank"
                               rel="noreferrer"
                             >
-                              Google Flights
+                              Google Flights (הטיסה)
                               <ExternalLink className="h-3 w-3" />
                             </a>
                           </Button>

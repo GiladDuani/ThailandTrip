@@ -1,5 +1,5 @@
 // Service Worker for "תאילנד 2026 • גלעד והדר" PWA
-const CACHE_NAME = 'thailand-2026-pwa-v2.0';
+const CACHE_NAME = 'thailand-2026-pwa-v3.0';
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
