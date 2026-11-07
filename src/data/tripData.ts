@@ -162,7 +162,7 @@ export const HOTEL_BOOKINGS: HotelBooking[] = [
     region: "phuket",
   },
   {
-    id: "hotel-4-railay",
+    id: "hotel-4-krabi-centara",
     order: 4,
     area: "או נאנג, קראבי",
     hotelName: "Centara Anda Dhevi Resort & Spa Krabi",
@@ -171,17 +171,18 @@ export const HOTEL_BOOKINGS: HotelBooking[] = [
     checkOut: "3 בדצמבר 2026",
     checkOutIso: "2026-12-03",
     nights: 4,
-    bookedBy: "הדר",
-    platform: "אתר המלון (CentaraThe1)",
-    roomDetails: "דלוקס קינג (Deluxe King) • תעריף גמיש חבר CentaraThe1 • בקשה מיוחדת רשומה: ירח דבש • מס' מסלול: 27886B9933923 | מס' אישור חדר: 34980SH130013",
-    mealPlan: "כולל ארוחת בוקר",
-    originalPriceDisplay: "₪2,250.32 (אומדן כולל מיסים ועמלות – החיוב ב-THB)",
+    bookedBy: "הדר ביידאני",
+    platform: "אתר המלון הרשמי (CentaraThe1)",
+    roomDetails: "דלוקס קינג (Deluxe King) • תעריף גמיש עם ארוחת בוקר - תעריף חבר CentaraThe1 • בקשה מיוחדת: 'זה ירח הדבש שלנו' • מס' מסלול (Itinerary): 27886B9933923 | מס' אישור חדר 1: 34980SH130013",
+    mealPlan: "כולל ארוחת בוקר (לכל 4 הלילות)",
+    originalPriceDisplay: "₪2,250.32 (אומדן כולל מיסים ועמלות – החיוב במטבע המקומי THB)",
     ilsPrice: 2250,
-    ilsPriceDisplay: "כ־₪2,250",
+    ilsPriceDisplay: "₪2,250.32",
     paymentStatus: "pay_at_hotel",
-    paymentNote: "הוזמן ישירות באתר הרשמי (תעריף גמיש חבר CentaraThe1, מאסטרקארד •••• 1114 לביטחון; החיוב ב-THB). כתובת: 182 Moo 3 Ao Nang Soi 8, Muang, Krabi 81000 | טל': 66-75-626222. שתי ההזמנות הקודמות (Railay Village ו-Noppharat) בוטלו ללא דמי ביטול!",
-    freeCancellationUntil: "תעריף גמיש (Flexible Rate – מומלץ לשמור את שורת תנאי הביטול מאישור המייל של סנטרה)",
+    paymentNote: "דרך ההזמנה: הוזמן ישירות באתר הרשמי של סנטרה (CentaraThe1) ע\"י הדר ביידאני (hadarby95@gmail.com • 053-8243988) עם כרטיס מאסטרקארד •••• 1114 לביטחון (החיוב ב-THB). כתובת: 182 Moo 3 Ao Nang Soi 8, Muang, Krabi 81000 | טל': 66-75-626222 | מייל: onlinecak@chr.co.th",
+    freeCancellationUntil: "תעריף גמיש (Flexible Rate) – ניתן לעריכה ולביטול באתר Centara הרשמי עם מס' מסלול 27886B9933923 / אישור 34980SH130013 (לבדוק במייל האישור עד איזה תאריך ושעה הביטול בחינם)",
     freeCancellationIso: null,
+    openActionWarning: "תעריף גמיש (Flexible Rate): מומלץ לבדוק במייל האישור של הדר מ-Centara את התאריך המדויק שעד אליו ניתן לבטל או לערוך בחינם.",
     mapUrl: "https://maps.google.com/?q=Centara+Anda+Dhevi+Resort+and+Spa+Krabi",
     bookingSearchUrl: "https://www.centarahotelsresorts.com/centara/cak",
     region: "krabi",
@@ -634,16 +635,16 @@ export const DOMESTIC_FLIGHTS_LEGS: DomesticFlightLeg[] = [
 export const OPEN_DECISIONS: OpenDecisionItem[] = [
   {
     id: "open-centara-cancel-terms",
-    title: "שמירת שורת תנאי הביטול מאישור המייל של Centara Anda Dhevi Krabi",
+    title: "קראבי (Centara Anda Dhevi): בדיקת תאריך ביטול חינם במייל האישור של הדר",
     category: "hotel_verification",
     urgency: "medium",
-    deadlineDisplay: "בנוחות (ריילי ו-Noppharat כבר בוטלו ב-0 עמלה!)",
+    deadlineDisplay: "תעריף גמיש (Flexible Rate – CentaraThe1)",
     deadlineIso: "2026-11-20T18:00:00",
     isShabbatWarning: false,
-    description: "נסגר ואושר: Centara Anda Dhevi Resort & Spa Krabi (דלוקס קינג + ארוחת בוקר ל-4 לילות, 29.11–03.12, אומדן ₪2,250.32 • מס' מסלול 27886B9933923 | אישור חדר 34980SH130013). ההזמנות הקודמות בריילי וילג' וב-Noppharat בוטלו שתיהן ללא דמי ביטול.",
-    actionNote: "מומלץ רק לבדוק במייל האישור של הדר מ-Centara עד איזה תאריך בדיוק התעריף הגמיש (Flexible Rate) מאפשר ביטול חינם ולרשום זאת לעצמכם.",
+    description: "הוזמן ואושר באתר הרשמי של Centara (תעריף חבר CentaraThe1 ע\"י הדר ביידאני • hadarby95@gmail.com • 053-8243988): חדר דלוקס קינג + ארוחת בוקר ל-4 לילות (29.11–03.12), אומדן ₪2,250.32 (החיוב ב-THB במלון, מאסטרקארד •••• 1114 לביטחון). מס' מסלול: 27886B9933923 | מס' אישור חדר 1: 34980SH130013.",
+    actionNote: "דרך עריכה/ביטול: ניתן לצפות, לערוך או לבטל את ההזמנה ישירות באתר Centara עם מספר האישור 34980SH130013 והמייל של הדר. מומלץ רק לבדוק במייל האישור עד איזה תאריך בדיוק התעריף הגמיש מאפשר ביטול ללא עלות.",
     linkUrl: "https://www.centarahotelsresorts.com/centara/cak",
-    linkLabel: "אתר Centara Anda Dhevi",
+    linkLabel: "אתר Centara Anda Dhevi וניהול הזמנה",
   },
   {
     id: "open-flight-1-bkk-hkt",
@@ -1022,7 +1023,7 @@ export const TRIP_DAYS: TripDay[] = [
     subtitle: "הגעה נוחה ישר לפתח הריזורט באו נאנג ל-4 לילות מפנקים בחדר דלוקס קינג",
     region: "krabi",
     hotelName: "Centara Anda Dhevi Resort & Spa Krabi",
-    hotelId: "hotel-4-railay",
+    hotelId: "hotel-4-krabi-centara",
     transitSummary: "וואן / מונית פרטית מפאטונג ישר לפתח המלון באו נאנג (כ-2.5–3 שעות) או מעבורת/ספידבוט מפוקט למזח או נאנג (שעתיים)",
     activities: [
       {
@@ -1054,7 +1055,7 @@ export const TRIP_DAYS: TripDay[] = [
     subtitle: "נהנים מכל היופי של חצי האי ריילי עם תיק יום קל – וחוזרים לישון בנוחות בסנטרה!",
     region: "krabi",
     hotelName: "Centara Anda Dhevi Resort & Spa Krabi",
-    hotelId: "hotel-4-railay",
+    hotelId: "hotel-4-krabi-centara",
     transitSummary: "סירת לונגטייל מחוף או נאנג לחוף Railay West (10–15 דק' לכיוון, 100 באט לאדם)",
     activities: [
       {
@@ -1085,7 +1086,7 @@ export const TRIP_DAYS: TripDay[] = [
     subtitle: "לגונות טורקיז נסתרות ותצפית 360 מעלות על איי אנדמן",
     region: "krabi",
     hotelName: "Centara Anda Dhevi Resort & Spa Krabi",
-    hotelId: "hotel-4-railay",
+    hotelId: "hotel-4-krabi-centara",
     transitSummary: "יציאה בסירת לונגטייל פרטית ממזח Noppharat Thara / חוף או נאנג (5 דק' מהמלון!)",
     activities: [
       {
@@ -1111,7 +1112,7 @@ export const TRIP_DAYS: TripDay[] = [
     subtitle: "יום אחרון ומלא בקראבי וב-Centara Anda Dhevi Resort & Spa",
     region: "krabi",
     hotelName: "Centara Anda Dhevi Resort & Spa Krabi",
-    hotelId: "hotel-4-railay",
+    hotelId: "hotel-4-krabi-centara",
     transitSummary: "איסוף ישירות מלובי המלון לבריכת הברקת (שעה) או יום פינוק באו נאנג",
     activities: [
       {
@@ -1555,15 +1556,15 @@ export const MAP_WAYPOINTS: MapWaypoint[] = [
     gmapQuery: "iCheck+inn+Chill+Patong+Phuket",
   },
   {
-    id: "wp-railay",
+    id: "wp-krabi-centara",
     stepNumber: 4,
-    name: "4. או נאנג וריילי, קראבי (4 לילות)",
+    name: "4. או נאנג, קראבי (4 לילות)",
     dates: "29 בנובמבר – 3 בדצמבר",
     region: "krabi",
     hotelName: "Centara Anda Dhevi Resort & Spa Krabi",
     lat: 8.0401,
     lng: 98.8179,
-    description: "דלוקס קינג עם ארוחת בוקר בתעריף חבר CentaraThe1 (אומדן ₪2,250.32 • אישור חדר 34980SH130013). ריילי ו-Noppharat בוטלו ב-0 עמלה. טיסה ישירה לצ'יאנג מאי ב-03.12.",
+    description: "דלוקס קינג עם ארוחת בוקר בתעריף גמיש חבר CentaraThe1 באתר הרשמי (אומדן ₪2,250.32 • מס' מסלול 27886B9933923 | אישור חדר 34980SH130013). טיסה ישירה לצ'יאנג מאי ב-03.12.",
     gmapQuery: "Centara+Anda+Dhevi+Resort+and+Spa+Krabi",
   },
   {

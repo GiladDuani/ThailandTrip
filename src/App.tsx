@@ -388,7 +388,7 @@ export function App() {
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
-      className="min-h-screen bg-[#FAF7F2] text-[#142321] pb-24 sm:pb-16"
+      className="min-h-screen bg-[#FAF7F2] text-[#142321] pb-28 sm:pb-16 overflow-x-hidden"
     >
       {/* Top Scroll Progress Bar */}
       <motion.div
@@ -398,11 +398,11 @@ export function App() {
 
       {/* Deep Canopy Emerald Command Header */}
       <header className="bg-[#0B4F4A] text-[#FAF7F2] border-b border-[#083B37] relative overflow-hidden">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-6 pb-6 space-y-5">
-          <div className="flex flex-wrap items-start justify-between gap-4">
-            <div className="space-y-2">
-              <div className="flex flex-wrap items-center gap-2.5">
-                <h1 className="font-display text-2xl sm:text-4xl font-bold tracking-tight text-[#FAF7F2]">
+        <div className="max-w-6xl mx-auto px-3.5 sm:px-6 pt-3.5 pb-3.5 sm:pt-6 sm:pb-6 space-y-3 sm:space-y-5">
+          <div className="flex flex-wrap items-start justify-between gap-3 sm:gap-4">
+            <div className="space-y-1.5 sm:space-y-2 w-full sm:w-auto">
+              <div className="flex items-center justify-between sm:justify-start flex-wrap gap-2">
+                <h1 className="font-display text-xl sm:text-4xl font-bold tracking-tight text-[#FAF7F2]">
                   תאילנד 2026 • גלעד והדר
                 </h1>
                 {!isStandalone && (
@@ -411,53 +411,54 @@ export function App() {
                     size="sm"
                     variant="gold"
                     onClick={handlePwaButtonClick}
-                    className="gap-1.5 shadow-sm"
+                    className="gap-1.5 shadow-sm text-xs px-2.5 py-1 h-8 sm:h-9"
                   >
-                    <Download className="h-4 w-4" />
-                    <span>התקן אפליקציה בלחיצה אחת</span>
+                    <Download className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                    <span className="sm:hidden">התקן אפליקציה</span>
+                    <span className="hidden sm:inline">התקן אפליקציה בלחיצה אחת</span>
                   </Button>
                 )}
               </div>
-              <p className="text-sm sm:text-base text-[#D1FAE5] max-w-2xl">
-                22 בנובמבר עד 14 בדצמבר 2026 • בנגקוק ← קוקונט איילנד ← פאטונג (שבת 1) ← או נאנג וריילי (קראבי) ← צ'יאנג מאי (שבת 2) ← הלופ הצפוני (פאי, מאה הונג סון, מאה סריאנג) ← בנגקוק (שבת 3)
+              <p className="text-xs sm:text-base text-[#D1FAE5] max-w-2xl leading-snug">
+                22 בנובמבר עד 14 בדצמבר 2026 • בנגקוק ← קוקונט איילנד ← פאטונג (שבת 1) ← או נאנג, קראבי ← צ'יאנג מאי (שבת 2) ← הלופ הצפוני (פאי, מאה הונג סון, מאה סריאנג) ← בנגקוק (שבת 3)
               </p>
             </div>
 
             {/* Key Ledger Counters */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 w-full sm:w-auto">
-              <div className="rounded-xl bg-[#083B37] border border-[#0F6E66] px-3.5 py-2 text-center">
-                <div className="font-display text-lg sm:text-xl font-bold tabular-nums text-white">
+              <div className="rounded-xl bg-[#083B37] border border-[#0F6E66] px-2.5 py-1.5 sm:px-3.5 sm:py-2 text-center">
+                <div className="font-display text-base sm:text-xl font-bold tabular-nums text-white">
                   23 ימים
                 </div>
-                <div className="text-[11px] text-[#A7F3D0]">10 מלונות במסלול</div>
+                <div className="text-[10px] sm:text-[11px] text-[#A7F3D0]">10 מלונות במסלול</div>
               </div>
-              <div className="rounded-xl bg-[#083B37] border border-[#0F6E66] px-3.5 py-2 text-center">
-                <div className="font-display text-lg sm:text-xl font-bold tabular-nums text-[#FDE68A]">
+              <div className="rounded-xl bg-[#083B37] border border-[#0F6E66] px-2.5 py-1.5 sm:px-3.5 sm:py-2 text-center">
+                <div className="font-display text-base sm:text-xl font-bold tabular-nums text-[#FDE68A]">
                   כ־₪7,347
                 </div>
-                <div className="text-[11px] text-[#A7F3D0]">סה"כ מלונות לזוג</div>
+                <div className="text-[10px] sm:text-[11px] text-[#A7F3D0]">סה"כ מלונות לזוג</div>
               </div>
               <button
                 type="button"
                 onClick={() => setActiveTab("flights")}
-                className="rounded-xl bg-[#083B37] hover:bg-[#062E2B] border border-[#F59E0B] px-3.5 py-2 text-center transition-colors cursor-pointer"
+                className="rounded-xl bg-[#083B37] hover:bg-[#062E2B] border border-[#F59E0B] px-2.5 py-1.5 sm:px-3.5 sm:py-2 text-center transition-colors cursor-pointer"
               >
-                <div className="font-display text-lg sm:text-xl font-bold tabular-nums text-[#FCD34D]">
+                <div className="font-display text-base sm:text-xl font-bold tabular-nums text-[#FCD34D]">
                   3 טיסות
                 </div>
-                <div className="text-[11px] text-[#FDE68A] underline underline-offset-2">
+                <div className="text-[10px] sm:text-[11px] text-[#FDE68A] underline underline-offset-2">
                   טרם נסגרו (~₪1,623–1,709)
                 </div>
               </button>
               <button
                 type="button"
                 onClick={() => setActiveTab("decisions")}
-                className="rounded-xl bg-[#7F1D1D] hover:bg-[#991B1B] border border-[#F87171] px-3.5 py-2 text-center transition-colors cursor-pointer"
+                className="rounded-xl bg-[#7F1D1D] hover:bg-[#991B1B] border border-[#F87171] px-2.5 py-1.5 sm:px-3.5 sm:py-2 text-center transition-colors cursor-pointer"
               >
-                <div className="font-display text-lg sm:text-xl font-bold tabular-nums text-white">
+                <div className="font-display text-base sm:text-xl font-bold tabular-nums text-white">
                   {openDecisionsRemaining} פתוחים
                 </div>
-                <div className="text-[11px] text-[#FECACA] underline underline-offset-2">
+                <div className="text-[10px] sm:text-[11px] text-[#FECACA] underline underline-offset-2">
                   טיסות + דדליין Empress
                 </div>
               </button>
@@ -465,21 +466,22 @@ export function App() {
           </div>
 
           {/* Urgent Action Bar */}
-          <div className="rounded-xl bg-[#083B37]/95 border border-[#0F6E66] p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-            <div className="flex items-start sm:items-center gap-2.5 text-[#FAF7F2]">
-              <AlertTriangle className="h-5 w-5 text-[#FBBF24] shrink-0 mt-0.5 sm:mt-0" />
-              <div>
+          <div className="rounded-xl bg-[#083B37]/95 border border-[#0F6E66] p-2.5 sm:p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3 text-xs">
+            <div className="flex items-start sm:items-center gap-2 text-[#FAF7F2]">
+              <AlertTriangle className="h-4 w-4 sm:h-5 sm:w-5 text-[#FBBF24] shrink-0 mt-0.5 sm:mt-0" />
+              <div className="leading-relaxed">
                 <span className="font-bold text-[#FDE68A]">
                   סטטוס עדכני (05.11):
                 </span>{" "}
-                ✅ בקראבי נסגר <strong>Centara Anda Dhevi (דלוקס קינג • ₪2,250)</strong> ובוטלו ריילי ו-Noppharat ב-0 עמלה! • נשאר פתוח: 1. סגירת <strong>3 טיסות הפנים</strong> • 2.{" "}
+                ✅ בקראבי נסגר <strong>Centara Anda Dhevi (דלוקס קינג • ₪2,250.32 באתר הרשמי CentaraThe1 • אישור 34980SH130013)</strong> • נשאר פתוח: 1. סגירת <strong>3 טיסות הפנים</strong> • 2.{" "}
                 <strong>ביטול גיבוי Empress</strong> לפני שבת 04.12 (הדדליין חל בשבת 05.12 ב-18:59!).
               </div>
             </div>
-            <div className="flex flex-wrap gap-2 shrink-0">
+            <div className="grid grid-cols-2 sm:flex gap-2 shrink-0 w-full sm:w-auto">
               <Button
                 size="sm"
                 variant="gold"
+                className="w-full sm:w-auto text-xs px-2.5"
                 onClick={() => setActiveTab("flights")}
               >
                 השוואת טיסות פנים
@@ -487,6 +489,7 @@ export function App() {
               <Button
                 size="sm"
                 variant="secondary"
+                className="w-full sm:w-auto text-xs px-2.5"
                 onClick={() => setActiveTab("hotels")}
               >
                 טבלת המלונות והביטולים
@@ -497,11 +500,11 @@ export function App() {
       </header>
 
       {/* Main Content Container */}
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 pt-4 space-y-5">
+      <main className="max-w-6xl mx-auto px-3 sm:px-6 pt-2.5 sm:pt-4 space-y-4 sm:space-y-5">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          {/* Desktop / Tablet Sticky Tabs Bar */}
-          <div className="sticky top-2 z-30 bg-[#FAF7F2]/95 backdrop-blur-xs py-1.5 space-y-2">
-            <TabsList className="w-full flex overflow-x-auto no-scrollbar justify-start sm:justify-between gap-1">
+          {/* Desktop / Tablet Sticky Tabs Bar + Mobile Compact Screen Header */}
+          <div className="sticky top-1 sm:top-2 z-30 bg-[#FAF7F2]/95 backdrop-blur-xs py-1 sm:py-1.5 space-y-1.5">
+            <TabsList className="hidden sm:flex w-full overflow-x-auto no-scrollbar justify-between gap-1">
               <TabsTrigger value="itinerary" className="flex-1 gap-1.5">
                 <Clock className="h-4 w-4" />
                 <span>לו"ז יומי (23 ימים)</span>
@@ -533,24 +536,24 @@ export function App() {
             </TabsList>
 
             {/* Mobile Swipe Helper Bar */}
-            <div className="sm:hidden flex items-center justify-between bg-[#F3EDE2] border border-[#E2D9C8] rounded-xl px-2.5 py-1.5 text-xs text-[#4A5D5A]">
+            <div className="sm:hidden flex items-center justify-between bg-[#F3EDE2] border border-[#E2D9C8] rounded-xl px-2.5 py-1.5 text-xs text-[#4A5D5A] shadow-2xs">
               <button
                 type="button"
                 disabled={currentTabIndex <= 0}
                 onClick={() => goToTabByIndex(currentTabIndex - 1)}
-                className="flex items-center gap-1 font-bold text-[#0B4F4A] disabled:opacity-35 px-1.5 py-1 cursor-pointer"
+                className="flex items-center gap-0.5 font-bold text-[#0B4F4A] disabled:opacity-35 px-1.5 py-1 cursor-pointer min-w-[64px]"
               >
-                <ChevronRight className="h-4 w-4" />
-                <span>
+                <ChevronRight className="h-4 w-4 shrink-0" />
+                <span className="truncate">
                   {currentTabIndex > 0
                     ? TAB_ITEMS[currentTabIndex - 1].shortLabel
                     : "התחלה"}
                 </span>
               </button>
 
-              <div className="flex flex-col items-center gap-1">
-                <span className="text-[11px] font-semibold text-[#142321]">
-                  החליקו ימינה/שמאלה למעבר מסך
+              <div className="flex flex-col items-center gap-1 min-w-0 px-1">
+                <span className="text-xs font-bold text-[#0B4F4A] truncate">
+                  {TAB_ITEMS[currentTabIndex]?.label}
                 </span>
                 <div className="flex items-center gap-1">
                   {TAB_ITEMS.map((t, idx) => (
@@ -570,14 +573,14 @@ export function App() {
                 type="button"
                 disabled={currentTabIndex >= TAB_ITEMS.length - 1}
                 onClick={() => goToTabByIndex(currentTabIndex + 1)}
-                className="flex items-center gap-1 font-bold text-[#0B4F4A] disabled:opacity-35 px-1.5 py-1 cursor-pointer"
+                className="flex items-center justify-end gap-0.5 font-bold text-[#0B4F4A] disabled:opacity-35 px-1.5 py-1 cursor-pointer min-w-[64px]"
               >
-                <span>
+                <span className="truncate">
                   {currentTabIndex < TAB_ITEMS.length - 1
                     ? TAB_ITEMS[currentTabIndex + 1].shortLabel
                     : "סוף"}
                 </span>
-                <ChevronLeft className="h-4 w-4" />
+                <ChevronLeft className="h-4 w-4 shrink-0" />
               </button>
             </div>
           </div>
@@ -613,14 +616,14 @@ export function App() {
                       height: shouldHaveHeight ? "auto" : 0,
                       overflow: shouldHaveHeight ? "visible" : "hidden",
                     }}
-                    className="min-w-full w-full shrink-0 pt-2 pb-6 flex flex-col"
+                    className="min-w-full w-full shrink-0 pt-1.5 sm:pt-2 pb-6 flex flex-col"
                   >
                     {/* SCREEN 1: DAILY ITINERARY */}
                     {tabItem.id === "itinerary" && (
-                      <div className="space-y-5">
+                      <div className="space-y-4 sm:space-y-5">
                         {/* Search & Region Filter Chips */}
                         <Card>
-                          <CardContent className="p-4 space-y-3">
+                          <CardContent className="p-3 sm:p-4 space-y-2.5 sm:space-y-3">
                             <div className="relative">
                               <Search className="h-4 w-4 text-[#6B7E7A] absolute right-3.5 top-3.5" />
                               <Input
@@ -629,14 +632,15 @@ export function App() {
                                 aria-label="חיפוש מהיר במסלול"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                placeholder="חיפוש מהיר לפי יום, תאריך, מלון (ברסלו, ריילי, פאי, מאה הונג סון...) או אטרקציה"
-                                className="pr-10"
+                                placeholder="חיפוש לפי יום, תאריך, מלון (ברסלו, סנטרה קראבי, פאי...) או אטרקציה"
+                                className="pr-10 text-xs sm:text-sm"
                               />
                             </div>
 
-                            <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+                            <div className="flex gap-1.5 sm:gap-2 overflow-x-auto pb-1 no-scrollbar">
                               <Button
                                 size="sm"
+                                className="shrink-0 text-xs"
                                 variant={
                                   regionFilter === "all" ? "default" : "outline"
                                 }
@@ -646,6 +650,7 @@ export function App() {
                               </Button>
                               <Button
                                 size="sm"
+                                className="shrink-0 text-xs"
                                 variant={
                                   regionFilter === "phuket"
                                     ? "default"
@@ -657,6 +662,7 @@ export function App() {
                               </Button>
                               <Button
                                 size="sm"
+                                className="shrink-0 text-xs"
                                 variant={
                                   regionFilter === "krabi"
                                     ? "default"
@@ -664,10 +670,11 @@ export function App() {
                                 }
                                 onClick={() => setRegionFilter("krabi")}
                               >
-                                ריילי וקראבי (29.11–03.12)
+                                או נאנג וקראבי (29.11–03.12)
                               </Button>
                               <Button
                                 size="sm"
+                                className="shrink-0 text-xs"
                                 variant={
                                   regionFilter === "chiang_mai"
                                     ? "default"
@@ -679,6 +686,7 @@ export function App() {
                               </Button>
                               <Button
                                 size="sm"
+                                className="shrink-0 text-xs"
                                 variant={
                                   regionFilter === "loop"
                                     ? "default"
@@ -690,6 +698,7 @@ export function App() {
                               </Button>
                               <Button
                                 size="sm"
+                                className="shrink-0 text-xs"
                                 variant={
                                   regionFilter === "bangkok"
                                     ? "default"
@@ -701,6 +710,7 @@ export function App() {
                               </Button>
                               <Button
                                 size="sm"
+                                className="shrink-0 text-xs"
                                 variant={
                                   regionFilter === "shabbat"
                                     ? "gold"
@@ -718,11 +728,11 @@ export function App() {
                         {/* Days List with Scroll Reveal */}
                         {filteredDays.length === 0 ? (
                           <Card>
-                            <CardContent className="p-10 text-center space-y-2">
-                              <div className="font-display font-bold text-lg text-[#142321]">
+                            <CardContent className="p-8 sm:p-10 text-center space-y-2">
+                              <div className="font-display font-bold text-base sm:text-lg text-[#142321]">
                                 לא נמצאו ימים התואמים לחיפוש "{searchQuery}"
                               </div>
-                              <p className="text-sm text-[#4A5D5A]">
+                              <p className="text-xs sm:text-sm text-[#4A5D5A]">
                                 נסו לאפס את מסנן האזור או לחפש מילה אחרת.
                               </p>
                               <Button
@@ -738,7 +748,7 @@ export function App() {
                             </CardContent>
                           </Card>
                         ) : (
-                          <div className="space-y-4">
+                          <div className="space-y-3.5 sm:space-y-4">
                             <AnimatePresence mode="popLayout">
                               {filteredDays.map((day, dayIdx) => {
                                 const reg = getRegionMeta(day.region);
@@ -766,7 +776,7 @@ export function App() {
                                     >
                                       {/* Top Ribbon */}
                                       <div
-                                        className="px-5 py-2.5 flex flex-wrap items-center justify-between gap-2 border-b"
+                                        className="px-3.5 sm:px-5 py-2 sm:py-2.5 flex flex-wrap items-center justify-between gap-2 border-b"
                                         style={{
                                           backgroundColor: day.isShabbat
                                             ? "#FEF3C7"
@@ -776,9 +786,9 @@ export function App() {
                                             : reg.borderSoft,
                                         }}
                                       >
-                                        <div className="flex items-center gap-2 flex-wrap">
+                                        <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
                                           <span
-                                            className="px-2.5 py-0.5 rounded-md text-xs font-bold text-white tabular-nums"
+                                            className="px-2 sm:px-2.5 py-0.5 rounded-md text-[11px] sm:text-xs font-bold text-white tabular-nums"
                                             style={{
                                               backgroundColor: day.isShabbat
                                                 ? "#B45309"
@@ -788,7 +798,7 @@ export function App() {
                                             יום {day.dayNum} • {reg.name}
                                           </span>
                                           {day.isShabbat && (
-                                            <Badge variant="shabbat">
+                                            <Badge variant="shabbat" className="text-[11px]">
                                               <Flame className="h-3 w-3 ml-1" />
                                               {day.shabbatName}
                                             </Badge>
@@ -796,7 +806,7 @@ export function App() {
                                           {day.candleLighting && (
                                             <Badge
                                               variant="outline"
-                                              className="bg-white/90"
+                                              className="bg-white/90 text-[11px]"
                                             >
                                               הדלקת נרות: {day.candleLighting}
                                             </Badge>
@@ -804,31 +814,31 @@ export function App() {
                                           {day.havdalah && (
                                             <Badge
                                               variant="outline"
-                                              className="bg-white/90"
+                                              className="bg-white/90 text-[11px]"
                                             >
                                               צאת שבת: {day.havdalah}
                                             </Badge>
                                           )}
                                         </div>
-                                        <span className="font-display font-bold text-sm text-[#142321] tabular-nums">
+                                        <span className="font-display font-bold text-xs sm:text-sm text-[#142321] tabular-nums">
                                           {day.dayOfWeek}, {day.date}
                                         </span>
                                       </div>
 
-                                      <CardContent className="p-5 space-y-4">
+                                      <CardContent className="p-3.5 sm:p-5 space-y-3 sm:space-y-4">
                                         <div>
-                                          <h3 className="font-display text-xl font-bold text-[#142321]">
+                                          <h3 className="font-display text-lg sm:text-xl font-bold text-[#142321] leading-snug">
                                             {day.title}
                                           </h3>
-                                          <p className="text-sm text-[#4A5D5A]">
+                                          <p className="text-xs sm:text-sm text-[#4A5D5A] mt-0.5">
                                             {day.subtitle}
                                           </p>
                                         </div>
 
                                         {/* Transit Strip */}
-                                        <div className="rounded-lg bg-[#F5F0E6] border border-[#E2D9C8] px-3.5 py-2 text-xs font-semibold text-[#1D3532] flex items-center gap-2">
-                                          <Clock className="h-4 w-4 text-[#0B4F4A] shrink-0" />
-                                          <span>
+                                        <div className="rounded-lg bg-[#F5F0E6] border border-[#E2D9C8] px-3 py-2 text-xs font-semibold text-[#1D3532] flex items-start sm:items-center gap-2">
+                                          <Clock className="h-4 w-4 text-[#0B4F4A] shrink-0 mt-0.5 sm:mt-0" />
+                                          <span className="leading-snug">
                                             מעברים ונסיעות ביום זה:{" "}
                                             {day.transitSummary}
                                           </span>
@@ -839,7 +849,7 @@ export function App() {
                                           {day.activities.map((act, i) => (
                                             <li
                                               key={i}
-                                              className={`rounded-xl p-3 text-sm flex flex-col sm:flex-row sm:items-start justify-between gap-2 border ${
+                                              className={`rounded-xl p-2.5 sm:p-3 text-xs sm:text-sm flex flex-col sm:flex-row sm:items-start justify-between gap-2.5 border ${
                                                 act.highlight
                                                   ? "bg-[#ECFDF5]/60 border-[#A7F3D0]"
                                                   : "bg-[#FAF7F2]/60 border-[#EFE9DC]"
@@ -848,14 +858,14 @@ export function App() {
                                               <div className="space-y-1">
                                                 <div className="flex items-center gap-2 flex-wrap">
                                                   {act.time && (
-                                                    <span className="inline-block rounded bg-[#0B4F4A] text-[#FAF7F2] px-2 py-0.5 text-xs font-bold tabular-nums">
+                                                    <span className="inline-block rounded bg-[#0B4F4A] text-[#FAF7F2] px-2 py-0.5 text-[11px] sm:text-xs font-bold tabular-nums">
                                                       {act.time}
                                                     </span>
                                                   )}
                                                   {act.costDisplay && (
                                                     <Badge
                                                       variant="secondary"
-                                                      className="tabular-nums"
+                                                      className="tabular-nums text-[11px]"
                                                     >
                                                       עלות: {act.costDisplay}
                                                     </Badge>
@@ -867,12 +877,12 @@ export function App() {
                                               </div>
 
                                               {(act.mapUrl || act.infoUrl) && (
-                                                <div className="flex flex-wrap gap-1.5 shrink-0 self-start">
+                                                <div className="flex flex-wrap gap-1.5 shrink-0 w-full sm:w-auto pt-0.5 sm:pt-0">
                                                   {act.infoUrl && (
                                                     <Button
                                                       variant="outline"
                                                       size="sm"
-                                                      className="border-[#0B4F4A]/30 text-[#0B4F4A] hover:bg-[#0B4F4A]/5"
+                                                      className="flex-1 sm:flex-initial border-[#0B4F4A]/30 text-[#0B4F4A] hover:bg-[#0B4F4A]/5 text-xs min-h-[38px]"
                                                       asChild
                                                     >
                                                       <a
@@ -890,6 +900,7 @@ export function App() {
                                                     <Button
                                                       variant="outline"
                                                       size="sm"
+                                                      className="flex-1 sm:flex-initial text-xs min-h-[38px]"
                                                       asChild
                                                     >
                                                       <a
@@ -910,16 +921,16 @@ export function App() {
                                         </ul>
 
                                         {/* Booked Hotel Footer Box */}
-                                        <div className="rounded-xl border border-[#E6DFD3] bg-[#FAF7F2] p-3.5 flex flex-wrap items-center justify-between gap-3 text-xs">
+                                        <div className="rounded-xl border border-[#E6DFD3] bg-[#FAF7F2] p-3 sm:p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3 text-xs">
                                           <div className="space-y-1">
-                                            <div className="flex items-center gap-1.5 text-sm font-bold text-[#0B4F4A]">
+                                            <div className="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#0B4F4A]">
                                               <BedDouble className="h-4 w-4 shrink-0" />
                                               <span>
                                                 לינה מוזמנת: {day.hotelName}
                                               </span>
                                             </div>
                                             {bookedHotel && (
-                                              <div className="text-[#4A5D5A]">
+                                              <div className="text-[#4A5D5A] leading-relaxed">
                                                 הוזמן ע"י{" "}
                                                 <strong>
                                                   {bookedHotel.bookedBy}
@@ -947,10 +958,11 @@ export function App() {
                                           </div>
 
                                           {bookedHotel && (
-                                            <div className="flex gap-2">
+                                            <div className="grid grid-cols-2 sm:flex gap-2 shrink-0 w-full sm:w-auto">
                                               <Button
                                                 variant="outline"
                                                 size="sm"
+                                                className="w-full sm:w-auto text-xs min-h-[38px]"
                                                 asChild
                                               >
                                                 <a
@@ -962,14 +974,31 @@ export function App() {
                                                   מיקום המלון
                                                 </a>
                                               </Button>
+                                              <Button
+                                                variant="secondary"
+                                                size="sm"
+                                                className="w-full sm:w-auto text-xs min-h-[38px]"
+                                                asChild
+                                              >
+                                                <a
+                                                  href={bookedHotel.bookingSearchUrl}
+                                                  target="_blank"
+                                                  rel="noreferrer"
+                                                >
+                                                  {bookedHotel.id === "hotel-4-krabi-centara"
+                                                    ? "אתר Centara"
+                                                    : "דף המלון"}
+                                                  <ExternalLink className="h-3 w-3" />
+                                                </a>
+                                              </Button>
                                             </div>
                                           )}
                                         </div>
 
                                         {day.importantNote && (
-                                          <div className="rounded-xl border border-[#F59E0B] bg-[#FFFBEB] p-3 text-xs font-semibold text-[#92400E] flex items-center gap-2">
-                                            <AlertTriangle className="h-4 w-4 shrink-0 text-[#D97706]" />
-                                            <span>{day.importantNote}</span>
+                                          <div className="rounded-xl border border-[#F59E0B] bg-[#FFFBEB] p-2.5 sm:p-3 text-xs font-semibold text-[#92400E] flex items-start sm:items-center gap-2">
+                                            <AlertTriangle className="h-4 w-4 shrink-0 text-[#D97706] mt-0.5 sm:mt-0" />
+                                            <span className="leading-snug">{day.importantNote}</span>
                                           </div>
                                         )}
 
@@ -1149,9 +1178,9 @@ export function App() {
       {/* Zmanim-style Mobile Bottom Navigation Bar */}
       <nav
         aria-label="ניווט תחתון לנייד"
-        className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-[#E2D9C8] pb-[env(safe-area-inset-bottom,0.5rem)] shadow-lg"
+        className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-[#E2D9C8] pb-[env(safe-area-inset-bottom,0.4rem)] shadow-lg"
       >
-        <div className="max-w-md mx-auto flex items-center justify-around px-0.5 py-1">
+        <div className="max-w-md mx-auto flex items-center justify-between px-1 py-1">
           {TAB_ITEMS.map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
@@ -1168,22 +1197,22 @@ export function App() {
                     window.scrollTo({ top: 0, behavior: "instant" });
                   }
                 }}
-                className="flex flex-col items-center justify-center min-w-[44px] min-h-[48px] py-1 px-0.5 rounded-2xl transition-all relative group cursor-pointer"
+                className="flex-1 min-w-0 flex flex-col items-center justify-center min-h-[48px] py-1 px-0.5 rounded-xl transition-all relative group cursor-pointer"
               >
                 <div
-                  className={`flex items-center justify-center w-10 h-6.5 rounded-full transition-all ${
+                  className={`flex items-center justify-center w-9 h-6 rounded-full transition-all ${
                     isActive
                       ? "bg-[#D1FAE5] text-[#0B4F4A] font-semibold"
                       : "text-[#6B7E7A] group-hover:text-[#142321]"
                   }`}
                 >
-                  <Icon className="h-[18px] w-[18px] stroke-[2.2]" />
+                  <Icon className="h-[17px] w-[17px] stroke-[2.2]" />
                   {hasBadge && (
-                    <span className="absolute top-1 right-2.5 w-2 h-2 rounded-full bg-[#DC2626] ring-2 ring-white animate-pulse" />
+                    <span className="absolute top-1 right-2 w-2 h-2 rounded-full bg-[#DC2626] ring-2 ring-white animate-pulse" />
                   )}
                 </div>
                 <span
-                  className={`text-[10px] mt-0.5 tracking-tight ${
+                  className={`text-[10px] leading-tight mt-0.5 tracking-tight truncate max-w-full ${
                     isActive
                       ? "text-[#0B4F4A] font-bold"
                       : "text-[#6B7E7A] font-medium"

@@ -25,8 +25,8 @@ export interface HotelBooking {
   checkOut: string;
   checkOutIso: string;
   nights: number;
-  bookedBy: "גלעד" | "הדר" | "טרם צוין";
-  platform: "Booking" | "Agoda" | "Agoda של הדר" | "אתר המלון (CentaraThe1)";
+  bookedBy: "גלעד" | "הדר" | "הדר ביידאני" | "טרם צוין";
+  platform: "Booking" | "Agoda" | "Agoda של הדר" | "אתר המלון (CentaraThe1)" | "אתר המלון הרשמי (CentaraThe1)";
   roomDetails: string;
   mealPlan: string;
   originalPriceDisplay: string;

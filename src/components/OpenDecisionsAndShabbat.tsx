@@ -70,20 +70,20 @@ export const OpenDecisionsSection: React.FC<OpenDecisionsAndShabbatProps> = ({
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
+    <div className="space-y-4 sm:space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h2 className="font-display text-xl font-bold text-[#142321]">
+          <h2 className="font-display text-lg sm:text-xl font-bold text-[#142321]">
             מה נשאר לסגור ודדליינים קריטיים ({completedCount} מתוך {allItems.length} הושלמו)
           </h2>
-          <p className="text-sm text-[#4A5D5A]">
+          <p className="text-xs sm:text-sm text-[#4A5D5A]">
             סמנו משימות שהושלמו : הסימון נשמר אוטומטית במכשיר שלכם
           </p>
         </div>
 
         <Dialog open={modalOpen} onOpenChange={setModalOpen}>
           <DialogTrigger asChild>
-            <Button variant="default">
+            <Button variant="default" className="w-full sm:w-auto">
               <Plus className="h-4 w-4" />
               הוספת משימה חדשה
             </Button>
@@ -103,7 +103,7 @@ export const OpenDecisionsSection: React.FC<OpenDecisionsAndShabbatProps> = ({
                 <Input
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  placeholder="למשל: לבדוק צילום חדר בריילי מול הדר..."
+                  placeholder="למשל: לבדוק תאריך ביטול חינם במייל של סנטרה קראבי..."
                   required
                 />
               </div>
@@ -114,7 +114,7 @@ export const OpenDecisionsSection: React.FC<OpenDecisionsAndShabbatProps> = ({
                 <Input
                   value={deadline}
                   onChange={(e) => setDeadline(e.target.value)}
-                  placeholder="למשל: לפני שבת 13.11"
+                  placeholder="למשל: לפני שבת 04.12"
                 />
               </div>
               <div className="space-y-1.5">

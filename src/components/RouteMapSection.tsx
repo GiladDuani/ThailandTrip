@@ -118,19 +118,20 @@ export const RouteMapSection: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       <Card>
-        <CardHeader className="pb-3">
+        <CardHeader className="p-3.5 sm:p-5 pb-2.5 sm:pb-3">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div>
-              <CardTitle className="text-xl">מפת המסלול והמלונות המוזמנים (10 תחנות)</CardTitle>
-              <CardDescription>
-                בנגקוק שדה התעופה ← קוקונט איילנד ← פאטונג ← או נאנג וריילי (קראבי) ← צ'יאנג מאי ← הלופ הצפוני (פאי, מאה הונג סון, מאה סריאנג) ← בנגקוק
+              <CardTitle className="text-lg sm:text-xl">מפת המסלול והמלונות המוזמנים (10 תחנות)</CardTitle>
+              <CardDescription className="text-xs sm:text-sm">
+                בנגקוק שדה התעופה ← קוקונט איילנד ← פאטונג ← או נאנג (קראבי) ← צ'יאנג מאי ← הלופ הצפוני (פאי, מאה הונג סון, מאה סריאנג) ← בנגקוק
               </CardDescription>
             </div>
             <Button
               variant="outline"
               size="sm"
+              className="w-full sm:w-auto"
               onClick={() => focusWaypoint("all")}
             >
               <Navigation className="h-4 w-4" />
@@ -138,8 +139,8 @@ export const RouteMapSection: React.FC = () => {
             </Button>
           </div>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
+        <CardContent className="p-3.5 sm:p-5 pt-0 space-y-3.5 sm:space-y-4">
+          <div className="flex gap-2 overflow-x-auto pb-1.5 no-scrollbar">
             {MAP_WAYPOINTS.map((wp) => {
               const active = selectedWaypoint.id === wp.id;
               return (
@@ -161,20 +162,20 @@ export const RouteMapSection: React.FC = () => {
 
           <div
             ref={mapContainerRef}
-            className="h-[360px] sm:h-[430px] w-full rounded-xl border border-[#E6DFD3] overflow-hidden z-10"
+            className="h-[280px] sm:h-[430px] w-full rounded-xl border border-[#E6DFD3] overflow-hidden z-10"
           />
 
-          <div className="rounded-xl border border-[#E6DFD3] bg-[#FAF7F2] p-4">
-            <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <div className="rounded-xl border border-[#E6DFD3] bg-[#FAF7F2] p-3 sm:p-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 mb-3">
               <div>
-                <div className="font-display font-bold text-base text-[#142321]">
+                <div className="font-display font-bold text-sm sm:text-base text-[#142321]">
                   תצוגה חיה: {selectedWaypoint.name} : {selectedWaypoint.hotelName}
                 </div>
-                <div className="text-xs text-[#4A5D5A]">
+                <div className="text-xs text-[#4A5D5A] leading-relaxed">
                   {selectedWaypoint.dates} • {selectedWaypoint.description}
                 </div>
               </div>
-              <Button variant="default" size="sm" asChild>
+              <Button variant="default" size="sm" className="w-full sm:w-auto shrink-0" asChild>
                 <a
                   href={`https://maps.google.com/?q=${selectedWaypoint.gmapQuery}&hl=iw`}
                   target="_blank"
@@ -186,7 +187,7 @@ export const RouteMapSection: React.FC = () => {
                 </a>
               </Button>
             </div>
-            <div className="h-[260px] w-full overflow-hidden rounded-lg border border-[#E6DFD3]">
+            <div className="h-[220px] sm:h-[260px] w-full overflow-hidden rounded-lg border border-[#E6DFD3]">
               <iframe
                 title={selectedWaypoint.name}
                 src={`https://maps.google.com/maps?q=${selectedWaypoint.gmapQuery}&hl=iw&z=13&output=embed`}
@@ -199,12 +200,12 @@ export const RouteMapSection: React.FC = () => {
         </CardContent>
       </Card>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
         {MAP_WAYPOINTS.map((wp) => {
           const regionMeta = REGIONS.find((r) => r.id === wp.region);
           return (
             <Card key={wp.id} className="hover:border-[#B8AD9B] transition-colors">
-              <CardContent className="p-4 flex items-start justify-between gap-3">
+              <CardContent className="p-3.5 sm:p-4 flex flex-col sm:flex-row items-stretch sm:items-start justify-between gap-3">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2 flex-wrap">
                     <Badge
@@ -216,21 +217,22 @@ export const RouteMapSection: React.FC = () => {
                     >
                       {wp.dates}
                     </Badge>
-                    <span className="font-display font-bold text-base text-[#142321]">
+                    <span className="font-display font-bold text-sm sm:text-base text-[#142321]">
                       {wp.name}
                     </span>
                   </div>
-                  <div className="text-sm font-semibold text-[#0B4F4A]">
+                  <div className="text-xs sm:text-sm font-semibold text-[#0B4F4A]">
                     מלון: {wp.hotelName}
                   </div>
                   <p className="text-xs text-[#4A5D5A] leading-relaxed">
                     {wp.description}
                   </p>
                 </div>
-                <div className="flex flex-col gap-2 shrink-0">
+                <div className="grid grid-cols-2 sm:flex sm:flex-col gap-2 shrink-0">
                   <Button
                     variant="secondary"
                     size="sm"
+                    className="w-full"
                     onClick={() => {
                       focusWaypoint(wp);
                       mapContainerRef.current?.scrollIntoView({
@@ -241,7 +243,7 @@ export const RouteMapSection: React.FC = () => {
                   >
                     מקד במפה
                   </Button>
-                  <Button variant="outline" size="sm" asChild>
+                  <Button variant="outline" size="sm" className="w-full" asChild>
                     <a
                       href={`https://maps.google.com/?q=${wp.gmapQuery}&hl=iw`}
                       target="_blank"
