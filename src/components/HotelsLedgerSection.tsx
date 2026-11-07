@@ -69,13 +69,13 @@ export const HotelsLedgerSection: React.FC = () => {
           <CardContent className="p-5 space-y-1.5">
             <div className="flex items-center gap-1.5 text-xs font-bold text-[#991B1B]">
               <ShieldAlert className="h-4 w-4 shrink-0" />
-              <span>התראת מועדי ביטול בשבת (שעון ישראל)</span>
+              <span>התראת מועד ביטול בשבת (שעון ישראל)</span>
             </div>
             <div className="font-display text-sm font-bold text-[#7F1D1D]">
-              ריילי (14.11 ב-18:59) + גיבוי Empress (05.12 ב-18:59)
+              גיבוי The Empress בצ'יאנג מאי (05.12 ב-18:59)
             </div>
             <p className="text-xs text-[#991B1B] leading-relaxed">
-              שני מועדי הביטול חלים ביום שבת! לכן החלטה ואימות המיטה בריילי חייבים להיסגר לפני כניסת שבת ב-13.11, וביטול ה-Empress לפני כניסת שבת ב-04.12.
+              ✅ <strong>ריילי וילג' ו-Noppharat בוטלו ב-0 עמלה!</strong> נשאר רק מועד הביטול של מלון הגיבוי ללופ (Empress) שחל בשבת 05.12 — יש לבטלו לפני כניסת שבת ב-04.12.
             </p>
           </CardContent>
         </Card>
@@ -83,11 +83,11 @@ export const HotelsLedgerSection: React.FC = () => {
         <Card>
           <CardContent className="p-5 space-y-2">
             <div className="text-xs font-bold text-[#4A5D5A]">
-              הערות שער המרה ועדכון רשימת גלעד דואני (01.11.2026)
+              עדכון מלונות אחרון (05.11.2026)
             </div>
             <p className="text-xs text-[#142321] leading-relaxed">
-              • <strong>לה מרידיאן</strong> בוטל ב־0 באט והוסר, ו<strong>ברסלו קוקונט איילנד</strong> במקומו.<br />
-              • השקלים לצד מחירי באט ודולר הם אומדן לפי שער היום (ללא עמלות בנק/כרטיס).
+              • בקראבי (29.11–03.12) נסגר <strong>Centara Anda Dhevi Resort & Spa</strong> (דלוקס קינג + ארוחת בוקר ב-₪2,250.32 – חיסכון של כ-795 ₪!), ובוטלו ריילי ו-Noppharat ללא דמי ביטול.<br />
+              • בפוקט: <strong>ברסלו קוקונט איילנד</strong> במקום לה מרידיאן.
             </p>
             <div className="flex flex-wrap gap-2 pt-1">
               {FOREX_SOURCES.map((fx) => (

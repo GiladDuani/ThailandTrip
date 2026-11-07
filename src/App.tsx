@@ -419,7 +419,7 @@ export function App() {
                 )}
               </div>
               <p className="text-sm sm:text-base text-[#D1FAE5] max-w-2xl">
-                22 בנובמבר עד 14 בדצמבר 2026 • בנגקוק ← קוקונט איילנד ← פאטונג (שבת 1) ← ריילי ביץ' ← צ'יאנג מאי (שבת 2) ← הלופ הצפוני (פאי, מאה הונג סון, מאה סריאנג) ← בנגקוק (שבת 3)
+                22 בנובמבר עד 14 בדצמבר 2026 • בנגקוק ← קוקונט איילנד ← פאטונג (שבת 1) ← או נאנג וריילי (קראבי) ← צ'יאנג מאי (שבת 2) ← הלופ הצפוני (פאי, מאה הונג סון, מאה סריאנג) ← בנגקוק (שבת 3)
               </p>
             </div>
 
@@ -433,7 +433,7 @@ export function App() {
               </div>
               <div className="rounded-xl bg-[#083B37] border border-[#0F6E66] px-3.5 py-2 text-center">
                 <div className="font-display text-lg sm:text-xl font-bold tabular-nums text-[#FDE68A]">
-                  כ־₪8,142
+                  כ־₪7,347
                 </div>
                 <div className="text-[11px] text-[#A7F3D0]">סה"כ מלונות לזוג</div>
               </div>
@@ -458,7 +458,7 @@ export function App() {
                   {openDecisionsRemaining} פתוחים
                 </div>
                 <div className="text-[11px] text-[#FECACA] underline underline-offset-2">
-                  כולל 2 דדלייני שבת!
+                  טיסות + דדליין Empress
                 </div>
               </button>
             </div>
@@ -470,11 +470,10 @@ export function App() {
               <AlertTriangle className="h-5 w-5 text-[#FBBF24] shrink-0 mt-0.5 sm:mt-0" />
               <div>
                 <span className="font-bold text-[#FDE68A]">
-                  פתוח לטיפול מיידי:
+                  סטטוס עדכני (05.11):
                 </span>{" "}
-                1. סגירת <strong>3 טיסות הפנים</strong> • 2.{" "}
-                <strong>אימות סוג המיטה בריילי</strong> לפני שבת 13.11 (ביטול מסתיים בשבת 14.11 ב-18:59!) • 3.{" "}
-                <strong>ביטול גיבוי Empress</strong> לפני שבת 04.12 (ביטול מסתיים בשבת 05.12 ב-18:59!).
+                ✅ בקראבי נסגר <strong>Centara Anda Dhevi (דלוקס קינג • ₪2,250)</strong> ובוטלו ריילי ו-Noppharat ב-0 עמלה! • נשאר פתוח: 1. סגירת <strong>3 טיסות הפנים</strong> • 2.{" "}
+                <strong>ביטול גיבוי Empress</strong> לפני שבת 04.12 (הדדליין חל בשבת 05.12 ב-18:59!).
               </div>
             </div>
             <div className="flex flex-wrap gap-2 shrink-0">
