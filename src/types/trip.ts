@@ -50,6 +50,7 @@ export interface FlightOptionQuote {
   id: string;
   optionLabel: string;
   isRecommendedByGilad?: boolean;
+  isBookedOption?: boolean;
   airline: string;
   flightNumber: string;
   departureAirport: string;
@@ -71,6 +72,25 @@ export interface FlightOptionQuote {
   googleFlightsUrl: string;
 }
 
+export interface BookedFlightConfirmation {
+  reservationCode: string;
+  bookingDate: string;
+  airline: string;
+  flightNumber: string;
+  aircraft: string;
+  departureTime: string;
+  arrivalTime: string;
+  duration: string;
+  departureAirport: string;
+  arrivalAirport: string;
+  totalPaidOriginal: string;
+  totalPaidIls: number;
+  paymentMethod: string;
+  contactName: string;
+  baggageSummary: string;
+  manageBookingUrl: string;
+}
+
 export interface DomesticFlightLeg {
   id: string;
   legNumber: number;
@@ -82,7 +102,8 @@ export interface DomesticFlightLeg {
   hotelBefore: string;
   hotelAfter: string;
   hotelConstraintNote: string;
-  status: "open_to_book";
+  status: "open_to_book" | "booked";
+  bookedConfirmation?: BookedFlightConfirmation;
   options: FlightOptionQuote[];
 }
 

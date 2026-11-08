@@ -54,13 +54,13 @@ export const HotelsLedgerSection: React.FC = () => {
         <Card className="bg-[#0B4F4A] text-[#FAF7F2] border-[#083B37]">
           <CardContent className="p-4 sm:p-5 space-y-1">
             <div className="text-xs text-[#A7F3D0] font-semibold">
-              סה"כ עלות 10 מלונות המסלול הרגיל (לזוג)
+              סה"כ עלות 9 מלונות המסלול הרגיל (לזוג)
             </div>
             <div className="font-display text-2xl sm:text-3xl font-bold tabular-nums">
               כ־₪{totalRegularIls.toLocaleString()}
             </div>
             <div className="text-xs text-[#D1FAE5]">
-              עבור {totalRegularNights} לילות (22 בנובמבר עד 14 בדצמבר 2026) • ממוצע ~₪{Math.round(totalRegularIls / totalRegularNights)} ללילה לזוג
+              עבור {totalRegularNights} לילות במלונות (23.11–14.12; בליל 22.11 ממשיכים ישירות מהשדה לטיסת 06:50 לפוקט, מלון Golden Jade בוטל) • ממוצע ~₪{Math.round(totalRegularIls / totalRegularNights)} ללילה
             </div>
           </CardContent>
         </Card>
@@ -117,7 +117,7 @@ export const HotelsLedgerSection: React.FC = () => {
             onClick={() => setFilterMode("all")}
             className="flex-1 sm:flex-initial text-xs"
           >
-            כל המלונות (10 במסלול + 1 גיבוי)
+            כל המלונות (9 במסלול + 1 גיבוי)
           </Button>
           <Button
             variant={filterMode === "shabbat_conflict" ? "destructive" : "outline"}

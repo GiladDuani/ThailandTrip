@@ -430,11 +430,11 @@ export function App() {
                 <div className="font-display text-base sm:text-xl font-bold tabular-nums text-white">
                   23 ימים
                 </div>
-                <div className="text-[10px] sm:text-[11px] text-[#A7F3D0]">10 מלונות במסלול</div>
+                <div className="text-[10px] sm:text-[11px] text-[#A7F3D0]">9 מלונות במסלול</div>
               </div>
               <div className="rounded-xl bg-[#083B37] border border-[#0F6E66] px-2.5 py-1.5 sm:px-3.5 sm:py-2 text-center">
                 <div className="font-display text-base sm:text-xl font-bold tabular-nums text-[#FDE68A]">
-                  כ־₪7,347
+                  כ־₪7,247
                 </div>
                 <div className="text-[10px] sm:text-[11px] text-[#A7F3D0]">סה"כ מלונות לזוג</div>
               </div>
@@ -444,10 +444,10 @@ export function App() {
                 className="rounded-xl bg-[#083B37] hover:bg-[#062E2B] border border-[#F59E0B] px-2.5 py-1.5 sm:px-3.5 sm:py-2 text-center transition-colors cursor-pointer"
               >
                 <div className="font-display text-base sm:text-xl font-bold tabular-nums text-[#FCD34D]">
-                  3 טיסות
+                  2 טיסות פתוחות
                 </div>
-                <div className="text-[10px] sm:text-[11px] text-[#FDE68A] underline underline-offset-2">
-                  טרם נסגרו (~₪1,623–1,709)
+                <div className="text-[10px] sm:text-[11px] text-[#A7F3D0] underline underline-offset-2">
+                  טיסה 1 הוזמנה (W9ZPEK) ✅
                 </div>
               </button>
               <button
@@ -459,7 +459,7 @@ export function App() {
                   {openDecisionsRemaining} פתוחים
                 </div>
                 <div className="text-[10px] sm:text-[11px] text-[#FECACA] underline underline-offset-2">
-                  טיסות + דדליין Empress
+                  2 טיסות + דדליין Empress
                 </div>
               </button>
             </div>
@@ -471,10 +471,10 @@ export function App() {
               <AlertTriangle className="h-4 w-4 sm:h-5 sm:w-5 text-[#FBBF24] shrink-0 mt-0.5 sm:mt-0" />
               <div className="leading-relaxed">
                 <span className="font-bold text-[#FDE68A]">
-                  סטטוס עדכני (05.11):
+                  סטטוס עדכני (09.11):
                 </span>{" "}
-                ✅ בקראבי נסגר <strong>Centara Anda Dhevi (דלוקס קינג • ₪2,250.32 באתר הרשמי CentaraThe1 • אישור 34980SH130013)</strong> • נשאר פתוח: 1. סגירת <strong>3 טיסות הפנים</strong> • 2.{" "}
-                <strong>ביטול גיבוי Empress</strong> לפני שבת 04.12 (הדדליין חל בשבת 05.12 ב-18:59!).
+                ✅ טיסה 1 לפוקט הוזמנה! <strong>Thai VietJet VZ 314 ב-23.11 בשעה 06:50 (PNR: W9ZPEK • שולם 3,225.38 באט / ~₪298 כולל 25 ק"ג + VZExtraDOM)</strong> ומלון Golden Jade בוטל • נשאר פתוח: 1. סגירת <strong>2 טיסות הפנים הנותרות (03.12 ו-11.12)</strong> • 2.{" "}
+                <strong>ביטול גיבוי Empress</strong> לפני שבת 04.12.
               </div>
             </div>
             <div className="grid grid-cols-2 sm:flex gap-2 shrink-0 w-full sm:w-auto">
@@ -484,7 +484,7 @@ export function App() {
                 className="w-full sm:w-auto text-xs px-2.5"
                 onClick={() => setActiveTab("flights")}
               >
-                השוואת טיסות פנים
+                טיסות פנים (1 הוזמנה, 2 פתוחות)
               </Button>
               <Button
                 size="sm"
@@ -511,11 +511,11 @@ export function App() {
               </TabsTrigger>
               <TabsTrigger value="hotels" className="flex-1 gap-1.5">
                 <BedDouble className="h-4 w-4" />
-                <span>מלונות וביטולים (10+1)</span>
+                <span>מלונות וביטולים (9+1)</span>
               </TabsTrigger>
               <TabsTrigger value="flights" className="flex-1 gap-1.5">
                 <Plane className="h-4 w-4" />
-                <span>טיסות פנים וכבודה (3)</span>
+                <span>טיסות פנים (1/3 הוזמן)</span>
               </TabsTrigger>
               <TabsTrigger value="calendar" className="flex-1 gap-1.5">
                 <CalendarIcon className="h-4 w-4" />

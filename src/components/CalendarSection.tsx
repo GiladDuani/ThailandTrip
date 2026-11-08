@@ -242,9 +242,9 @@ export const CalendarSection: React.FC<CalendarSectionProps> = ({ onSelectDay })
               <div className="font-bold text-[#142321]">15 בנובמבר (18:59): ברסלו קוקונט איילנד</div>
               <div className="text-[#4A5D5A]">סיום ביטול חינם לסוויטת הג'קוזי בברסלו (שולם: ₪2,178.67).</div>
             </div>
-            <div className="rounded-lg border border-[#E6DFD3] bg-white p-3">
-              <div className="font-bold text-[#142321]">19 בנובמבר (18:59): Golden Jade BKK</div>
-              <div className="text-[#4A5D5A]">סיום ביטול חינם למלון שדה התעופה (1,087 באט בתשלום במלון).</div>
+            <div className="rounded-lg border border-emerald-300 bg-[#ECFDF5] p-3 text-emerald-950">
+              <div className="font-bold">23 בנובמבר (06:50): טיסת VZ 314 לפוקט</div>
+              <div>הוזמן וכורטס! PNR: W9ZPEK (3,225.38 באט / ~₪298 כולל 25 ק"ג + VZExtraDOM). מלון Golden Jade בוטל.</div>
             </div>
             <div className="rounded-lg border border-[#99F6E4] bg-[#F0FDFA] p-3 text-[#0F766E]">
               <div className="font-bold">29.11–03.12: Centara Anda Dhevi קראבי</div>
