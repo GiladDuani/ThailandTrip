@@ -23,6 +23,7 @@ import { HotelsLedgerSection } from "./components/HotelsLedgerSection";
 import { DomesticFlightsSection } from "./components/DomesticFlightsSection";
 import { CalendarSection } from "./components/CalendarSection";
 import { RouteMapSection } from "./components/RouteMapSection";
+import { KosherFoodSection } from "./components/KosherFoodSection";
 import {
   OpenDecisionsSection,
   ShabbatAnchorsSection,
@@ -45,6 +46,7 @@ import {
   Search,
   Save,
   Smartphone,
+  Utensils,
 } from "lucide-react";
 
 const STORAGE_CHECKED = "thailand_2026_ts_checked_v1";
@@ -63,6 +65,7 @@ const TAB_ITEMS = [
   { id: "calendar", label: "לוח שנה", shortLabel: "לוח שנה", icon: CalendarIcon },
   { id: "decisions", label: "מה נשאר לסגור", shortLabel: "לסגור", icon: CheckSquare },
   { id: "shabbat", label: "3 שבתות וחב״ד", shortLabel: "שבתות", icon: Flame },
+  { id: "food", label: "כשרות ואוכל", shortLabel: "אוכל", icon: Utensils },
   { id: "map", label: "מפת המסלול", shortLabel: "מפה", icon: MapIcon },
 ] as const;
 
@@ -528,6 +531,10 @@ export function App() {
               <TabsTrigger value="shabbat" className="flex-1 gap-1.5">
                 <Flame className="h-4 w-4" />
                 <span>3 שבתות וחב"ד</span>
+              </TabsTrigger>
+              <TabsTrigger value="food" className="flex-1 gap-1.5">
+                <Utensils className="h-4 w-4" />
+                <span>כשרות ואוכל</span>
               </TabsTrigger>
               <TabsTrigger value="map" className="flex-1 gap-1.5">
                 <MapIcon className="h-4 w-4" />
@@ -1100,6 +1107,8 @@ export function App() {
                     {tabItem.id === "shabbat" && <ShabbatAnchorsSection />}
 
                     {/* SCREEN 7: INTERACTIVE MAP */}
+                    {tabItem.id === "food" && <KosherFoodSection />}
+
                     {tabItem.id === "map" && <RouteMapSection />}
                   </div>
                 );

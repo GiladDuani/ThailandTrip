@@ -661,6 +661,16 @@ export const OPEN_DECISIONS: OpenDecisionItem[] = [
     linkUrl: "https://www.chabadthailand.co.il/",
     linkLabel: "אתר חב\"ד תאילנד",
   },
+  {
+    id: "open-kosher-packing-israel",
+    title: "הצטיידות אוכל כשר מהארץ (משקל קל ~1.8 ק\"ג שמתפנה לשופינג בסוף הטיול!)",
+    category: "shabbat_prep",
+    urgency: "medium",
+    deadlineDisplay: "לפני הטיסה (21.11.2026)",
+    deadlineIso: "2026-11-21T20:00:00",
+    description: "רשימה מדויקת: 8–10 שקיות פאוץ' טונה בוואקום • בקבוק טחינה גולמית לחיצה • בקבוק דבש/סילאן לחיץ • 2–3 חבילות טורטיות • אריזת לחם בריוש (נשמר לאורך זמן) • חבילת חטיפי Nature Valley (בתיקי הגב) • 2–3 מנות חמות/קוסקוס מהיר ללופ הצפוני • סכין קטנה + שקיות זיפלוק.",
+    actionNote: "שים לב: את הסכין, הטחינה, הדבש/סילאן ושקיות הטונה אורזים במזוודת ה-25 ק\"ג שנשלחת לבטן המטוס! את חטיפי ה-Nature Valley והבריוש שמים בתיקי הגב/טרולי. שאר הדברים (Skippy OU, אגוזי Tong Garden OU, פרינגלס, פירות ומים) נקנים בעצירה ב-Villa Market בפוקט בדרך למזח!",
+  },
 ];
 
 export const SHABBAT_ANCHORS: ShabbatAnchor[] = [
@@ -683,7 +693,7 @@ export const SHABBAT_ANCHORS: ShabbatAnchor[] = [
     notes: [
       "ביום שישי 27.11 עושים צ'ק-אאוט מריזורט Barceló Coconut Island ועוברים בסירה הקצרה + מונית לפאטונג למלון iCheck inn Chill Patong.",
       "לבקש בקבלה מפתח מכני או סיוע מסודר של השומר בפתיחת הדלת בשבת וקומה נמוכה.",
-      "ביום ראשון 29.11 בבוקר יוצאים מפאטונג לאו נאנג, קראבי (Centara Anda Dhevi Resort & Spa) ל-4 לילות.",
+      "ביום ראשון 29.11 בבוקר מצטיידים במאפיית בית חב\"ד פוקט בלחמניות/מאפים ויוצאים לאו נאנג, קראבי (Centara Anda Dhevi Resort & Spa) ל-4 לילות.",
     ],
   },
   {
@@ -705,7 +715,7 @@ export const SHABBAT_ANCHORS: ShabbatAnchor[] = [
     notes: [
       "שימו לב: הדדליין לביטול הזמנת הגיבוי ב-The Empress Hotel (ל-6–11 בדצמבר) מסתיים בשבת זו ב-18:59 שעון ישראל : לכן חובה לבטל את הגיבוי לפני כניסת שבת ביום שישי 04.12!",
       "במוצאי שבת (05.12) מדליקים נר ראשון של חנוכה בבית חב\"ד ויכולים לטייל בשוק הלילה של שבת (Wua Lai Walking Street).",
-      "ביום ראשון בבוקר (06.12) עושים צ'ק-אאוט ויוצאים ללופ הצפוני לכיוון פאי (Reverie Siam).",
+      "ביום ראשון בבוקר (06.12) יוצאים ללופ הצפוני לכיוון פאי (Reverie Siam) – ובפאי יש מסעדה בשרית כשרה של בית חב\"ד פאי!",
     ],
   },
   {
@@ -746,11 +756,11 @@ export const TRIP_DAYS: TripDay[] = [
     activities: [
       {
         time: "06:20",
-        text: "המראה מנתב\"ג בטיסת Etihad EY 610 לאבו דאבי (נחיתה 11:15) והמשך בטיסת EY 400 (14:20) לבנגקוק.",
+        text: "המראה מנתב\"ג בטיסת Etihad EY 610 לאבו דאבי (נחיתה 11:15) והמשך בטיסת EY 400 (14:20) לבנגקוק. (בתיקי הגב: לחם בריוש, חטיפי Nature Valley וכריכים מהבית לדרך).",
       },
       {
         time: "23:40",
-        text: "נחיתה בנמל התעופה סוברנבהומי (BKK), מעבר ביקורת דרכונים ואיסוף מזוודת ה-25 ק\"ג.",
+        text: "נחיתה בנמל התעופה סוברנבהומי (BKK), מעבר ביקורת דרכונים ואיסוף מזוודת ה-25 ק\"ג (שבה נמצאים שקיות הטונה, הטחינה הלחיצה, הדבש/סילאן, הטורטיות והסכין).",
         mapUrl: "https://maps.google.com/?q=Suvarnabhumi+Airport+Bangkok",
       },
       {
@@ -773,12 +783,12 @@ export const TRIP_DAYS: TripDay[] = [
     date: "23.11.2026",
     dateIso: "2026-11-23",
     dayOfWeek: "יום שני",
-    title: "טיסת 06:50 לפוקט (VZ 314 – הוזמן! PNR: W9ZPEK) ובוקר שלם ב-Barceló Coconut Island",
-    subtitle: "נחיתה בפוקט ב-08:25 בבוקר והגעה מוקדמת ליום מלא בריזורט היוקרה על האי הפרטי (4 לילות)",
+    title: "טיסת 06:50 לפוקט (VZ 314 – W9ZPEK), הצטיידות ב-Villa Market והגעה ל-Barceló Coconut Island",
+    subtitle: "נחיתה ב-08:25, עצירה של 15 דק' בסופרמרקט צמוד למזח והגעה מוקדמת ליום שלם בריזורט על האי הפרטי",
     region: "phuket",
     hotelName: "Barceló Coconut Island (Outdoor Jacuzzi Suite)",
     hotelId: "hotel-2-coconut-island",
-    transitSummary: "טיסה BKK ← HKT (06:50–08:25 • VZ 314) + מונית למזח Laem Hin (25 דק') + סירת הריזורט (5 דק')",
+    transitSummary: "טיסה BKK ← HKT (06:50–08:25) + מונית דרך Villa Market Boat Lagoon למזח Laem Hin (25 דק') + סירת הריזורט (5 דק')",
     activities: [
       {
         time: "04:15–05:15",
@@ -787,51 +797,65 @@ export const TRIP_DAYS: TripDay[] = [
       },
       {
         time: "06:50–08:25",
-        text: "טיסת בוקר ישירה לפוקט שהוזמנה ואושרה: Thai VietJet Air VZ 314 (06:50 מסוברנבהומי BKK ← נחיתה ב-08:25 בפוקט HKT • מטוס Airbus A320). קוד הזמנה (PNR): W9ZPEK • שולם במלואו: 3,225.38 באט (~₪298 לזוג) כולל מזוודת 25 ק\"ג לבטן המטוס (Bag 25kgs VZ) + שדרוג כבודת יד VZExtraDOM לטרולים ותיקי גב!",
+        text: "טיסת בוקר ישירה לפוקט שהוזמנה ואושרה: Thai VietJet Air VZ 314 (06:50 מ-BKK ← נחיתה ב-08:25 בפוקט HKT • Airbus A320). קוד הזמנה: W9ZPEK • שולם: 3,225.38 באט (~₪298 לזוג) כולל מזוודת 25 ק\"ג (Bag 25kgs VZ) + שדרוג כבודת יד VZExtraDOM!",
         costDisplay: "שולם: 3,225.38 באט (~₪298 לזוג)",
         infoUrl: "https://th.vietjetair.com/search-reservation",
         highlight: true,
       },
       {
-        time: "08:45–09:20",
-        text: "איסוף המזוודה בשדה התעופה של פוקט, נסיעה במונית למזח Laem Hin Pier (כ-25 דקות) ושייט של 5 דקות בסירת הריזורט (פועלת 24/7) לאי קוקונט.",
+        time: "08:45–09:15",
+        text: "בדרך משדה התעופה למזח Laem Hin Pier (במרחק 3 דקות נסיעה בלבד מהמזח!): עוצרים ל-15 דקות בסופרמרקט המערבי Villa Market (Boat Lagoon) להצטיידות כשרה לריזורט – חמאת בוטנים Skippy (OU), שקדים/קשיו Tong Garden (OU/KLBD), פרינגלס/אוראו/לוטוס (OU), קורנפלייקס Kellogg's, פירות טרופיים ושישיית מים מינרליים. (אופציה נוספת: לתאם מראש משלוח מנות מבושלות מבית חב\"ד פוקט שיפגוש אתכם במזח Laem Hin!).",
+        mapUrl: "https://maps.google.com/?q=Villa+Market+Boat+Lagoon+Phuket",
+        highlight: true,
+      },
+      {
+        time: "09:20–09:30",
+        text: "הגעה למזח Laem Hin Pier ושייט של 5 דקות בסירת הריזורט (פועלת 24/7) לאי קוקונט.",
         mapUrl: "https://maps.google.com/?q=Laem+Hin+Pier+Phuket",
       },
       {
         time: "09:30–14:00",
-        text: "הגעה מוקדמת לריזורט היוקרה Barceló Coconut Island! הפקדת המזוודות בקבלה, קבלת משקה פתיחה ומנוחת בוקר מפנקת על מיטות השיזוף בבריכות האינפיניטי ובחוף הפרטי עד קבלת הסוויטה (Outdoor Jacuzzi Suite עם מיטת קינג וג'קוזי חיצוני פרטי – או כניסה מוקדמת אם הסוויטה פנויה).",
+        text: "הגעה מוקדמת לריזורט היוקרה Barceló Coconut Island! הפקדת המזוודות בקבלה, מנוחת בוקר בבריכות האינפיניטי ובחוף הפרטי עד קבלת הסוויטה (Outdoor Jacuzzi Suite עם מיטת קינג וג'קוזי חיצוני פרטי).",
         mapUrl: "https://maps.google.com/?q=Barcelo+Coconut+Island+Phuket",
       },
       {
         time: "ערב",
-        text: "שקיעה רומנטית ראשונה מול מפרץ פאנג נגה וג'קוזי פרטי במרפסת הסוויטה.",
+        text: "שקיעה רומנטית ראשונה מול מפרץ פאנג נגה, ארוחת ערב בסוויטה וג'קוזי פרטי במרפסת.",
       },
     ],
-    importantNote: "הטיסה הוזמנה וכורטסה (PNR: W9ZPEK) והמלון שולם במלואו (₪2,178.67 ל-4 לילות כולל ארוחת בוקר). הרווחתם יום שלם בריזורט!",
+    importantNote: "הטיסה הוזמנה (W9ZPEK) והמלון שולם במלואו (₪2,178.67 ל-4 לילות). העצירה ב-Villa Market Boat Lagoon חוסכת סחיבה מהארץ ומסדרת לכם את כל הנשנושים והשתייה לאי!",
   },
   {
     dayNum: 3,
     date: "24.11.2026",
     dateIso: "2026-11-24",
     dayOfWeek: "יום שלישי",
-    title: "קוקונט איילנד – פינוק בריזורט וקיאקים במפרץ",
-    subtitle: "יום ירח דבש רגוע בין בריכות האינפיניטי, הספא והחוף הפרטי",
+    title: "קוקונט איילנד – קיאקים, ספא וגיחה לעיר העתיקה + הצטיידות בבית חב\"ד פוקט",
+    subtitle: "בוקר מפנק על האי הפרטי ואחה\"צ–ערב בפוקט העתיקה וארוחת ערב חמה בבית חב\"ד",
     region: "phuket",
     hotelName: "Barceló Coconut Island",
     hotelId: "hotel-2-coconut-island",
-    transitSummary: "ללא נסיעות – חופשה מלאה באי",
+    transitSummary: "סירת הריזורט למזח Laem Hin (5 דק') + מונית לעיר העתיקה ולחב\"ד פאטונג",
     activities: [
       {
         time: "בוקר",
-        text: "ארוחת בוקר עשירה בריזורט מול הים (כלולה בהזמנה) ובילוי בבריכות האינפיניטי ובחוף הפרטי.",
+        text: "ארוחת בוקר בריזורט: פירות טרופיים שלמים, ירקות וביצים קשות מחדר האוכל + לחם בריוש/טורטייה, טחינה לחיצה, טונה בוואקום ודבש/סילאן שהבאתם מהארץ.",
       },
       {
         time: "צהריים",
-        text: "שימוש בקיאקים וגלשני סאפ (SUP) של הריזורט או השכרת אופניים לסיבוב בכפר הדייגים השקט של קוקונט איילנד.",
+        text: "שימוש חופשי בקיאקים וגלשני סאפ (SUP) של הריזורט במפרץ השקט או עיסוי זוגי ב-Kahtor Spa.",
       },
       {
-        time: "אחה\"צ",
-        text: "עיסוי זוגי בספא Kahtor Spa של הריזורט או אחה\"צ בג'קוזי החיצוני הפרטי של הסוויטה.",
+        time: "15:30",
+        text: "חצייה של 5 דקות בסירת הריזורט למזח Laem Hin וביקור בעיר העתיקה הציורית של פוקט (Old Phuket Town – רחוב Thalang ו-Soi Romanee הצבעוניים) ותצפית Khao Rang.",
+        mapUrl: "https://maps.google.com/?q=Old+Phuket+Town+Thalang+Road",
+        highlight: true,
+      },
+      {
+        time: "ערב (אוכל כשר + הצטיידות!)",
+        text: "המשך לארוחת ערב בשרית/חלבית חמה במסעדת בית חב\"ד פוקט (פאטונג) + קניית לחמניות טריות ו-2–3 מנות ארוזות ב-Take-Away למקרר של הסוויטה בברסלו ליומיים הבאים!",
+        mapUrl: "https://maps.google.com/?q=Chabad+House+Phuket+Patong",
+        highlight: true,
       },
     ],
   },
@@ -840,22 +864,27 @@ export const TRIP_DAYS: TripDay[] = [
     date: "25.11.2026",
     dateIso: "2026-11-25",
     dayOfWeek: "יום רביעי",
-    title: "שייט איים למפרץ פאנג נגה (ג'יימס בונד) או לקופיפי",
-    subtitle: "יציאה ישירה מהמזח שליד קוקונט איילנד לשייט במצוקי הגיר והלגונות",
+    title: "שייט למפרץ פאנג נגה (Phang Nga Bay), אי ג'יימס בונד וקיאקים בלגונות",
+    subtitle: "יציאה ישירה מהמזח שליד קוקונט איילנד למצוקי הגיר והמערות הימיות",
     region: "phuket",
     hotelName: "Barceló Coconut Island",
     hotelId: "hotel-2-coconut-island",
-    transitSummary: "שייט יום מהמזח הצמוד לאי קוקונט",
+    transitSummary: "שייט יום מהמזח הצמוד לאי קוקונט (Laem Hin / Royal Phuket Marina)",
     activities: [
       {
         time: "08:30",
-        text: "מזח Laem Hin ומזח Royal Phuket Marina נמצאים ממש מול קוקונט איילנד (5 דק' הפלגה!) – משם יוצאות כל הסירות הטובות ביותר למפרץ פאנג נגה (Phang Nga Bay, אי ג'יימס בונד וקיאקים במערות הונג) או לקופיפי.",
+        text: "יציאה מהמזח הצמוד לקוקונט איילנד (5 דק' הפלגה) לשייט במפרץ פאנג נגה (Phang Nga Bay): האי של ג'יימס בונד (Khao Phing Kan), כניסה בקיאקים לתוך מערות הנטיפים והלגונות הנסתרות ב-Hong Island של פאנג נגה והכפר הצף Koh Panyee.",
         costDisplay: "~280–350 ₪ לאדם",
         mapUrl: "https://maps.google.com/?q=Phang+Nga+Bay+Thailand",
+        highlight: true,
+      },
+      {
+        time: "צהריים בשייט (כשרות)",
+        text: "במקום ארוחת הצהריים של הסירה: לוקחים בתיק הגב כריכי לחמניות מחב\"ד / טורטיות עם שקיות טונה וטחינה לחיצה, חטיפי Nature Valley ופירות טרופיים.",
       },
       {
         time: "16:30",
-        text: "חזרה ישירה לקוקונט איילנד ומנוחת ערב בסוויטה.",
+        text: "חזרה ישירה לקוקונט איילנד, שקיעה בבריכת האינפיניטי וארוחת ערב חמה בסוויטה (מהמנות שלקחתם מחב\"ד פוקט).",
       },
     ],
   },
@@ -864,28 +893,28 @@ export const TRIP_DAYS: TripDay[] = [
     date: "26.11.2026",
     dateIso: "2026-11-26",
     dayOfWeek: "יום חמישי",
-    title: "יום כיף בפוקט – העיר העתיקה, תצפיות ושווקי לילה",
+    title: "יום חופים דרומיים ותצפיות בפוקט או יום פינוק מלא בקוקונט איילנד",
     subtitle: "לילה רביעי ואחרון בסוויטת הג'קוזי בברסלו קוקונט איילנד",
     region: "phuket",
     hotelName: "Barceló Coconut Island",
     hotelId: "hotel-2-coconut-island",
-    transitSummary: "סירת הריזורט למזח Laem Hin (5 דק') + מונית לעיר העתיקה של פוקט (15 דק')",
+    transitSummary: "יום אי רגוע או סיור לחופי Kata Noi ותצפית טחנות הרוח (Windmill Viewpoint)",
     activities: [
       {
-        time: "בוקר",
-        text: "בוקר רגוע בבריכה ובג'קוזי של ברסלו קוקונט איילנד.",
+        time: "בוקר–צהריים",
+        text: "בוקר ירח דבש רגוע בבריכות האינפיניטי, בחוף הפרטי ובג'קוזי של הסוויטה ב-Barceló Coconut Island.",
       },
       {
-        time: "אחה\"צ",
-        text: "חצייה קצרה בסירת הריזורט (5 דק') וביקור בעיר העתיקה של פוקט (Phuket Old Town – רחוב Thalang ו-Soi Romanee הצבעוניים) השוכנת רק 15 דקות ממזח Laem Hin.",
-        mapUrl: "https://maps.google.com/?q=Old+Phuket+Town+Thalang+Road",
+        time: "אחה\"צ (אופציונלי)",
+        text: "אפשרות ליציאה לחופים הדרומיים של פוקט (חוף Kata Noi המרהיב ותצפית השקיעה ב-Windmill Viewpoint / Promthep Cape) או הישארות ליום מנוחה מלא באי.",
+        mapUrl: "https://maps.google.com/?q=Windmill+Viewpoint+Phuket",
       },
       {
         time: "ערב",
-        text: "אפשרות לקפוץ לבית חב\"ד בפאטונג לארוחת ערב כשרה חמה או חזרה ללילה אחרון בסוויטה בקוקונט איילנד.",
+        text: "לילה רומנטי אחרון בסוויטת הג'קוזי בקוקונט איילנד.",
       },
     ],
-    importantNote: "הערת חיוב: בתאריך 26.11 מתבצע החיוב המתוכנן ב-Agoda עבור מלון The Locals Chiang Mai (177.15$).",
+    importantNote: "הערת חיוב: בתאריך 26.11 מתבצע החיוב המתוכנן ב-Agoda עבור מלון The Locals Chiang Mai (177.15$). כמו כן מומלץ לשלוח היום וואטסאפ ל'בית הלל קראבי' / 'הבית הכשר בקראבי' לוודא שעות פעילות לשבוע הבא.",
   },
   {
     dayNum: 6,
@@ -912,7 +941,7 @@ export const TRIP_DAYS: TripDay[] = [
       },
       {
         time: "צהריים",
-        text: "טיול קצר בחוף פאטונג, קניית פירות ושתייה לשבת ובדיקת מסלול ההליכה לבית חב\"ד פוקט (רחוב Rat-U-Thit 200 Pee).",
+        text: "ארוחת צהריים של יום שישי במסעדת בית חב\"ד פוקט (רחוב Rat-U-Thit 200 Pee, כ-10 דק' הליכה מהמלון), קניית פירות, שתייה ומאפים לשבת לחדר.",
         mapUrl: "https://maps.google.com/?q=Chabad+House+Phuket+Patong",
       },
       {
@@ -948,7 +977,7 @@ export const TRIP_DAYS: TripDay[] = [
       },
       {
         time: "18:39",
-        text: "צאת השבת והבדלה. סגירת סידורי ההעברה למחרת בבוקר לאו נאנג (קראבי) לריזורט Centara Anda Dhevi.",
+        text: "צאת השבת והבדלה. סגירת מונית/העברה למחרת בבוקר לאו נאנג (קראבי) לריזורט Centara Anda Dhevi.",
       },
     ],
   },
@@ -957,29 +986,35 @@ export const TRIP_DAYS: TripDay[] = [
     date: "29.11.2026",
     dateIso: "2026-11-29",
     dayOfWeek: "יום ראשון",
-    title: "מעבר מפוקט לאו נאנג (קראבי) – Centara Anda Dhevi Resort & Spa",
-    subtitle: "הגעה נוחה ישר לפתח הריזורט באו נאנג ל-4 לילות מפנקים בחדר דלוקס קינג",
+    title: "הצטיידות במאפיית חב\"ד פוקט ומעבר לאו נאנג, קראבי – Centara Anda Dhevi",
+    subtitle: "הגעה נוחה ישר לפתח הריזורט באו נאנג ל-4 לילות מפנקים בחדר דלוקס קינג + אוכל כשר באו נאנג",
     region: "krabi",
     hotelName: "Centara Anda Dhevi Resort & Spa Krabi",
     hotelId: "hotel-4-krabi-centara",
-    transitSummary: "וואן / מונית פרטית מפאטונג ישר לפתח המלון באו נאנג (כ-2.5–3 שעות) או מעבורת/ספידבוט מפוקט למזח או נאנג (שעתיים)",
+    transitSummary: "מונית/וואן מפאטונג ישר לפתח המלון באו נאנג (כ-2.5–3 שעות) או ספידבוט למזח או נאנג (שעתיים)",
     activities: [
       {
         time: "08:30",
-        text: "צ'ק-אאוט מ-iCheck inn Chill Patong ויציאה לקראבי – בזכות המעבר ל-Centara Anda Dhevi באו נאנג, מגיעים ישר עד לובי המלון ברכב/מונית (או בשייט למזח או נאנג) בלי צורך לסחוב את מזוודת ה-25 ק\"ג בסירת לונגטייל על החול!",
-        costDisplay: "~120–150 ₪ לאדם",
+        text: "לפני היציאה מפאטונג: קונים במאפיית בית חב\"ד פוקט לחמניות טריות/פיתות, מאפים וכמה מנות סגורות שיהיו במקרר של סנטרה לימי השייט בקראבי! לאחר מכן יציאה ישירה לאו נאנג.",
+        costDisplay: "נסיעה: ~120–150 ₪ לאדם",
+        highlight: true,
       },
       {
         time: "13:00",
-        text: "הגעה לאו נאנג וצ'ק-אין ב-Centara Anda Dhevi Resort & Spa Krabi (הוזמן באתר הרשמי בתעריף חבר CentaraThe1 ל-4 לילות, חדר Deluxe King כולל ארוחת בוקר, אומדן ₪2,250.32 • מס' אישור: 34980SH130013 • בקשה רשומה: ירח דבש!).",
+        text: "הגעה לאו נאנג וצ'ק-אין ב-Centara Anda Dhevi Resort & Spa Krabi (הוזמן באתר הרשמי בתעריף CentaraThe1 ל-4 לילות, חדר Deluxe King כולל ארוחת בוקר, אומדן ₪2,250.32 • מס' מסלול: 27886B9933923 | אישור חדר: 34980SH130013).",
         mapUrl: "https://maps.google.com/?q=Centara+Anda+Dhevi+Resort+and+Spa+Krabi",
         infoUrl: "https://www.centarahotelsresorts.com/centara/cak",
         highlight: true,
       },
       {
-        time: "17:00",
-        text: "שחייה בבריכת הלגונה הגדולה של הריזורט (43 מטר אורך עם בר בתוך המים!) ויציאה רגלית קצרה (כ-5 דקות) לשקיעה בחוף Noppharat Thara / טיילת Ao Nang ושוק הלילה.",
+        time: "16:30",
+        text: "שחייה בבריכת הלגונה של הריזורט (43 מטר אורך עם בר במים) והליכה של 5 דקות לשקיעה בחוף Noppharat Thara וטיילת Ao Nang.",
         mapUrl: "https://maps.google.com/?q=Noppharat+Thara+Beach+Ao+Nang",
+      },
+      {
+        time: "ערב (אוכל כשר בקראבי)",
+        text: "ארוחת ערב כשרה באו נאנג: 'בית הלל קראבי' (מסעדה כשרה ומרכז קהילתי באו נאנג) או הזמנת שניצלים ואוכל ביתי מ'הבית הכשר בקראבי / שניצל חלה' + השלמת פירות ושתייה בסופר Mother Marche הצמוד למלון.",
+        highlight: true,
       },
     ],
     importantNote: "שימו לב: היום (29.11 ב-18:59) מסתיים מועד הביטול החינמי של Sang Tong Huts במאה הונג סון.",
@@ -989,8 +1024,8 @@ export const TRIP_DAYS: TripDay[] = [
     date: "30.11.2026",
     dateIso: "2026-11-30",
     dayOfWeek: "יום שני",
-    title: "שייט של 10 דק' מאו נאנג לחופי ריילי ביץ', פרא נאנג ומערת הנסיכה",
-    subtitle: "נהנים מכל היופי של חצי האי ריילי עם תיק יום קל – וחוזרים לישון בנוחות בסנטרה!",
+    title: "שייט של 10 דק' מאו נאנג לחצי האי ריילי ביץ', חוף פרא נאנג ותצפית הלגונה",
+    subtitle: "נהנים מכל היופי של מצוקי ריילי עם תיק יום קל – וחוזרים לישון בנוחות בסנטרה!",
     region: "krabi",
     hotelName: "Centara Anda Dhevi Resort & Spa Krabi",
     hotelId: "hotel-4-krabi-centara",
@@ -998,20 +1033,21 @@ export const TRIP_DAYS: TripDay[] = [
     activities: [
       {
         time: "בוקר",
-        text: "ארוחת בוקר עשירה ב-Centara Anda Dhevi ויציאה עם תיק קל לחוף או נאנג, משם לוקחים סירת לונגטייל (10 דק' הפלגה, 100 באט לאדם) לחוף Railay West המוקף מצוקי גיר.",
+        text: "ארוחת בוקר ב-Centara Anda Dhevi (פירות, ירקות וביצים קשות + טורטיות/בריוש, טחינה ודבש/סילאן) ויציאה עם תיק קל (כולל טונה בפאוץ' וחטיפי Nature Valley לצהריים) לחוף או נאנג, משם עולים על סירת לונגטייל (10 דק') לחוף Railay West.",
         costDisplay: "סירה הלוך-חזור: 200 באט לאדם (~20 ₪)",
         mapUrl: "https://maps.google.com/?q=Railay+Beach+West+Krabi",
         highlight: true,
       },
       {
         time: "צהריים",
-        text: "הליכה בשביל המערות הטרופי לחוף Phra Nang Cave Beach (אחד החופים היפים בעולם), השכרת קיאק שקוף או גלשן סאפ סביב מצוקי הסלע שבמים וצפייה במטפסי הצוקים.",
+        text: "הליכה בשביל המערות הטרופי לחוף Phra Nang Cave Beach (אחד החופים היפים בעולם), השכרת קיאק שקוף או סאפ סביב מצוקי הגיר שבמים, ונקודת התצפית של ריילי.",
         costDisplay: "~40–60 ₪ לזוג",
         mapUrl: "https://maps.google.com/?q=Phra+Nang+Cave+Beach+Railay",
       },
       {
         time: "שקיעה וערב",
-        text: "צפייה בשקיעה המהפנטת בריילי וחזרה בסירה של 10 דק' לאו נאנג ולמלון Centara Anda Dhevi.",
+        text: "צפייה בשקיעה המהפנטת בריילי, חזרה בסירה של 10 דק' לאו נאנג וארוחת ערב כשרה באו נאנג ('בית הלל' / 'הבית הכשר') ובילוי בשוק הלילה Ao Nang Landmark Night Market.",
+        mapUrl: "https://maps.google.com/?q=Ao+Nang+Landmark+Night+Market",
       },
     ],
   },
@@ -1020,8 +1056,8 @@ export const TRIP_DAYS: TripDay[] = [
     date: "01.12.2026",
     dateIso: "2026-12-01",
     dayOfWeek: "יום שלישי",
-    title: "שייט מאו נאנג לאי הונג (Hong Island) או 4 האיים",
-    subtitle: "לגונות טורקיז נסתרות ותצפית 360 מעלות על איי אנדמן",
+    title: "שייט בסירת לונגטייל פרטית לאי הונג (Koh Hong) או 4 האיים",
+    subtitle: "לגונות טורקיז סגורות, תצפית 360 מעלות על איי אנדמן ושנירקול",
     region: "krabi",
     hotelName: "Centara Anda Dhevi Resort & Spa Krabi",
     hotelId: "hotel-4-krabi-centara",
@@ -1029,14 +1065,14 @@ export const TRIP_DAYS: TripDay[] = [
     activities: [
       {
         time: "08:30",
-        text: "שייט בסירת לונגטייל פרטית שיוצאת ממזח Noppharat Thara (ממש ליד המלון שלכם!) לאי הונג (Hong Island), כניסה בשייט ללגונת האזמרגד הסגורה (Hong Lagoon) ועלייה לתצפית הפנורמית (360° Viewpoint).",
-        costDisplay: "סירה פרטית: ~300 ₪ לזוג + כניסה לשמורה 300 באט לאדם",
+        text: "שייט בסירת לונגטייל פרטית מקושטת לזוג שיוצאת ממזח Noppharat Thara (ממש ליד המלון!) לאי הונג (Koh Hong): כניסה בשייט ללגונת האזמרגד הסגורה (Hong Lagoon) ועלייה לתצפית הפנורמית המדהימה (360° Viewpoint). (חלופה: שייט 4 האיים – Koh Poda, Chicken Island ושרטון החול Tup Island).",
+        costDisplay: "סירה פרטית: ~280–320 ₪ לזוג + כניסה לשמורה",
         mapUrl: "https://maps.google.com/?q=Hong+Island+Krabi",
         highlight: true,
       },
       {
-        time: "צהריים",
-        text: "עצירה בשנורקלינג ב-Lading Island (אי גן העדן) ו-Pakbia Island וחזרה אחר הצהריים לבריכה של Centara Anda Dhevi.",
+        time: "צהריים באי",
+        text: "עצירה בשנורקלינג ב-Lading Island (אי גן העדן) ו-Pakbia Island, פיקניק צהריים כשר על החוף (כריכים/טורטיות עם טונה בוואקום, טחינה, חטיפי Nature Valley ופירות) וחזרה אחר הצהריים לבריכה של Centara Anda Dhevi.",
       },
     ],
     importantNote: "היום (01.12 ב-18:59) מסתיים מועד הביטול החינמי של Riverhouse Resort במאה סריאנג.",
@@ -1046,22 +1082,27 @@ export const TRIP_DAYS: TripDay[] = [
     date: "02.12.2026",
     dateIso: "2026-12-02",
     dayOfWeek: "יום רביעי",
-    title: "טבע בקראבי: בריכת הברקת והמעיינות החמים או יום ספא וחופים באו נאנג",
+    title: "טבע בקראבי: בריכת הברקת והמעיינות החמים + קיאקים במנגרובים של Ao Thalane",
     subtitle: "יום אחרון ומלא בקראבי וב-Centara Anda Dhevi Resort & Spa",
     region: "krabi",
     hotelName: "Centara Anda Dhevi Resort & Spa Krabi",
     hotelId: "hotel-4-krabi-centara",
-    transitSummary: "איסוף ישירות מלובי המלון לבריכת הברקת (שעה) או יום פינוק באו נאנג",
+    transitSummary: "איסוף מלובי המלון לבריכת הברקת / קיאקים ב-Ao Thalane או יום ספא באו נאנג",
     activities: [
       {
         time: "בוקר",
-        text: "אפשרות א': יציאה ישירות מלובי המלון ליום טבע בג'ונגל של קראבי – בריכת הברקת הטבעית (Emerald Pool), הלגונה הכחולה ומפלי המעיינות החמים (Hot Springs Waterfall).",
+        text: "אפשרות א': יציאה מלובי המלון ליום טבע בג'ונגל של קראבי – בריכת הברקת הטבעית (Emerald Pool), הלגונה הכחולה ומפלי המעיינות החמים (Hot Springs Waterfall).",
         costDisplay: "כניסות: 600 באט לאדם (~68 ₪) + מונית/סיור",
         mapUrl: "https://maps.google.com/?q=Emerald+Pool+Krabi",
       },
       {
-        time: "חלופה רגועה",
-        text: "אפשרות ב': יום רגוע ומפנק – מסאג' ב-SPA Cenvaree במלון או לאורך טיילת Ao Nang, שופינג ומנוחה ליד הבריכה לקראת הטיסה לצפון מחר.",
+        time: "אחה\"צ",
+        text: "אפשרות ב' (מומלץ!): שייט קיאקים רגוע בשקיעה בתוך קניוני הסלע ויער המנגרובים של Ao Thalane או עיסוי מפנק ב-SPA Cenvaree במלון.",
+        mapUrl: "https://maps.google.com/?q=Ao+Thalane+Kayaking+Krabi",
+      },
+      {
+        time: "ערב",
+        text: "ארוחת ערב כשרה אחרונה באו נאנג ואריזת תיקים לקראת הטיסה הישירה לצ'יאנג מאי מחר.",
       },
     ],
     importantNote: "היום (02.12 ב-18:59) מסתיים מועד הביטול החינמי של Reverie Siam (פאי) ושל Gategaa Village (צ'יאנג מאי).",
@@ -1080,7 +1121,7 @@ export const TRIP_DAYS: TripDay[] = [
     activities: [
       {
         time: "בוקר",
-        text: "בוקר רגוע אחרון וארוחת בוקר ב-Centara Anda Dhevi Resort & Spa באו נאנג (ללא שום תלות בסירות!).",
+        text: "בוקר רגוע אחרון וארוחת בוקר ב-Centara Anda Dhevi Resort & Spa באו נאנג (ללא שום תלות בסירות!). מכינים כריכים/טורטיות עם טונה וטחינה + חטיפי Nature Valley לשדה התעופה ולטיסה (אין אוכל כשר בשדה KBV).",
       },
       {
         time: "12:00–12:30",
@@ -1095,8 +1136,9 @@ export const TRIP_DAYS: TripDay[] = [
       },
       {
         time: "18:15",
-        text: "צ'ק-אין במלון The Locals Chiang Mai (הוזמן ע\"י גלעד ב-Agoda ל-3 לילות: 3–6 בדצמבר) ויציאה לארוחת ערב בבית חב\"ד צ'יאנג מאי ולשוק הלילה.",
-        mapUrl: "https://maps.google.com/?q=The+Locals+Chiang+Mai",
+        text: "צ'ק-אין במלון The Locals Chiang Mai (הוזמן ע\"י גלעד ב-Agoda ל-3 לילות: 3–6 בדצמבר) ויציאה לארוחת ערב חמה במסעדת בית חב\"ד צ'יאנג מאי (אזור שוק הלילה) ולשוק הלילה.",
+        mapUrl: "https://maps.google.com/?q=Chabad+House+Chiang+Mai",
+        highlight: true,
       },
     ],
   },
@@ -1114,10 +1156,11 @@ export const TRIP_DAYS: TripDay[] = [
     transitSummary: "מוניות מקומיות בתוך צ'יאנג מאי (15–30 דק')",
     activities: [
       {
-        time: "בוקר",
-        text: "עלייה לתצפית ולמקדש המוזהב דוי סותפ (Wat Phra That Doi Suthep) המשקיף על כל עמק צ'יאנג מאי וביקור בכפר ההמונג או במפלי בואה טונג.",
-        costDisplay: "50 באט לאדם (~6 ₪)",
-        mapUrl: "https://maps.google.com/?q=Wat+Phra+That+Doi+Suthep+Chiang+Mai",
+        time: "07:30–13:00",
+        text: "אפשרות א' (מומלץ!): חצי יום בוקר בשמורת פילים אתית (Elephant Nature Park / Kerchor / Patara – האכלה, הליכה ביער ורחצה בנהר, ללא רכיבה) עם חזרה רגועה לפני שבת. אפשרות ב': עלייה לתצפית ולמקדש המוזהב דוי סותפ (Wat Phra That Doi Suthep) והמפלים הדביקים בואה טונג (Sticky Waterfalls). (צהריים: כריכים/טורטיות + Nature Valley בתיק – ארוחת הסיור אינה כשרה).",
+        costDisplay: "פילים: ~1,800–2,500 באט לאדם | דוי סותפ: 50 באט",
+        mapUrl: "https://maps.google.com/?q=Elephant+Nature+Park+Chiang+Mai",
+        highlight: true,
       },
       {
         time: "צהריים (קריטי!)",
@@ -1196,8 +1239,9 @@ export const TRIP_DAYS: TripDay[] = [
       },
       {
         time: "ערב",
-        text: "הדלקת נר שני של חנוכה וטיול במדרחוב הלילה הציורי של פאי (Pai Walking Street).",
-        mapUrl: "https://maps.google.com/?q=Pai+Walking+Street",
+        text: "הדלקת נר שני של חנוכה, ארוחת ערב בשרית חמה במסעדת בית חב\"ד פאי (בהשגחת הרב קאנטור) וטיול במדרחוב הלילה הציורי של פאי (Pai Walking Street).",
+        mapUrl: "https://maps.google.com/?q=Chabad+House+Pai",
+        highlight: true,
       },
     ],
   },
@@ -1216,8 +1260,14 @@ export const TRIP_DAYS: TripDay[] = [
     activities: [
       {
         time: "08:30",
-        text: "ארוחת בוקר מופלאה על הנהר ב-Reverie Siam, ביקור בגשר הבמבוק של פאי (Boon Ko Ku So Bridge) מעל שדות האורז ויציאה למאה הונג סון.",
+        text: "ארוחת בוקר על הנהר ב-Reverie Siam, ביקור בגשר הבמבוק של פאי (Boon Ko Ku So Bridge) מעל שדות האורז ויציאה למאה הונג סון.",
         mapUrl: "https://maps.google.com/?q=Boon+Ko+Ku+So+Bridge+Pai",
+      },
+      {
+        time: "09:30 (הצטיידות כשרה!)",
+        text: "לפני היציאה מפאי: קונים בבית חב\"ד פאי לחם/לחמניות + 3–4 מנות מבושלות ארוזות לזוג ל-3 הימים הבאים במאה הונג סון ובמאה סריאנג (שם אין מסעדות כשרות). מומלץ לתאם בוואטסאפ יום קודם. אם אין קומקום בבקתה מבקשים בקבלה, ומשלימים עם מנות חמות/קוסקוס מהיר מהארץ.",
+        mapUrl: "https://maps.google.com/?q=Chabad+House+Pai",
+        highlight: true,
       },
       {
         time: "11:00",
@@ -1261,7 +1311,7 @@ export const TRIP_DAYS: TripDay[] = [
       },
       {
         time: "שקיעה",
-        text: "תצפית שקיעה ממקדש הפסגה Wat Phra That Doi Kong Mu והליכה סביב האגם המואר של מאה הונג סון (Jong Kham Lake).",
+        text: "תצפית שקיעה ממקדש הפסגה Wat Phra That Doi Kong Mu והליכה סביב האגם המואר של מאה הונג סון (Jong Kham Lake). ארוחת ערב בבקתה מהמנות שנקנו בחב\"ד פאי.",
         mapUrl: "https://maps.google.com/?q=Wat+Phra+That+Doi+Kong+Mu+Mae+Hong+Son",
       },
     ],
@@ -1290,7 +1340,7 @@ export const TRIP_DAYS: TripDay[] = [
       },
       {
         time: "15:00",
-        text: "הגעה לעיירת הנהר השלווה מאה סריאנג וצ'ק-אין ב-Riverhouse Resort (הוזמן ע\"י גלעד ב-Booking ללילה אחד, 1,800 באט / כ-₪166 כולל ארוחת בוקר).",
+        text: "הגעה לעיירת הנהר השלווה מאה סריאנג וצ'ק-אין ב-Riverhouse Resort (הוזמן ע\"י גלעד ב-Booking ללילה אחד, 1,800 באט / כ-₪166 כולל ארוחת בוקר). ארוחת ערב: המנה האחרונה מחב\"ד פאי או מנה חמה/קוסקוס מהארץ.",
         mapUrl: "https://maps.google.com/?q=Riverhouse+Resort+Mae+Sariang",
         highlight: true,
       },
@@ -1321,7 +1371,7 @@ export const TRIP_DAYS: TripDay[] = [
       },
       {
         time: "16:30",
-        text: "הגעה לצ'יאנג מאי, החזרת הרכב השכור וצ'ק-אין במלון הבוטיק Gategaa Village (הוזמן ע\"י גלעד ב-Booking ללילה אחד, 2,592 באט / כ-₪240 כולל ארוחת בוקר).",
+        text: "הגעה לצ'יאנג מאי, החזרת הרכב השכור וצ'ק-אין במלון הבוטיק Gategaa Village (הוזמן ע\"י גלעד ב-Booking ללילה אחד, 2,592 באט / כ-₪240 כולל ארוחת בוקר). ארוחת ערב חמה בבית חב\"ד צ'יאנג מאי.",
         mapUrl: "https://maps.google.com/?q=Gategaa+Village+Chiang+Mai",
       },
     ],
@@ -1418,7 +1468,7 @@ export const TRIP_DAYS: TripDay[] = [
       },
       {
         time: "צהריים–ערב",
-        text: "שופינג בקניון האופנה Platinum Fashion Mall, קניון Siam Paragon ו-MBK Center.",
+        text: "שופינג בקניון האופנה Platinum Fashion Mall, קניון Siam Paragon ו-MBK Center. ארוחת צהריים/ערב בבית חב\"ד בנגקוק (6 דק' מהמלון) – ואפשר לקנות שם אוכל לטיסה. (לשופינג מתפנים כ-1.5 ק\"ג במזוודה מהאוכל שהבאתם מהארץ).",
         mapUrl: "https://maps.google.com/?q=Siam+Paragon+Bangkok",
       },
       {
